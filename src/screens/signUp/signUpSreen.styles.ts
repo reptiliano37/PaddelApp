@@ -1,4 +1,5 @@
 import {StyleSheet, Platform,} from "react-native";
+import { Colors } from "react-native-paper";
 
 const styles = StyleSheet.create({
     container: {
@@ -10,6 +11,22 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         paddingHorizontal: 20,
         paddingBottom: 50
+    },
+    otpInputBox:{
+        color: Colors.black,
+        borderColor: '#6495ED',
+        fontSize:20,
+        fontWeight: 'bold'
+    },
+    otpActiveInputBox:{
+        borderWidth: 3,
+        borderColor:'#6495ED'
+
+    },
+    otpText:{
+        color: '#6495ED',
+        fontWeight:'bold',
+        fontSize:18
     },
     footer: {
         flex: Platform.OS === 'ios' ? 3 : 5,

@@ -19,6 +19,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {StackNavigatorParams} from '../../config/navigator'
 import styles from './signInScreen.styles'
 import AppBootstrap from '../../components/app-bootstrap'
+import ButtonComponent from '../../components/button/button';
 import { Auth } from 'aws-amplify';
 
 
@@ -158,27 +159,11 @@ export default function SignInScreen({navigation}: SignInScreenProps) {
         }setLoading(false)
     }
 
-    const signup = async () =>{
-        try{
-            const res = Auth.signUp({
-                username:"test",
-                password: "12345678",
-                attributes:{
-                    email: "test@test.com",
-                    name: "Test Test"
-                }
-            })
-        }catch(error){
-            console.log(error);
-            
-        }
-    }
-
     return (
         <View style={styles.container}>
           <StatusBar backgroundColor='#009387' barStyle="light-content"/>
         <View style={styles.header}>
-            <Text style={styles.text_header}>Welcome!</Text>
+            <Text style={styles.text_header}>Hola</Text>
         </View>
         <Animatable.View 
             animation="fadeInUpBig"
@@ -290,9 +275,8 @@ export default function SignInScreen({navigation}: SignInScreenProps) {
                     colors={['#6495ED', 'cyan']}
                     style={styles.signIn}
                 >
-                    <Text style={[styles.textSign, {
-                        color:'#fff'
-                    }]}>Inicia Sesión</Text>
+                    <ButtonComponent title="Iniciar sesión" loading={loading}>Registrarse</ButtonComponent>
+
                 </LinearGradient>
                 </TouchableOpacity>
 

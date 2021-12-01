@@ -9,10 +9,12 @@ type ButtonProps = {
 } & TouchableOpacityProps;
 
 export default function ButtonComponent({ title, style, loading, ...props }: ButtonProps): ReactElement {
+    // console.log(loading)
     return (
-        <TouchableOpacity disabled={loading} {...props} style={[styles.button, style]}>
+        
+        <TouchableOpacity disabled={loading} {...props}>
             {loading ? (
-                <ActivityIndicator color="#000" />
+                <ActivityIndicator color="white"></ActivityIndicator>
             ) : (
                 <Text style={styles.buttonText}>{title}</Text>
             )}
