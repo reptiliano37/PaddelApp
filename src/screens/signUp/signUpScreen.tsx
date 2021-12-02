@@ -23,7 +23,6 @@ import {StackNavigatorParams} from '../../config/navigator'
 import styles from './signUpSreen.styles'
 import { Auth } from 'aws-amplify';
 import ButtonComponent from '../../components/button/button';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 type SignUpScreenProps = {
     navigation: NativeStackNavigationProp<StackNavigatorParams, "SignUpScreen">
@@ -45,6 +44,7 @@ type SignUpScreenProps = {
     const [loading, setLoading] = useState(false);
     const [step, setStep] = useState<"signUp" | "otp">("signUp");
     const [confirming, setConfirming]= useState(false)
+    const [resending, setResending]= useState(false)
 
     const signup = async () =>{
         
@@ -123,11 +123,20 @@ type SignUpScreenProps = {
         try {
             await Auth.confirmSignUp(data.username, code)
             Alert.alert("Éxito", "Ahora puedes iniciar sesión en tu club de pádel.")
+            navigation.navigate("SignInScreen")
         } catch (error) {
             Alert.alert("Error", "Error en confirmación de código.")
         }
         setConfirming(false)
-        navigation.navigate("SignInScreen")
+    }
+    const resenCode = async(username:string) =>{
+        setResending(true);
+        try {
+            await Auth.resendSignUp(username)
+        } catch (error) {
+            Alert.alert("Error", "Error en confirmación de código.")
+        }
+        setResending(false);
     }
       return (
         <View style={styles.container}>
@@ -144,20 +153,32 @@ type SignUpScreenProps = {
                 <ScrollView>
                     {step ==="otp" && (
 
-                            <>
-                            <Text style={styles.otpText}>Por favor, introduce el código que has recibido vía E-mail:</Text>
-                            {confirming ? (
-                                <ActivityIndicator color='black'/>
-                            ):
-                            <OTPInput
-                                codeInputFieldStyle={styles.otpInputBox}
-                                codeInputHighlightStyle={styles.otpActiveInputBox}
-                                pinCount={6}
-                                onCodeFilled={code =>{
-                                    confirmCode(code);
-                                }}
-                            />}
-                            </>)}
+                        <>
+                        <Text style={styles.otpText}>Por favor, introduce el código que has recibido vía E-mail:</Text>
+                        {confirming ? (
+                            <ActivityIndicator color='black'/>
+                        ):
+                        <OTPInput
+                            codeInputFieldStyle={styles.otpInputBox}
+                            codeInputHighlightStyle={styles.otpActiveInputBox}
+                            pinCount={6}
+                            onCodeFilled={code =>{
+                                confirmCode(code);
+                            }}
+                        />}
+                        {resending ?
+                            ( <ActivityIndicator color='grey'/>
+                            ) : (
+                        <TouchableOpacity onPress={
+                            () => {
+                                resenCode(data.username)
+                            }
+                        }>
+                            <Text style={styles.resendLink}>Reenviar código de confirmación</Text>
+                        </TouchableOpacity>
+                            )}
+                        </>
+                    )}
                     {step ==="signUp" && (
                     <>
                     <Text style={styles.text_footer}>Nombre de usuario</Text>

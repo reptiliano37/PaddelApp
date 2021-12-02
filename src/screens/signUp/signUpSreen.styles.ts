@@ -28,6 +28,12 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
         fontSize:18
     },
+    resendLink:{
+        color: '#6495ED',
+        textAlign:'center',
+        fontSize:18,
+        textDecorationLine: 'underline'
+    },
     footer: {
         flex: Platform.OS === 'ios' ? 3 : 5,
         backgroundColor: '#fff',
