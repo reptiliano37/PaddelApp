@@ -10,7 +10,7 @@ import SignUpScreen from '../screens/signUp/signUpScreen';
 export type StackNavigatorParams = {
     SplashScreen:undefined;
     SignInScreen:undefined;
-    SignUpScreen:undefined;
+    SignUpScreen:{username: string } | undefined;
     Home: undefined;
     MainScreen: undefined;
 }

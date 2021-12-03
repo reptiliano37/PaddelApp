@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { 
     View, 
     Text, 
@@ -16,7 +16,7 @@ import * as Animatable from 'react-native-animatable';
 import {LinearGradient} from 'expo-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-
+import {RouteProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import OTPInput from '@twotalltotems/react-native-otp-input'
 import {StackNavigatorParams} from '../../config/navigator'
@@ -25,10 +25,11 @@ import { Auth } from 'aws-amplify';
 import ButtonComponent from '../../components/button/button';
 
 type SignUpScreenProps = {
-    navigation: NativeStackNavigationProp<StackNavigatorParams, "SignUpScreen">
+    navigation: NativeStackNavigationProp<StackNavigatorParams, "SignUpScreen">,
+    route: RouteProp<StackNavigatorParams, "SignUpScreen">
   }
 
-  export default function SignUpScreen({navigation}: SignUpScreenProps) {
+  export default function SignUpScreen({navigation, route}: SignUpScreenProps) {
 
     const [data, setData] = React.useState({
         username: '',
@@ -40,9 +41,10 @@ type SignUpScreenProps = {
         secureTextEntry: true,
         confirm_secureTextEntry: true,
     });
-
+    const unconfirmedUsername= route.params?.username;
+    console.log(unconfirmedUsername);
     const [loading, setLoading] = useState(false);
-    const [step, setStep] = useState<"signUp" | "otp">("signUp");
+    const [step, setStep] = useState<"signUp" | "otp">(unconfirmedUsername ? "otp": "signUp");
     const [confirming, setConfirming]= useState(false)
     const [resending, setResending]= useState(false)
 
@@ -51,7 +53,6 @@ type SignUpScreenProps = {
         setLoading(true)
         console.log(loading)
         const {username, password, email, name} = data;
-        // console.log(data)
         try{
             
             await Auth.signUp({
@@ -121,7 +122,7 @@ type SignUpScreenProps = {
     const confirmCode = async (code:string) =>{
         setConfirming(true)
         try {
-            await Auth.confirmSignUp(data.username, code)
+            await Auth.confirmSignUp(data.username || unconfirmedUsername || "undefinde", code)
             Alert.alert("Éxito", "Ahora puedes iniciar sesión en tu club de pádel.")
             navigation.navigate("SignInScreen")
         } catch (error) {
@@ -138,6 +139,11 @@ type SignUpScreenProps = {
         }
         setResending(false);
     }
+    useEffect(() => {
+      if (unconfirmedUsername){
+          resenCode(unconfirmedUsername);
+      }
+    }, [])
       return (
         <View style={styles.container}>
           <StatusBar backgroundColor='#009387' barStyle="light-content"/>

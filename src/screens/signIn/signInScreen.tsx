@@ -21,6 +21,7 @@ import styles from './signInScreen.styles'
 import AppBootstrap from '../../components/app-bootstrap'
 import ButtonComponent from '../../components/button/button';
 import { Auth } from 'aws-amplify';
+import { AuthErrorStrings } from '@aws-amplify/auth';
 
 
 
@@ -150,12 +151,14 @@ export default function SignInScreen({navigation}: SignInScreenProps) {
         setLoading(true);
         const {username, password} = data;
         try{
-            const res = await Auth.signIn(username,password);
-            console.log(res);
+            await Auth.signIn(username,password);
             navigation.navigate("Home")
         } catch(error:any){
-            console.log(error)
-            Alert.alert("Error!", error || "¡Ha ocurrido un error!")
+            if (error.code === "UserNotConfirmedException"){
+                Alert.alert("Aviso","¡Usuario no confirmado! Por favor vuelve a introducir el código de confirmación.")
+                navigation.navigate("SignUpScreen", {username})
+            }
+            // Alert.alert("Error!" || "¡Ha ocurrido un error!")
         }setLoading(false)
     }
 

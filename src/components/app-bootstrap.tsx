@@ -25,7 +25,7 @@ export default function AppBootstrap({ children }: AppBootstrapProps): ReactElem
             const user = await Auth.currentAuthenticatedUser();
             setUser(user)
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             setUser(null)
         }
         setAuthLoaded(true);
