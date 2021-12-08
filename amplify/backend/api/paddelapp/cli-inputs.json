@@ -5,8 +5,20 @@
     "serviceName": "AppSync",
     "gqlSchemaPath": "C:\\Users\\migue\\PaddelApp\\amplify\\backend\\api\\paddelapp\\schema.graphql",
     "defaultAuthType": {
-      "mode": "API_KEY",
-      "expirationTime": 7
-    }
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authpaddelappae5bfa6f"
+    },
+    "conflictResolution": {},
+    "additionalAuthTypes": [
+      {
+        "mode": "API_KEY",
+        "expirationTime": 7,
+        "apiKeyExpirationDate": "2021-12-15T17:16:18.448Z",
+        "keyDescription": "test"
+      },
+      {
+        "mode": "AWS_IAM"
+      }
+    ]
   }
 }
