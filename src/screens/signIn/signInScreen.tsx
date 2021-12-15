@@ -278,11 +278,11 @@ export default function SignInScreen({navigation}: SignInScreenProps) {
                     colors={['#6495ED', 'cyan']}
                     style={styles.signIn}
                 >
-                    <ButtonComponent title="Iniciar sesión" loading={loading}>Registrarse</ButtonComponent>
+                    <ButtonComponent title="Iniciar sesión" loading={loading}></ButtonComponent>
 
                 </LinearGradient>
                 </TouchableOpacity>
-
+                
                 <TouchableOpacity
                     onPress={() => navigation.navigate('SignUpScreen')}
                     style={[styles.signIn, {
@@ -290,10 +290,12 @@ export default function SignInScreen({navigation}: SignInScreenProps) {
                         borderWidth: 1,
                         marginTop: 15
                     }]}
-                >
-                    <Text style={[styles.textSign, {
-                        color: 'cyan'
-                    }]}>Regístrate</Text>
+                ><LinearGradient
+                    colors={['#6495ED', '#6495ED']}
+                    style={styles.signIn}>
+                        <Text style={[styles.textSign, {color: 'white'}]}>Regístrate</Text>
+                    </LinearGradient>
+
                 </TouchableOpacity>
             </View>
         </Animatable.View>

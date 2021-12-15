@@ -21,5 +21,25 @@ export type AmplifyDependentResourcesAttributes = {
         "userPoolGroups": {
             "padelappuserpooldevGroupRole": "string"
         }
+    },
+    "function": {
+        "graphQlLambdaAuthorizere2e3668c": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string"
+        },
+        "postConfirmation": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string"
+        },
+        "preAuth": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string"
+        }
     }
 }

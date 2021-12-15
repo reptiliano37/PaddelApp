@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "api": {
+      "paddelapp": [
+        "Query",
+        "Mutation",
+        "Subscription"
+      ]
+    },
+    "auth": {
+      "paddelappae5bfa6f": [
+        "create",
+        "read"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

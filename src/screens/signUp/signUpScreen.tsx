@@ -42,7 +42,6 @@ type SignUpScreenProps = {
         confirm_secureTextEntry: true,
     });
     const unconfirmedUsername= route.params?.username;
-    console.log(unconfirmedUsername);
     const [loading, setLoading] = useState(false);
     const [step, setStep] = useState<"signUp" | "otp">(unconfirmedUsername ? "otp": "signUp");
     const [confirming, setConfirming]= useState(false)
@@ -51,7 +50,6 @@ type SignUpScreenProps = {
     const signup = async () =>{
         
         setLoading(true)
-        console.log(loading)
         const {username, password, email, name} = data;
         try{
             
@@ -122,11 +120,11 @@ type SignUpScreenProps = {
     const confirmCode = async (code:string) =>{
         setConfirming(true)
         try {
-            await Auth.confirmSignUp(data.username || unconfirmedUsername || "undefinde", code)
+            await Auth.confirmSignUp(data.username || unconfirmedUsername || "", code)
             Alert.alert("Éxito", "Ahora puedes iniciar sesión en tu club de pádel.")
             navigation.navigate("SignInScreen")
-        } catch (error) {
-            Alert.alert("Error", "Error en confirmación de código.")
+        } catch (error:any) {
+            Alert.alert("Error", error.message || "Error en confirmación de código.")
         }
         setConfirming(false)
     }
@@ -134,8 +132,8 @@ type SignUpScreenProps = {
         setResending(true);
         try {
             await Auth.resendSignUp(username)
-        } catch (error) {
-            Alert.alert("Error", "Error en confirmación de código.")
+        } catch (error:any) {
+            Alert.alert("Error", error.message || "Error en confirmación de código.")
         }
         setResending(false);
     }
