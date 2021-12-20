@@ -20,13 +20,9 @@
           "deploymentBucketName": "amplify-paddelapp-dev-220649-deployment",
           "s3Key": "amplify-builds/postConfirmation-7237614858514e51384d-build.zip"
         },
-        "graphQlLambdaAuthorizere2e3668c": {
+        "preAuthorization": {
           "deploymentBucketName": "amplify-paddelapp-dev-220649-deployment",
-          "s3Key": "amplify-builds/graphQlLambdaAuthorizere2e3668c-67755079783259596c53-build.zip"
-        },
-        "preAuth": {
-          "deploymentBucketName": "amplify-paddelapp-dev-220649-deployment",
-          "s3Key": "amplify-builds/preAuth-6c55456f7763644f7830-build.zip"
+          "s3Key": "amplify-builds/preAuthorization-6f37714e31673961412f-build.zip"
         }
       }
     }

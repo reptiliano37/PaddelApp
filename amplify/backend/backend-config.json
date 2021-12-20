@@ -16,7 +16,6 @@
               "authenticationType": "API_KEY",
               "apiKeyConfig": {
                 "apiKeyExpirationDays": 7,
-                "apiKeyExpirationDate": "2021-12-15T17:16:18.448Z",
                 "description": "test"
               }
             },
@@ -53,30 +52,9 @@
           "EMAIL"
         ]
       }
-    },
-    "userPoolGroups": {
-      "service": "Cognito-UserPool-Groups",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "auth",
-          "resourceName": "paddelappae5bfa6f",
-          "attributes": [
-            "UserPoolId",
-            "AppClientIDWeb",
-            "AppClientID",
-            "IdentityPoolId"
-          ]
-        }
-      ]
     }
   },
   "function": {
-    "graphQlLambdaAuthorizere2e3668c": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
     "postConfirmation": {
       "build": true,
       "providerPlugin": "awscloudformation",
@@ -93,7 +71,7 @@
         }
       ]
     },
-    "preAuth": {
+    "preAuthorization": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda",

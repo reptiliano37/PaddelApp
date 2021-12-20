@@ -154,11 +154,12 @@ export default function SignInScreen({navigation}: SignInScreenProps) {
             await Auth.signIn(username,password);
             navigation.navigate("Home")
         } catch(error:any){
+            console.log(error)
             if (error.code === "UserNotConfirmedException"){
                 Alert.alert("Aviso","¡Usuario no confirmado! Por favor vuelve a introducir el código de confirmación.")
                 navigation.navigate("SignUpScreen", {username})
             }
-            // Alert.alert("Error!" || "¡Ha ocurrido un error!")
+            Alert.alert("Error!", error || "¡Ha ocurrido un error!")
         }setLoading(false)
     }
 

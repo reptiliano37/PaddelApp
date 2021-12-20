@@ -6,11 +6,12 @@
 	ENV
 	REGION
 Amplify Params - DO NOT EDIT */
+
 const appsync = require("aws-appsync");
 const gql = require("graphql-tag");
 require("cross-fetch/polyfill");
 
-exports.handler = async (event,context,callback) => {
+exports.handler = async (event, context, callback) => {
     const graphqlClient = new appsync.AWSAppSyncClient({
         url: process.env.API_PADDELAPP_GRAPHQLAPIENDPOINTOUTPUT,
         region: process.env.REGION,
@@ -26,12 +27,13 @@ exports.handler = async (event,context,callback) => {
     });
 
     const query = gql`
-        query getUser($username: String!){
-            getUser(username: $username){
+        query getUser($username: String!) {
+            getUser(username: $username) {
                 id
             }
         }
     `;
+
     const mutation = gql`
         mutation createUser(
             $name: String!
@@ -46,6 +48,7 @@ exports.handler = async (event,context,callback) => {
             }
         }
     `;
+
     try {
         const response = await graphqlClient.query({
             query,
@@ -53,9 +56,9 @@ exports.handler = async (event,context,callback) => {
                 username: event.userName
             }
         });
-        if (response.data.getUser){
-            callback(null,event);
-        }else{
+        if (response.data.getUser) {
+            callback(null, event);
+        } else {
             try {
                 await graphqlClient.mutate({
                     mutation,
