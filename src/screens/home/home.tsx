@@ -13,7 +13,7 @@ type HomeProps = {
 }
 
 export default function Home({navigation}: HomeProps) {
-  const user = useAuth();
+  const { user } = useAuth();
   const [signingOut, setSigningOut] = useState(false);
   return (
     <View style={styles.container}>
@@ -23,8 +23,7 @@ export default function Home({navigation}: HomeProps) {
         title="LogOut"
         loading={signingOut}
         onPress={async ()=>{
-          // console.log(user.user)
-          if (user.user){
+          if (user){
             setSigningOut(true);
             try {
               await Auth.signOut()
@@ -37,6 +36,12 @@ export default function Home({navigation}: HomeProps) {
           }
           navigation.navigate("SignInScreen")
         }}/>
+        {user && (
+              <Text>
+                  Logged in as
+                  <Text> {user.username}</Text>
+              </Text>
+          )}
      </View>
   );
 }

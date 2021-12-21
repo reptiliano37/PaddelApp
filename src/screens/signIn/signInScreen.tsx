@@ -21,7 +21,7 @@ import styles from './signInScreen.styles'
 import AppBootstrap from '../../components/app-bootstrap'
 import ButtonComponent from '../../components/button/button';
 import { Auth } from 'aws-amplify';
-import { AuthErrorStrings } from '@aws-amplify/auth';
+// import { AuthErrorStrings } from '@aws-amplify/auth';
 
 
 

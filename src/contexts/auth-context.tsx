@@ -22,7 +22,7 @@ const AuthProvider = (props: {children: ReactNode}): ReactElement => {
         <AuthContext.Provider 
             {...props}
             value={{
-                user, 
+                user,
                 setUser
             }}/>
     )

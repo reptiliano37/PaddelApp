@@ -2,14 +2,14 @@ projects:
   paddelapp:
     schemaPath: amplify/backend/api/paddelapp/build/schema.graphql
     includes:
-      - 'y'
+      - src/**/*graphql.ts
     excludes:
       - ./amplify/**
     extensions:
       amplify:
         codeGenTarget: typescript
         generatedFileName: ''
-        docsFilePath: .
+        docsFilePath: src/graphql
 extensions:
   amplify:
     version: 3

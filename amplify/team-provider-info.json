@@ -22,7 +22,7 @@
         },
         "preAuthorization": {
           "deploymentBucketName": "amplify-paddelapp-dev-220649-deployment",
-          "s3Key": "amplify-builds/preAuthorization-6f37714e31673961412f-build.zip"
+          "s3Key": "amplify-builds/preAuthorization-73526979713578425565-build.zip"
         }
       }
     }
