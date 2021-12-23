@@ -152,7 +152,7 @@ export default function SignInScreen({navigation}: SignInScreenProps) {
         const {username, password} = data;
         try{
             await Auth.signIn(username,password);
-            navigation.navigate("Home")
+            navigation.navigate("Home",{username})
         } catch(error:any){
             console.log(error)
             if (error.code === "UserNotConfirmedException"){

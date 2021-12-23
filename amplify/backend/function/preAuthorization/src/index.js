@@ -56,6 +56,7 @@ exports.handler = async (event, context, callback) => {
                 username: event.userName
             }
         });
+        console.log(response)
         if (response.data.getUser) {
             callback(null, event);
         } else {

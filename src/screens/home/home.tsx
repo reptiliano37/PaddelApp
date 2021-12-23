@@ -17,8 +17,8 @@ export default function Home({navigation}: HomeProps) {
   const [signingOut, setSigningOut] = useState(false);
   return (
     <View style={styles.container}>
-      <Text>Homeeeeee</Text>
-      <Button title="MainScreen" onPress= {() => {navigation.navigate("MainScreen")}}/>
+      {/* <Button title="MainScreen" onPress= {() => {navigation.navigate("MainScreen")}}/> */}
+      
       <ButtonComponent
         title="LogOut"
         loading={signingOut}
