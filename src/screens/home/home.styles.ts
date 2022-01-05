@@ -23,6 +23,10 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         resizeMode: 'contain'
+    },
+    text_footer: {
+        color: '#05375a',
+        fontSize: 18
     }
 });
 

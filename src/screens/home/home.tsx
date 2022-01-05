@@ -18,28 +18,12 @@ export default function Home({navigation}: HomeProps) {
   const [signingOut, setSigningOut] = useState(false);
   return (
     <View style={styles.container}>
-      <DrawerContentScrollView>
-          <DrawerItem
-            label="Cerrar Sesión"
-            // loading={signingOut}
-            onPress={async ()=>{
-              if (user){
-                setSigningOut(true);
-                try {
-                  await Auth.signOut()
-                } catch (error) {
-                  Alert.alert("Error!", "Error signing out!")
-                }
-                setSigningOut(false);
-              }else {
-                navigation.navigate("SignInScreen")
-              }
-              navigation.navigate("SignInScreen")
-            }}/>
-      </DrawerContentScrollView>
       <TouchableOpacity style={styles.buttonTraining} onPress={()=>{alert("you clicked me")}}>
+          
           <Image source={require("../../../assets/paddle.png")} style={styles.image}/>
-        </TouchableOpacity>
+          {/* <Text style={styles.text_footer}>Entrenamiento</Text> */}
+
+      </TouchableOpacity>
       
         {user && (
               <Text>

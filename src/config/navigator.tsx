@@ -10,6 +10,7 @@ import {Home} from '../screens';
 import SplashScreen from '../screens/welcome/splashScreen';
 import SignInScreen from '../screens/signIn/signInScreen';
 import SignUpScreen from '../screens/signUp/signUpScreen';
+import DrawerContent from '../screens/drawerContent/drawerContent';
 
 export type StackNavigatorParams = {
     SplashScreen:undefined;
@@ -28,15 +29,19 @@ export default function Navigator(): ReactElement {
         return (
             <NavigationContainer>
                 { user  ? (
-                    <Drawer.Navigator>
-                        <Drawer.Screen name = "Home" component={Home}/>
-                    </Drawer.Navigator>
+                    <>
+                        <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
+                            <Drawer.Screen name = "Home" component={Home}/>
+                        </Drawer.Navigator>
+                    </>
                     ) : (
+                    <>
                     <Stack.Navigator screenOptions={{ headerShown: false }}>
-                    <Stack.Screen name = "SplashScreen" component={SplashScreen}/>
-                    <Stack.Screen name = "SignInScreen" component={SignInScreen}/>
-                    <Stack.Screen name = "SignUpScreen" component={SignUpScreen}/>                    
-                </Stack.Navigator>
+                        <Stack.Screen name = "SplashScreen" component={SplashScreen}/>
+                        <Stack.Screen name = "SignInScreen" component={SignInScreen}/>
+                        <Stack.Screen name = "SignUpScreen" component={SignUpScreen}/>                 
+                    </Stack.Navigator>
+                    </> 
                     )}
             </NavigationContainer>
       )
