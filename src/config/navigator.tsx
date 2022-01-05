@@ -20,7 +20,7 @@ export type StackNavigatorParams = {
 }
 
 const Stack = createNativeStackNavigator<StackNavigatorParams>();
-const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator<StackNavigatorParams>();
 
 export default function Navigator(): ReactElement {
     const { user } = useAuth();
@@ -28,8 +28,8 @@ export default function Navigator(): ReactElement {
         return (
             <NavigationContainer>
                 { user  ? (
-                    <Drawer.Navigator screenOptions={{ headerShown: false }}>
-                        <Stack.Screen name = "Home" component={Home}/>
+                    <Drawer.Navigator>
+                        <Drawer.Screen name = "Home" component={Home}/>
                     </Drawer.Navigator>
                     ) : (
                     <Stack.Navigator screenOptions={{ headerShown: false }}>
