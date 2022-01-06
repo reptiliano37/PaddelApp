@@ -7,14 +7,61 @@ import {
   import {useAuth} from '../../contexts/auth-context';
   import React, { useState } from 'react';
   import { View, Text, Alert, TouchableOpacity,Button,Image } from 'react-native';
+  import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+  import {
+    useTheme,
+    Avatar,
+    Title,
+    Caption,
+    Paragraph,
+    Drawer,
+    TouchableRipple,
+    Switch
+} from 'react-native-paper';
+import styles from './drawerContent.styles'
 
  export default function CustomDrawerContent(props, {navigation}) {
     const { user } = useAuth();
     const [signingOut, setSigningOut] = useState(false);
     return (
+      <View style={{flex:1}}>
       <DrawerContentScrollView {...props}>
-        <DrawerItemList {...props} />
+      <View style={styles.drawerContent}>
+          <View style={styles.userInfoSection}>
+            <View style={{marginLeft:15, flexDirection:'column'}}>
+                {user && (
+                    <Title style={styles.title}> {user.username}</Title>
+                    // <Caption style={styles.caption}>@j_doe</Caption>
+                  )}
+                    
+            </View>
+            <DrawerItemList {...props} />
+          </View>
+          <Drawer.Section style={styles.drawerSection}>
+            <DrawerItem 
+                icon={({color, size}) => (
+                    <Icon 
+                    name="home-outline" 
+                    color={color}
+                    size={size}
+                    />
+                )}
+                label="Home"
+                onPress={() => {props.navigation.navigate('Home')}}
+            />
+            </Drawer.Section>
+        </View>
+      </DrawerContentScrollView>
+      
+      <Drawer.Section style={styles.bottomDrawerSection}>
         <DrawerItem
+            icon={({color, size}) => (
+              <Icon 
+              name="exit-to-app" 
+              color={color}
+              size={size}
+              />
+          )}
             label="Cerrar Sesión"
             // loading={signingOut}
             onPress={async ()=>{
@@ -31,6 +78,7 @@ import {
               }
               navigation.navigate("SignInScreen")
             }}/>
-      </DrawerContentScrollView>
+            </Drawer.Section>
+      </View>
     );
   }

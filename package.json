@@ -10,6 +10,7 @@
   "dependencies": {
     "@aws-amplify/cli": "^7.5.4",
     "@aws-amplify/geo": "^1.1.11",
+    "@expo-google-fonts/inter": "^0.2.0",
     "@react-native-async-storage/async-storage": "^1.15.14",
     "@react-native-community/netinfo": "^7.1.6",
     "@react-native-picker/picker": "^2.2.1",
@@ -24,6 +25,7 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "expo": "~43.0.2",
     "expo-app-loading": "~1.2.1",
+    "expo-font": "~10.0.3",
     "expo-linear-gradient": "~10.0.3",
     "expo-status-bar": "~1.1.0",
     "graphql-tag": "^2.12.6",
