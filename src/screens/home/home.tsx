@@ -19,18 +19,11 @@ export default function Home({navigation}: HomeProps) {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.buttonTraining} onPress={()=>{alert("you clicked me")}}>
-          
           <Image source={require("../../../assets/paddle.png")} style={styles.image}/>
-          {/* <Text style={styles.text_footer}>Entrenamiento</Text> */}
-
+          <View style={{position: 'absolute', top: 80, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={styles.text_footer}>Entrenamiento</Text>
+          </View>
       </TouchableOpacity>
-      
-        {user && (
-              <Text>
-                  Logged in as
-                  <Text> {user.username}</Text>
-              </Text>
-          )}
      </View>
   );
 }

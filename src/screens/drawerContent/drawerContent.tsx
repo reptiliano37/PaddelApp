@@ -25,20 +25,21 @@ import styles from './drawerContent.styles'
     const [signingOut, setSigningOut] = useState(false);
     return (
       <View style={{flex:1}}>
-      <DrawerContentScrollView {...props}>
-      <View style={styles.drawerContent}>
-          <View style={styles.userInfoSection}>
-            <View style={{marginLeft:15, flexDirection:'column'}}>
+        <DrawerContentScrollView {...props}>
+          <View style={styles.drawerContent}>
+            <View style={styles.userInfoSection}>
+              <View style={{marginLeft:15, flexDirection:'column'}}>
                 {user && (
                     <Title style={styles.title}> {user.username}</Title>
                     // <Caption style={styles.caption}>@j_doe</Caption>
                   )}
                     
+              </View>
             </View>
             <DrawerItemList {...props} />
-          </View>
+          
           <Drawer.Section style={styles.drawerSection}>
-            <DrawerItem 
+            {/* <DrawerItem 
                 icon={({color, size}) => (
                     <Icon 
                     name="home-outline" 
@@ -48,7 +49,7 @@ import styles from './drawerContent.styles'
                 )}
                 label="Home"
                 onPress={() => {props.navigation.navigate('Home')}}
-            />
+            /> */}
             </Drawer.Section>
         </View>
       </DrawerContentScrollView>

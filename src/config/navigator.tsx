@@ -11,6 +11,7 @@ import SplashScreen from '../screens/welcome/splashScreen';
 import SignInScreen from '../screens/signIn/signInScreen';
 import SignUpScreen from '../screens/signUp/signUpScreen';
 import DrawerContent from '../screens/drawerContent/drawerContent';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export type StackNavigatorParams = {
     SplashScreen:undefined;
@@ -30,8 +31,24 @@ export default function Navigator(): ReactElement {
             <NavigationContainer>
                 { user  ? (
                     <>
-                        <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
-                            <Drawer.Screen name = "Home" component={Home}/>
+                        <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />} 
+                                          screenOptions={{
+                                                drawerStyle: {
+                                                backgroundColor: 'white',
+                                                width: 240,
+                                                },
+                                            }}>
+                            <Drawer.Screen name = "Home" component={Home} options={ {
+                               title: 'Home',
+                               drawerActiveTintColor:"grey",
+                               drawerIcon: ({focused, size}) => (
+                                  <Icon
+                                     name="home-outline"
+                                     size={size}
+                                     color={focused ? 'grey' : '#ccc'}
+                                  />
+                               ),
+                            }}/>
                         </Drawer.Navigator>
                     </>
                     ) : (

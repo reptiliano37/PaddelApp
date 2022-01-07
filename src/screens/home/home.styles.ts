@@ -17,16 +17,20 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 5, height: 5 },
         shadowRadius: 10,
         shadowOpacity: 0.35,
-        justifyContent: "center"
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection:"column",
+        borderWidth:1
     },
     image: {
         width: 50,
         height: 50,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
+        
     },
     text_footer: {
-        color: '#05375a',
-        fontSize: 18
+        fontWeight: "bold",
+        fontStyle: "italic"
     }
 });
 
