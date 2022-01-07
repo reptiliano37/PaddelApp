@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
       title: {
         fontSize: 16,
         marginTop: 3,
+        paddingRight:15,
         // fontFamily: 'sans-serif',
         fontWeight: 'bold',
       },
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
         marginRight: 3,
       },
       drawerSection: {
-        marginTop: 15,
+        marginTop: 10,
       },
       bottomDrawerSection: {
           marginBottom: 15,
@@ -47,6 +48,11 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         paddingHorizontal: 16,
       },
+      image: {
+        width: 30,
+        height: 30
+        
+    }
     }
 )
 

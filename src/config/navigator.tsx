@@ -37,6 +37,7 @@ export default function Navigator(): ReactElement {
                                                 backgroundColor: 'white',
                                                 width: 240,
                                                 },
+                                                headerTintColor: 'black'
                                             }}>
                             <Drawer.Screen name = "Home" component={Home} options={ {
                                title: 'Home',

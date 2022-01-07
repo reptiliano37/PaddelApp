@@ -28,13 +28,19 @@ import styles from './drawerContent.styles'
         <DrawerContentScrollView {...props}>
           <View style={styles.drawerContent}>
             <View style={styles.userInfoSection}>
-              <View style={{marginLeft:15, flexDirection:'column'}}>
+            <Drawer.Section style={styles.drawerSection}>
+              <View style={{flexDirection:'row'}}>
+              
                 {user && (
-                    <Title style={styles.title}> {user.username}</Title>
+                    <>
+                      <Image source={require("../../../assets/user.png")} style={styles.image} />
+                      <Title style={styles.title}> {user.username}</Title>
+                    </>
                     // <Caption style={styles.caption}>@j_doe</Caption>
                   )}
                     
               </View>
+              </Drawer.Section>
             </View>
             <DrawerItemList {...props} />
           

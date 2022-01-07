@@ -4,7 +4,8 @@ import {StyleSheet} from "react-native";
 const styles = StyleSheet.create({
     container:{
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        paddingRight:150
     },
     buttonTraining:{
         flex:1,
@@ -19,8 +20,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.35,
         alignItems: "center",
         justifyContent: "center",
-        flexDirection:"column",
-        borderWidth:1
+        flexDirection:"column"
     },
     image: {
         width: 50,
@@ -31,6 +31,15 @@ const styles = StyleSheet.create({
     text_footer: {
         fontWeight: "bold",
         fontStyle: "italic"
+    },
+    text_position:{
+        position: 'absolute', 
+        top: 80, 
+        left: 0, 
+        right: 0,
+        bottom: 0, 
+        justifyContent: 'center', 
+        alignItems: 'center'
     }
 });
 
