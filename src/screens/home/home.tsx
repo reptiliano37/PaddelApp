@@ -18,7 +18,7 @@ export default function Home({navigation}: HomeProps) {
   const [signingOut, setSigningOut] = useState(false);
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.buttonTraining} onPress={()=>{alert("you clicked me")}}>
+      <TouchableOpacity style={styles.buttonTraining} onPress={()=>{navigation.navigate("Training")}}>
           <Image source={require("../../../assets/paddle.png")} style={styles.image}/>
           <View style={styles.text_position}>
             <Text style={styles.text_footer}>Entrenamiento</Text>

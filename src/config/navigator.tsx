@@ -10,6 +10,8 @@ import {Home} from '../screens';
 import SplashScreen from '../screens/welcome/splashScreen';
 import SignInScreen from '../screens/signIn/signInScreen';
 import SignUpScreen from '../screens/signUp/signUpScreen';
+import Training from '../screens/training/training';
+import Calendar from '../screens/calendar/calendar';
 import DrawerContent from '../screens/drawerContent/drawerContent';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -18,7 +20,8 @@ export type StackNavigatorParams = {
     SignInScreen:undefined;
     SignUpScreen:{username: string } | undefined;
     Home: {username: string } | undefined;
-    MainScreen: undefined;
+    Training: {username: string } | undefined;
+    Calendar: {username: string } | undefined;
 }
 
 const Stack = createNativeStackNavigator<StackNavigatorParams>();
@@ -44,7 +47,29 @@ export default function Navigator(): ReactElement {
                                drawerActiveTintColor:"grey",
                                drawerIcon: ({focused, size}) => (
                                   <Icon
-                                     name="home-outline"
+                                     name="home"
+                                     size={size}
+                                     color={focused ? 'grey' : '#ccc'}
+                                  />
+                               ),
+                            }}/>
+                            <Drawer.Screen name = "Training" component={Training} options={ {
+                               title: 'Entrenamiento',
+                               drawerActiveTintColor:"grey",
+                               drawerIcon: ({focused, size}) => (
+                                  <Icon
+                                     name="tennis-ball"
+                                     size={size}
+                                     color={focused ? 'grey' : '#ccc'}
+                                  />
+                               ),
+                            }}/>
+                            <Drawer.Screen name = "Calendar" component={Calendar} options={ {
+                               title: 'Calendar',
+                               drawerActiveTintColor:"grey",
+                               drawerIcon: ({focused, size}) => (
+                                  <Icon
+                                     name="calendar"
                                      size={size}
                                      color={focused ? 'grey' : '#ccc'}
                                   />
