@@ -15,6 +15,30 @@ type CalendarProps = {
   navigation: NativeStackNavigationProp<StackNavigatorParams, "Calendar">
 }
 
+import {LocaleConfig} from 'react-native-calendars';
+
+LocaleConfig.locales['es'] = {
+  monthNames: [
+    'Enero',
+    'Febrero',
+    'Marzo',
+    'Abril',
+    'Mayo',
+    'Junio',
+    'Julio',
+    'Agosto',
+    'Septiembre',
+    'Octubre',
+    'Noviembre',
+    'Diciembre'
+  ],
+  monthNamesShort: ['Ene.', 'Feb.', 'Mar', 'Abril', 'Mayo', 'Jun', 'Jul.', 'Ago', 'Sept.', 'Oct.', 'Nov.', 'Dic.'],
+  dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Domingo'],
+  dayNamesShort: ['Dom.', 'Lun.', 'Mar.', 'Mier.', 'Jue.', 'Vie.', 'Sab.'],
+  today: "Hoy"
+};
+LocaleConfig.defaultLocale = 'es';
+
 export default function CalendarFunction({navigation}: CalendarProps) {
   const { user } = useAuth();
   const [signingOut, setSigningOut] = useState(false);
@@ -38,14 +62,15 @@ export default function CalendarFunction({navigation}: CalendarProps) {
             console.log('month changed', month);
           }}
           // Hide month navigation arrows. Default = false
-          hideArrows={true}
+        //   hideArrows={true}
           // Do not show days of other months in month page. Default = false
-          hideExtraDays={true}
+        //   hideExtraDays={true}
           // If hideArrows=false and hideExtraDays=false do not swich month when tapping on greyed out
           // day from another month that is visible in calendar page. Default = false
-          disableMonthChange={true}
+        //   disableMonthChange={true}
           // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday.
           firstDay={1}
+          enableSwipeMonths={true}
         />
       </View>
   );

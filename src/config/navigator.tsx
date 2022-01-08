@@ -44,34 +44,34 @@ export default function Navigator(): ReactElement {
                                             }}>
                             <Drawer.Screen name = "Home" component={Home} options={ {
                                title: 'Home',
-                               drawerActiveTintColor:"grey",
+                               drawerActiveTintColor:"black",
                                drawerIcon: ({focused, size}) => (
                                   <Icon
                                      name="home"
                                      size={size}
-                                     color={focused ? 'grey' : '#ccc'}
+                                     color={focused ? 'cyan' : '#ccc'}
                                   />
                                ),
                             }}/>
                             <Drawer.Screen name = "Training" component={Training} options={ {
                                title: 'Entrenamiento',
-                               drawerActiveTintColor:"grey",
+                               drawerActiveTintColor:"black",
                                drawerIcon: ({focused, size}) => (
                                   <Icon
                                      name="tennis-ball"
                                      size={size}
-                                     color={focused ? 'grey' : '#ccc'}
+                                     color={focused ? 'cyan' : '#ccc'}
                                   />
                                ),
                             }}/>
                             <Drawer.Screen name = "Calendar" component={Calendar} options={ {
                                title: 'Calendar',
-                               drawerActiveTintColor:"grey",
+                               drawerActiveTintColor:"black",
                                drawerIcon: ({focused, size}) => (
                                   <Icon
                                      name="calendar"
                                      size={size}
-                                     color={focused ? 'grey' : '#ccc'}
+                                     color={focused ? '#6495ED' : '#ccc'}
                                   />
                                ),
                             }}/>

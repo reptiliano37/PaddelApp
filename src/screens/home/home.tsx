@@ -17,13 +17,23 @@ export default function Home({navigation}: HomeProps) {
   const { user } = useAuth();
   const [signingOut, setSigningOut] = useState(false);
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.buttonTraining} onPress={()=>{navigation.navigate("Training")}}>
-          <Image source={require("../../../assets/paddle.png")} style={styles.image}/>
-          <View style={styles.text_position}>
-            <Text style={styles.text_footer}>Entrenamiento</Text>
-          </View>
-      </TouchableOpacity>
+    <View  style={styles.container}>
+      <View style={styles.containerTraining}>
+        <TouchableOpacity style={styles.buttonTraining} onPress={()=>{navigation.navigate("Training")}}>
+            <Image source={require("../../../assets/paddle.png")} style={styles.image}/>
+            <View style={styles.text_position}>
+              <Text style={styles.text_footer}>Entrenamiento</Text>
+            </View>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.containerCalendar}>
+        <TouchableOpacity style={styles.buttonCalendar} onPress={()=>{navigation.navigate("Calendar")}}>
+            <Image source={require("../../../assets/calendario.png")} style={styles.image}/>
+            <View style={styles.text_position}>
+              <Text style={styles.text_footer}>Calendario</Text>
+            </View>
+        </TouchableOpacity>
+      </View>
      </View>
   );
 }
