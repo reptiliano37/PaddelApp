@@ -12,6 +12,7 @@ import SignInScreen from '../screens/signIn/signInScreen';
 import SignUpScreen from '../screens/signUp/signUpScreen';
 import Training from '../screens/training/training';
 import Calendar from '../screens/calendar/calendar';
+import Score from '../screens/score/score';
 import DrawerContent from '../screens/drawerContent/drawerContent';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -22,6 +23,7 @@ export type StackNavigatorParams = {
     Home: {username: string } | undefined;
     Training: {username: string } | undefined;
     Calendar: {username: string } | undefined;
+    Score: {username: string } | undefined;
 }
 
 const Stack = createNativeStackNavigator<StackNavigatorParams>();
@@ -60,7 +62,7 @@ export default function Navigator(): ReactElement {
                                   <Icon
                                      name="tennis-ball"
                                      size={size}
-                                     color={focused ? 'cyan' : '#ccc'}
+                                     color={focused ? 'yellow' : '#ccc'}
                                   />
                                ),
                             }}/>
@@ -70,6 +72,17 @@ export default function Navigator(): ReactElement {
                                drawerIcon: ({focused, size}) => (
                                   <Icon
                                      name="calendar"
+                                     size={size}
+                                     color={focused ? '#6495ED' : '#ccc'}
+                                  />
+                               ),
+                            }}/>
+                            <Drawer.Screen name = "Score" component={Score} options={ {
+                               title: 'Marcador',
+                               drawerActiveTintColor:"black",
+                               drawerIcon: ({focused, size}) => (
+                                  <Icon
+                                     name="scoreboard"
                                      size={size}
                                      color={focused ? '#6495ED' : '#ccc'}
                                   />

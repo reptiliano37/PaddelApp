@@ -34,6 +34,14 @@ export default function Home({navigation}: HomeProps) {
             </View>
         </TouchableOpacity>
       </View>
+      <View style={styles.containerCalendar}>
+        <TouchableOpacity style={styles.buttonScore} onPress={()=>{navigation.navigate("Calendar")}}>
+            <Image source={require("../../../assets/marcador.png")} style={styles.image}/>
+            <View style={styles.text_position}>
+              <Text style={styles.text_footer}>Calendario</Text>
+            </View>
+        </TouchableOpacity>
+      </View>
      </View>
   );
 }
