@@ -2,41 +2,37 @@ import {StyleSheet} from "react-native";
 // import * as paddleLogo from "../../../assets/paddle.png";
 
 const styles = StyleSheet.create({
-    container:{
-        flex:1
-    },
-    buttonTraining:{
-        flex:1,
-        backgroundColor: 'white',
-        borderRadius: 25,
-        padding: 50,
-        marginBottom: 1,
-        marginTop: 20,
-        shadowColor: '#303838',
-        shadowOffset: { width: 5, height: 5 },
-        shadowRadius: 10,
-        shadowOpacity: 0.35,
+    viewAlpha:{
+        flex:1, 
+        backgroundColor:"#3071fb",
         alignItems: "center",
         justifyContent: "center",
-        flexDirection:"column"
+    },
+    viewBeta:{
+        flex:1, backgroundColor:"#fb5430",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    button:{
+        height: '100%', 
+        width: '100%',
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    text:{
+        justifyContent:'center', 
+        alignContent:'center',
+        fontSize:80,
+        fontWeight:'bold',
+        color:'white'
     },
     image: {
-        flex: 1,
-        justifyContent: "center"
-    },
-    text_footer: {
-        fontWeight: "bold",
-        fontStyle: "italic"
-    },
-    text_position:{
-        position: 'absolute', 
-        top: 80, 
-        left: 0, 
-        right: 0,
-        bottom: 0, 
-        justifyContent: 'center', 
-        alignItems: 'center'
-    }
-});
+        width: 10,
+        height: 10,
+        justifyContent: "center",
+        alignItems: "center",
+        marginLeft:100
 
+    },
+  });
 export default styles;

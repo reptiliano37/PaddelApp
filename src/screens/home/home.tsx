@@ -35,10 +35,10 @@ export default function Home({navigation}: HomeProps) {
         </TouchableOpacity>
       </View>
       <View style={styles.containerCalendar}>
-        <TouchableOpacity style={styles.buttonScore} onPress={()=>{navigation.navigate("Calendar")}}>
-            <Image source={require("../../../assets/marcador.png")} style={styles.image}/>
+        <TouchableOpacity style={styles.buttonScore} onPress={()=>{navigation.navigate("Score")}}>
+            <Image source={require("../../../assets/scoreboard.png")} style={styles.image}/>
             <View style={styles.text_position}>
-              <Text style={styles.text_footer}>Calendario</Text>
+              <Text style={styles.text_footer}>Marcador</Text>
             </View>
         </TouchableOpacity>
       </View>
