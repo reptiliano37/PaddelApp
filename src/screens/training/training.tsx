@@ -21,6 +21,7 @@ export default function Training({navigation}: TrainingProps) {
     <View style={styles.container}>
         <ImageBackground source={require("../../../assets/fondo2.jpg")} resizeMode="cover" style={styles.image}>
         </ImageBackground>
+        
      </View>
   );
 }

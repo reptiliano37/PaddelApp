@@ -3,15 +3,19 @@ import {StyleSheet} from "react-native";
 
 const styles = StyleSheet.create({
     viewAlpha:{
-        flex:1, 
+        flex:1,
         backgroundColor:"#3071fb",
         alignItems: "center",
-        justifyContent: "center",
+        // justifyContent: "center",
+        flexDirection:'row',
+        justifyContent: 'space-evenly'
     },
     viewBeta:{
         flex:1, backgroundColor:"#fb5430",
         alignItems: "center",
-        justifyContent: "center",
+        // justifyContent: "center",
+        flexDirection:'row',
+        justifyContent: 'space-evenly'
     },
     button:{
         height: '100%', 
@@ -24,15 +28,21 @@ const styles = StyleSheet.create({
         alignContent:'center',
         fontSize:80,
         fontWeight:'bold',
-        color:'white'
+        color:'white',
+        marginEnd:80
     },
     image: {
-        width: 10,
-        height: 10,
-        justifyContent: "center",
-        alignItems: "center",
-        marginLeft:100
-
+        width: 50,
+        height: 50,
+        marginStart:-80,
+        justifyContent:'center',
+    },
+    minus: {
+        width: 50,
+        height: 50,
+        marginStart:20,
+        justifyContent:'center',
+        padding:40
     },
   });
 export default styles;

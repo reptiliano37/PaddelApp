@@ -54,6 +54,7 @@ export default function Navigator(): ReactElement {
                                      color={focused ? 'cyan' : '#ccc'}
                                   />
                                ),
+                               
                             }}/>
                             <Drawer.Screen name = "Training" component={Training} options={ {
                                title: 'Entrenamiento',
@@ -65,9 +66,11 @@ export default function Navigator(): ReactElement {
                                      color={focused ? 'yellow' : '#ccc'}
                                   />
                                ),
+                               headerShown: false,
+                               
                             }}/>
                             <Drawer.Screen name = "Calendar" component={Calendar} options={ {
-                               title: 'Calendar',
+                               title: 'Calendario',
                                drawerActiveTintColor:"black",
                                drawerIcon: ({focused, size}) => (
                                   <Icon
@@ -87,6 +90,7 @@ export default function Navigator(): ReactElement {
                                      color={focused ? '#6495ED' : '#ccc'}
                                   />
                                ),
+                               headerShown: false,
                             }}/>
                         </Drawer.Navigator>
                     </>

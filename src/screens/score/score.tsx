@@ -20,43 +20,55 @@ export default function Score({navigation}: ScoreProps) {
   const [counterAlpha, setCounterAlpha] = useState(0);
   const [counterBeta, setCounterBeta] = useState(0);
 
-  function incrementCounterAlpha(counterAlpha){
+  function incrementCounterAlpha(counterAlpha:number){
     counterAlpha += 1
     setCounterAlpha(counterAlpha)
     return counterAlpha;
   }
-  function decrementCounterAlpha(counterAlpha){
-    return counterAlpha -= 1;
+  function decrementCounterAlpha(counterAlpha:number){
+    counterAlpha -= 1
+    setCounterAlpha(counterAlpha)
+    return counterAlpha;
   }
-  function incrementCounterBeta(counterBeta){
+  function incrementCounterBeta(counterBeta:number){
     counterBeta += 1
     setCounterBeta(counterBeta)
     return counterBeta += 1;
   }
-  function decrementCounterBeta(counterBeta){
-    return counterBeta -= 1;
+  function decrementCounterBeta(counterBeta:number){
+    counterBeta -= 1
+    setCounterBeta(counterBeta)
+    return counterBeta;
   }
 
   return (
     <>
       <View style={styles.viewAlpha}>
+      <TouchableOpacity onPress={() => {
+          decrementCounterAlpha(counterAlpha)}}>
+          <Image source={require("../../../assets/minus.png")} style={styles.minus}/>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={() => {
-          incrementCounterAlpha(counterAlpha)
-          console.log(counterAlpha)}}>
+          incrementCounterAlpha(counterAlpha)}}>
             <Text style={styles.text}>{counterAlpha}</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Image source={require("../../../assets/arrow-circle.png")} style={styles.image}/>
+        <TouchableOpacity onPress={() => {
+          setCounterAlpha(0)}}>
+          <Image source={require("../../../assets/reset_white.png")} style={styles.image}/>
         </TouchableOpacity>
       </View >
-      <View style={{backgroundColor: 'yelow'}}>
-
-      </View>
       <View style={styles.viewBeta}>
-      <TouchableOpacity style={styles.button} onPress={() => {
-          incrementCounterBeta(counterBeta)
-          console.log(counterBeta)}}>
+      <TouchableOpacity onPress={() => {
+          decrementCounterBeta(counterBeta)}}>
+          <Image source={require("../../../assets/minus.png")} style={styles.minus}/>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => {
+          incrementCounterBeta(counterBeta)}}>
             <Text style={styles.text}>{counterBeta}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+          setCounterBeta(0)}}>
+          <Image source={require("../../../assets/reset_white.png")} style={styles.image}/>
         </TouchableOpacity>
       </View>
     </>
