@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "api": {
+      "paddelapp": [
+        "Query",
+        "Mutation"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

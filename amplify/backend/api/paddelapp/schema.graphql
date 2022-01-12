@@ -15,6 +15,7 @@ type User
   username: String! 
   name: String!
   email: AWSEmail!
+  trainings: [PlayerTraining] @connection (keyName:"byUser", fields: ["username"])
 }
 
 type Player 
@@ -33,29 +34,58 @@ type Player
   username: String! 
   name: String!
   email: AWSEmail!
+  trainings: [PlayerTraining] @connection (keyName:"byPlayer", fields: ["username"])
 }
 
-type PlayerTraining @model (queries: null){
-  id: ID!
-  trainingID: ID!
-  playerUsername: String!
-  userUsername: String!
-  players: [String!]!
-  game: Training! @connection(fields: ["trainingID"])
-  user: User! @connection(fields: ["userUsername"])
-  player: Player! @connection(fields: ["playerUsername"])
+type PlayerTraining 
+  @model (queries: null) 
+  @key(name:"byTraining", fields: ["trainingID"])
+  @key(name:"byPlayer", fields:["playerUsername","createdAt"])
+  @key(name:"byUser", fields:["userUsername","createdAt"])
+  {
+    id: ID!
+    trainingID: ID!
+    createdAt: String!
+    playerUsername: String!
+    userUsername: String!
+    players: [String!]!
+    training: Training! @connection(fields: ["trainingID"])
+    user: User! @connection(fields: ["userUsername"])
+    player: Player! @connection(fields: ["playerUsername"])
 }
 
-type Training @model{
+type Training 
+@model
+@auth(
+    rules: [
+      { allow: owner, ownerField: "owners", operations: [read] }
+      { allow: private, provider: iam, operations: [read, create, update, delete] }
+    ]
+  ) 
+{
   id: ID!
   status: TrainingStatus!
-  owner: String!
-  players: [String!]!
+  trainer: String
+  owners: [String!]!
   winner: String!
+  hit: [TrainingHit!]!
+  users: [PlayerTraining] @connection(keyName: "byTraining", fields: ["id"])
 }
 
 enum TrainingStatus{
-  ACTIVE
-  FINISHED
-  CANCELLED
+  ACTIVO
+  FINALIZADO
+  CANCELADO
+}
+enum TrainingHit{
+  ERROR NO FORZADO DERECHA
+  ERROR NO FORZADO REVES
+  ERROR VOLEA DERECHA
+  ERROR VOLEA REVES
+  ERROR DERECHA
+  ERROR REVES
+  ACIERTO DERECHA
+  ACIERTO REVES
+  ACIERTO REMATE
+  WINNER
 }
