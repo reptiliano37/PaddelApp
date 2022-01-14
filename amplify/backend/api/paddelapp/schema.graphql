@@ -1,4 +1,8 @@
-
+type Mutation{
+  startTraining(invitee: String!): TrainingData
+      @function(name: "startTraining-${env}")
+      @aws_cognito_user_pools
+}
 type User 
   @model 
   @searchable
