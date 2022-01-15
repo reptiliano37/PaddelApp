@@ -10,19 +10,10 @@ export const createPlayerTraining = /* GraphQL */ `
     createPlayerTraining(input: $input, condition: $condition) {
       id
       trainingID
+      createdAt
       playerUsername
       userUsername
       players
-      game {
-        id
-        status
-        owner
-        players
-        winner
-        createdAt
-        updatedAt
-      }
-      createdAt
       updatedAt
       user {
         id
@@ -30,6 +21,10 @@ export const createPlayerTraining = /* GraphQL */ `
         username
         name
         email
+        typeUser
+        trainings {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -39,6 +34,23 @@ export const createPlayerTraining = /* GraphQL */ `
         username
         name
         email
+        typeUser
+        trainings {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      training {
+        id
+        status
+        trainer
+        owners
+        winner
+        hit
+        users {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -53,19 +65,10 @@ export const updatePlayerTraining = /* GraphQL */ `
     updatePlayerTraining(input: $input, condition: $condition) {
       id
       trainingID
+      createdAt
       playerUsername
       userUsername
       players
-      game {
-        id
-        status
-        owner
-        players
-        winner
-        createdAt
-        updatedAt
-      }
-      createdAt
       updatedAt
       user {
         id
@@ -73,6 +76,10 @@ export const updatePlayerTraining = /* GraphQL */ `
         username
         name
         email
+        typeUser
+        trainings {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -82,6 +89,23 @@ export const updatePlayerTraining = /* GraphQL */ `
         username
         name
         email
+        typeUser
+        trainings {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      training {
+        id
+        status
+        trainer
+        owners
+        winner
+        hit
+        users {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -96,19 +120,10 @@ export const deletePlayerTraining = /* GraphQL */ `
     deletePlayerTraining(input: $input, condition: $condition) {
       id
       trainingID
+      createdAt
       playerUsername
       userUsername
       players
-      game {
-        id
-        status
-        owner
-        players
-        winner
-        createdAt
-        updatedAt
-      }
-      createdAt
       updatedAt
       user {
         id
@@ -116,6 +131,10 @@ export const deletePlayerTraining = /* GraphQL */ `
         username
         name
         email
+        typeUser
+        trainings {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -125,57 +144,26 @@ export const deletePlayerTraining = /* GraphQL */ `
         username
         name
         email
+        typeUser
+        trainings {
+          nextToken
+        }
         createdAt
         updatedAt
       }
-    }
-  }
-`;
-export const createTraining = /* GraphQL */ `
-  mutation CreateTraining(
-    $input: CreateTrainingInput!
-    $condition: ModelTrainingConditionInput
-  ) {
-    createTraining(input: $input, condition: $condition) {
-      id
-      status
-      owner
-      players
-      winner
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateTraining = /* GraphQL */ `
-  mutation UpdateTraining(
-    $input: UpdateTrainingInput!
-    $condition: ModelTrainingConditionInput
-  ) {
-    updateTraining(input: $input, condition: $condition) {
-      id
-      status
-      owner
-      players
-      winner
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteTraining = /* GraphQL */ `
-  mutation DeleteTraining(
-    $input: DeleteTrainingInput!
-    $condition: ModelTrainingConditionInput
-  ) {
-    deleteTraining(input: $input, condition: $condition) {
-      id
-      status
-      owner
-      players
-      winner
-      createdAt
-      updatedAt
+      training {
+        id
+        status
+        trainer
+        owners
+        winner
+        hit
+        users {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
     }
   }
 `;
@@ -190,6 +178,19 @@ export const createUser = /* GraphQL */ `
       username
       name
       email
+      typeUser
+      trainings {
+        items {
+          id
+          trainingID
+          createdAt
+          playerUsername
+          userUsername
+          players
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -206,6 +207,19 @@ export const updateUser = /* GraphQL */ `
       username
       name
       email
+      typeUser
+      trainings {
+        items {
+          id
+          trainingID
+          createdAt
+          playerUsername
+          userUsername
+          players
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -222,6 +236,19 @@ export const deleteUser = /* GraphQL */ `
       username
       name
       email
+      typeUser
+      trainings {
+        items {
+          id
+          trainingID
+          createdAt
+          playerUsername
+          userUsername
+          players
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -238,6 +265,19 @@ export const createPlayer = /* GraphQL */ `
       username
       name
       email
+      typeUser
+      trainings {
+        items {
+          id
+          trainingID
+          createdAt
+          playerUsername
+          userUsername
+          players
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -254,6 +294,19 @@ export const updatePlayer = /* GraphQL */ `
       username
       name
       email
+      typeUser
+      trainings {
+        items {
+          id
+          trainingID
+          createdAt
+          playerUsername
+          userUsername
+          players
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -270,6 +323,106 @@ export const deletePlayer = /* GraphQL */ `
       username
       name
       email
+      typeUser
+      trainings {
+        items {
+          id
+          trainingID
+          createdAt
+          playerUsername
+          userUsername
+          players
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createTraining = /* GraphQL */ `
+  mutation CreateTraining(
+    $input: CreateTrainingInput!
+    $condition: ModelTrainingConditionInput
+  ) {
+    createTraining(input: $input, condition: $condition) {
+      id
+      status
+      trainer
+      owners
+      winner
+      hit
+      users {
+        items {
+          id
+          trainingID
+          createdAt
+          playerUsername
+          userUsername
+          players
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateTraining = /* GraphQL */ `
+  mutation UpdateTraining(
+    $input: UpdateTrainingInput!
+    $condition: ModelTrainingConditionInput
+  ) {
+    updateTraining(input: $input, condition: $condition) {
+      id
+      status
+      trainer
+      owners
+      winner
+      hit
+      users {
+        items {
+          id
+          trainingID
+          createdAt
+          playerUsername
+          userUsername
+          players
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteTraining = /* GraphQL */ `
+  mutation DeleteTraining(
+    $input: DeleteTrainingInput!
+    $condition: ModelTrainingConditionInput
+  ) {
+    deleteTraining(input: $input, condition: $condition) {
+      id
+      status
+      trainer
+      owners
+      winner
+      hit
+      users {
+        items {
+          id
+          trainingID
+          createdAt
+          playerUsername
+          userUsername
+          players
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }

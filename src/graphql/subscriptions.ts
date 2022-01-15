@@ -7,19 +7,10 @@ export const onCreatePlayerTraining = /* GraphQL */ `
     onCreatePlayerTraining {
       id
       trainingID
+      createdAt
       playerUsername
       userUsername
       players
-      game {
-        id
-        status
-        owner
-        players
-        winner
-        createdAt
-        updatedAt
-      }
-      createdAt
       updatedAt
       user {
         id
@@ -27,6 +18,10 @@ export const onCreatePlayerTraining = /* GraphQL */ `
         username
         name
         email
+        typeUser
+        trainings {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -36,6 +31,23 @@ export const onCreatePlayerTraining = /* GraphQL */ `
         username
         name
         email
+        typeUser
+        trainings {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      training {
+        id
+        status
+        trainer
+        owners
+        winner
+        hit
+        users {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -47,19 +59,10 @@ export const onUpdatePlayerTraining = /* GraphQL */ `
     onUpdatePlayerTraining {
       id
       trainingID
+      createdAt
       playerUsername
       userUsername
       players
-      game {
-        id
-        status
-        owner
-        players
-        winner
-        createdAt
-        updatedAt
-      }
-      createdAt
       updatedAt
       user {
         id
@@ -67,6 +70,10 @@ export const onUpdatePlayerTraining = /* GraphQL */ `
         username
         name
         email
+        typeUser
+        trainings {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -76,6 +83,23 @@ export const onUpdatePlayerTraining = /* GraphQL */ `
         username
         name
         email
+        typeUser
+        trainings {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      training {
+        id
+        status
+        trainer
+        owners
+        winner
+        hit
+        users {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -87,19 +111,10 @@ export const onDeletePlayerTraining = /* GraphQL */ `
     onDeletePlayerTraining {
       id
       trainingID
+      createdAt
       playerUsername
       userUsername
       players
-      game {
-        id
-        status
-        owner
-        players
-        winner
-        createdAt
-        updatedAt
-      }
-      createdAt
       updatedAt
       user {
         id
@@ -107,6 +122,10 @@ export const onDeletePlayerTraining = /* GraphQL */ `
         username
         name
         email
+        typeUser
+        trainings {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -116,48 +135,26 @@ export const onDeletePlayerTraining = /* GraphQL */ `
         username
         name
         email
+        typeUser
+        trainings {
+          nextToken
+        }
         createdAt
         updatedAt
       }
-    }
-  }
-`;
-export const onCreateTraining = /* GraphQL */ `
-  subscription OnCreateTraining {
-    onCreateTraining {
-      id
-      status
-      owner
-      players
-      winner
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateTraining = /* GraphQL */ `
-  subscription OnUpdateTraining {
-    onUpdateTraining {
-      id
-      status
-      owner
-      players
-      winner
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteTraining = /* GraphQL */ `
-  subscription OnDeleteTraining {
-    onDeleteTraining {
-      id
-      status
-      owner
-      players
-      winner
-      createdAt
-      updatedAt
+      training {
+        id
+        status
+        trainer
+        owners
+        winner
+        hit
+        users {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
     }
   }
 `;
@@ -169,6 +166,19 @@ export const onCreateUser = /* GraphQL */ `
       username
       name
       email
+      typeUser
+      trainings {
+        items {
+          id
+          trainingID
+          createdAt
+          playerUsername
+          userUsername
+          players
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -182,6 +192,19 @@ export const onUpdateUser = /* GraphQL */ `
       username
       name
       email
+      typeUser
+      trainings {
+        items {
+          id
+          trainingID
+          createdAt
+          playerUsername
+          userUsername
+          players
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -195,6 +218,19 @@ export const onDeleteUser = /* GraphQL */ `
       username
       name
       email
+      typeUser
+      trainings {
+        items {
+          id
+          trainingID
+          createdAt
+          playerUsername
+          userUsername
+          players
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -208,6 +244,19 @@ export const onCreatePlayer = /* GraphQL */ `
       username
       name
       email
+      typeUser
+      trainings {
+        items {
+          id
+          trainingID
+          createdAt
+          playerUsername
+          userUsername
+          players
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -221,6 +270,19 @@ export const onUpdatePlayer = /* GraphQL */ `
       username
       name
       email
+      typeUser
+      trainings {
+        items {
+          id
+          trainingID
+          createdAt
+          playerUsername
+          userUsername
+          players
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -234,6 +296,97 @@ export const onDeletePlayer = /* GraphQL */ `
       username
       name
       email
+      typeUser
+      trainings {
+        items {
+          id
+          trainingID
+          createdAt
+          playerUsername
+          userUsername
+          players
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateTraining = /* GraphQL */ `
+  subscription OnCreateTraining($owners: String) {
+    onCreateTraining(owners: $owners) {
+      id
+      status
+      trainer
+      owners
+      winner
+      hit
+      users {
+        items {
+          id
+          trainingID
+          createdAt
+          playerUsername
+          userUsername
+          players
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateTraining = /* GraphQL */ `
+  subscription OnUpdateTraining($owners: String) {
+    onUpdateTraining(owners: $owners) {
+      id
+      status
+      trainer
+      owners
+      winner
+      hit
+      users {
+        items {
+          id
+          trainingID
+          createdAt
+          playerUsername
+          userUsername
+          players
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteTraining = /* GraphQL */ `
+  subscription OnDeleteTraining($owners: String) {
+    onDeleteTraining(owners: $owners) {
+      id
+      status
+      trainer
+      owners
+      winner
+      hit
+      users {
+        items {
+          id
+          trainingID
+          createdAt
+          playerUsername
+          userUsername
+          players
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }

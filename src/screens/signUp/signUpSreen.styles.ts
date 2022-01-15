@@ -58,6 +58,13 @@ const styles = StyleSheet.create({
         borderBottomColor: '#f2f2f2',
         paddingBottom: 5
     },
+    picker: {
+        flexDirection: 'row',
+        marginTop: 10,
+        // borderBottomWidth: 1,
+        // borderBottomColor: '#f2f2f2',
+        paddingBottom: 5
+    },
     textInput: {
         flex: 1,
         marginTop: Platform.OS === 'ios' ? 0 : -12,
@@ -85,8 +92,31 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
     color_textPrivate: {
-        color: 'grey'
-    }
+        color: 'grey',
+    },
+    dropdownBtnStyle: {
+        flex: 1,
+        height: 50,
+        color:"#05375a",
+        backgroundColor: "#FFF",
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: "#05375a",
+      },
+    dropdownDropdownStyle: { 
+        backgroundColor: "#EFEFEF",
+        borderRadius: 8,
+    },
+    dropdownRowStyle: {
+        backgroundColor: "#EFEFEF",
+        borderBottomColor: "#C5C5C5",
+    },
+    dropdownRowTxtStyle: { 
+        color: "#05375a", textAlign: "center" 
+    },
+    buttonTextPicker: { 
+        color: "#05375a", textAlign: "center" 
+    },
   });
 
   export default styles;

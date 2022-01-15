@@ -23,6 +23,7 @@ import {StackNavigatorParams} from '../../config/navigator'
 import styles from './signUpSreen.styles'
 import { Auth } from 'aws-amplify';
 import ButtonComponent from '../../components/button/button';
+import SelectDropdown from 'react-native-select-dropdown'
 
 type SignUpScreenProps = {
     navigation: NativeStackNavigationProp<StackNavigatorParams, "SignUpScreen">,
@@ -37,6 +38,7 @@ type SignUpScreenProps = {
         name:'',
         password: '',
         confirm_password: '',
+        typeUser:'',
         check_textInputChange: false,
         secureTextEntry: true,
         confirm_secureTextEntry: true,
@@ -46,19 +48,21 @@ type SignUpScreenProps = {
     const [step, setStep] = useState<"signUp" | "otp">(unconfirmedUsername ? "otp": "signUp");
     const [confirming, setConfirming]= useState(false)
     const [resending, setResending]= useState(false)
+    const userTypes = ["Entrenador", "Jugador"]
 
     const signup = async () =>{
         
         setLoading(true)
-        const {username, password, email, name} = data;
+        const {username, password, email, name, typeUser} = data;
         try{
-            
+            console.log(data)
             await Auth.signUp({
                 username,
                 password,
                 attributes:{
                     email,
-                    name
+                    name,
+                    'custom:typeUser': typeUser
                 }
             })
             setStep("otp");
@@ -271,6 +275,40 @@ type SignUpScreenProps = {
                         </Animatable.View>
                         : null}
                     </View>
+                    <Text style={[styles.text_footer, {
+                        marginTop: 35
+                    }]}>Tipo de usuario</Text>
+                    <View style={styles.picker}>
+                        <SelectDropdown
+                                defaultButtonText={"Selecciona tipo de usuario"}
+                                buttonStyle={styles.dropdownBtnStyle}
+                                buttonTextStyle={styles.buttonTextPicker}
+                                data={userTypes}
+                                onSelect={(selectedItem, index) => 
+                                    setDataInput("typeUser",selectedItem)
+                                    // console.log(selectedItem, index)
+                                }
+                                buttonTextAfterSelection={(selectedItem, index) => {
+                                     return selectedItem
+                                }}
+                                rowTextForSelection={(item, index) => {
+                                   return item
+                                }}
+                                renderDropdownIcon={(isOpened) => {
+                                    return (
+                                      <FontAwesome
+                                        name={isOpened ? "chevron-up" : "chevron-down"}
+                                        color={"#05375a"}
+                                        size={18}
+                                      />
+                                    );
+                                  }}
+                                dropdownStyle={styles.dropdownDropdownStyle}
+                                rowStyle={styles.dropdownRowStyle}
+                                rowTextStyle={styles.dropdownRowTxtStyle}
+                                
+                            />
+                    </View>
 
                     <Text style={[styles.text_footer, {
                         marginTop: 35
@@ -346,11 +384,11 @@ type SignUpScreenProps = {
                     </View>
                     <View style={styles.textPrivate}>
                         <Text style={styles.color_textPrivate}>
-                            By signing up you agree to our
+                            Registrádote estás de acuerdo con los
                         </Text>
-                        <Text style={[styles.color_textPrivate, {fontWeight: 'bold'}]}>{" "}Terms of service</Text>
-                        <Text style={styles.color_textPrivate}>{" "}and</Text>
-                        <Text style={[styles.color_textPrivate, {fontWeight: 'bold'}]}>{" "}Privacy policy</Text>
+                        <Text style={[styles.color_textPrivate, {fontWeight: 'bold'}]}>{" "}Términos y condiciones de servicio</Text>
+                        <Text style={styles.color_textPrivate}>{" "}y nuestra</Text>
+                        <Text style={[styles.color_textPrivate, {fontWeight: 'bold'}]}>{" "}Política de privacidad</Text>
                     </View>
                     <View style={styles.button}>
                         <TouchableOpacity

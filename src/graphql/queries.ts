@@ -2,39 +2,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getTraining = /* GraphQL */ `
-  query GetTraining($id: ID!) {
-    getTraining(id: $id) {
-      id
-      status
-      owner
-      players
-      winner
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listTrainings = /* GraphQL */ `
-  query ListTrainings(
-    $filter: ModelTrainingFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listTrainings(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        status
-        owner
-        players
-        winner
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
 export const getUser = /* GraphQL */ `
   query GetUser($username: String!) {
     getUser(username: $username) {
@@ -43,6 +10,19 @@ export const getUser = /* GraphQL */ `
       username
       name
       email
+      typeUser
+      trainings {
+        items {
+          id
+          trainingID
+          createdAt
+          playerUsername
+          userUsername
+          players
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -69,6 +49,10 @@ export const listUsers = /* GraphQL */ `
         username
         name
         email
+        typeUser
+        trainings {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -97,6 +81,10 @@ export const searchUsers = /* GraphQL */ `
         username
         name
         email
+        typeUser
+        trainings {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -113,6 +101,19 @@ export const getPlayer = /* GraphQL */ `
       username
       name
       email
+      typeUser
+      trainings {
+        items {
+          id
+          trainingID
+          createdAt
+          playerUsername
+          userUsername
+          players
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -139,6 +140,10 @@ export const listPlayers = /* GraphQL */ `
         username
         name
         email
+        typeUser
+        trainings {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -167,11 +172,65 @@ export const searchPlayers = /* GraphQL */ `
         username
         name
         email
+        typeUser
+        trainings {
+          nextToken
+        }
         createdAt
         updatedAt
       }
       nextToken
       total
+    }
+  }
+`;
+export const getTraining = /* GraphQL */ `
+  query GetTraining($id: ID!) {
+    getTraining(id: $id) {
+      id
+      status
+      trainer
+      owners
+      winner
+      hit
+      users {
+        items {
+          id
+          trainingID
+          createdAt
+          playerUsername
+          userUsername
+          players
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listTrainings = /* GraphQL */ `
+  query ListTrainings(
+    $filter: ModelTrainingFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTrainings(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        status
+        trainer
+        owners
+        winner
+        hit
+        users {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
     }
   }
 `;

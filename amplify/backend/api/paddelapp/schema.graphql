@@ -1,8 +1,8 @@
-type Mutation{
-  startTraining(invitee: String!): TrainingData
-      @function(name: "startTraining-${env}")
-      @aws_cognito_user_pools
-}
+# type Mutation{
+#   startTraining(invitee: String!): TrainingData
+#       @function(name: "startTraining-${env}")
+#       @aws_cognito_user_pools
+# }
 type User 
   @model 
   @searchable
@@ -19,6 +19,7 @@ type User
   username: String! 
   name: String!
   email: AWSEmail!
+  typeUser: String!
   trainings: [PlayerTraining] @connection (keyName:"byUser", fields: ["username"])
 }
 
@@ -38,6 +39,7 @@ type Player
   username: String! 
   name: String!
   email: AWSEmail!
+  typeUser: String!
   trainings: [PlayerTraining] @connection (keyName:"byPlayer", fields: ["username"])
 }
 
@@ -82,14 +84,14 @@ enum TrainingStatus{
   CANCELADO
 }
 enum TrainingHit{
-  ERROR NO FORZADO DERECHA
-  ERROR NO FORZADO REVES
-  ERROR VOLEA DERECHA
-  ERROR VOLEA REVES
-  ERROR DERECHA
-  ERROR REVES
-  ACIERTO DERECHA
-  ACIERTO REVES
-  ACIERTO REMATE
+  ERROR_NO_FORZADO_DERECHA
+  ERROR_NO_FORZADO_REVES
+  ERROR_VOLEA_DERECHA
+  ERROR_VOLEA_REVES
+  ERROR_DERECHA
+  ERROR_REVES
+  ACIERTO_DERECHA
+  ACIERTO_REVES
+  ACIERTO_REMATE
   WINNER
 }

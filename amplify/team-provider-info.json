@@ -18,11 +18,15 @@
       "function": {
         "postConfirmation": {
           "deploymentBucketName": "amplify-paddelapp-dev-220649-deployment",
-          "s3Key": "amplify-builds/postConfirmation-7237614858514e51384d-build.zip"
+          "s3Key": "amplify-builds/postConfirmation-6c2f52636e6651377131-build.zip"
         },
         "preAuthorization": {
           "deploymentBucketName": "amplify-paddelapp-dev-220649-deployment",
-          "s3Key": "amplify-builds/preAuthorization-73526979713578425565-build.zip"
+          "s3Key": "amplify-builds/preAuthorization-4d4256694b4a30747678-build.zip"
+        },
+        "startTraining": {
+          "deploymentBucketName": "amplify-paddelapp-dev-220649-deployment",
+          "s3Key": "amplify-builds/startTraining-674749696a4464415943-build.zip"
         }
       }
     }

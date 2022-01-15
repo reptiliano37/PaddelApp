@@ -31,7 +31,7 @@ const Drawer = createDrawerNavigator<StackNavigatorParams>();
 
 export default function Navigator(): ReactElement {
     const { user } = useAuth();
-
+         
         return (
             <NavigationContainer>
                 { user  ? (
@@ -66,7 +66,7 @@ export default function Navigator(): ReactElement {
                                      color={focused ? 'yellow' : '#ccc'}
                                   />
                                ),
-                               headerShown: false,
+                              //  headerShown: false,
                                
                             }}/>
                             <Drawer.Screen name = "Calendar" component={Calendar} options={ {

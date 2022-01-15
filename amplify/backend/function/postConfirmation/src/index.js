@@ -3,7 +3,8 @@ const gql = require("graphql-tag");
 require("cross-fetch/polyfill");
 
 exports.handler = async (event, context, callback) => {
-	
+
+	console.log("event:",event)
     const graphqlClient = new appsync.AWSAppSyncClient({
         url: process.env.API_PADDELAPP_GRAPHQLAPIENDPOINTOUTPUT,
         region: process.env.REGION,
@@ -18,30 +19,61 @@ exports.handler = async (event, context, callback) => {
         disableOffline: true
     });
 
-    const mutation = gql`
+    const mutationUser = gql`
         mutation createUser(
             $name: String!
             $cognitoID: String!
             $username: String!
             $email: AWSEmail!
+            $typeUser: String!
         ) {
             createUser(
-                input: { cognitoID: $cognitoID, email: $email, name: $name, username: $username }
+                input: { cognitoID: $cognitoID, email: $email, name: $name, username: $username, typeUser: $typeUser }
+            ) {
+                id
+            }
+        }
+    `;
+    const mutationPlayer = gql`
+        mutation createPlayer(
+            $name: String!
+            $cognitoID: String!
+            $username: String!
+            $email: AWSEmail!
+            $typeUser: String!
+        ) {
+            createPlayer(
+                input: { cognitoID: $cognitoID, email: $email, name: $name, username: $username, typeUser: $typeUser }
             ) {
                 id
             }
         }
     `;
     try {
-        await graphqlClient.mutate({
-            mutation,
-            variables: {
-                name: event.request.userAttributes.name,
-                username: event.userName,
-                cognitoID: event.request.userAttributes.sub,
-                email: event.request.userAttributes.email
-            }
-        });
+        if (event.request.userAttributes['custom:typeUser'] == "Entrenador"){
+
+            await graphqlClient.mutate({
+                mutation:mutationUser,
+                variables: {
+                    name: event.request.userAttributes.name,
+                    username: event.userName,
+                    cognitoID: event.request.userAttributes.sub,
+                    email: event.request.userAttributes.email,
+                    typeUser: event.request.userAttributes['custom:typeUser']
+                }
+            });
+        }else if (event.request.userAttributes['custom:typeUser'] == "Jugador"){
+            await graphqlClient.mutate({
+                mutation:mutationPlayer,
+                variables: {
+                    name: event.request.userAttributes.name,
+                    username: event.userName,
+                    cognitoID: event.request.userAttributes.sub,
+                    email: event.request.userAttributes.email,
+                    typeUser: event.request.userAttributes['custom:typeUser']
+                }
+            });
+        }
         callback(null, event);
     } catch (error) {
         callback(error);

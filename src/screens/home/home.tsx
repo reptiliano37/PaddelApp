@@ -15,6 +15,7 @@ type HomeProps = {
 
 export default function Home({navigation}: HomeProps) {
   const { user } = useAuth();
+  console.log({user})
   const [signingOut, setSigningOut] = useState(false);
   return (
     <View  style={styles.container}>
