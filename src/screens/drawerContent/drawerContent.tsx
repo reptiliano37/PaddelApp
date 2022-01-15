@@ -27,21 +27,26 @@ import styles from './drawerContent.styles'
       <View style={{flex:1}}>
         <DrawerContentScrollView {...props}>
           <View style={styles.drawerContent}>
+          <Drawer.Section style={styles.drawerSection}>
             <View style={styles.userInfoSection}>
-            <Drawer.Section style={styles.drawerSection}>
+            
               <View style={{flexDirection:'row'}}>
               
                 {user && (
                     <>
                       <Image source={require("../../../assets/user.png")} style={styles.image} />
+                      <View style={{flexDirection:'column'}}>
                       <Title style={styles.title}> {user.username}</Title>
+                        <Caption style={styles.caption}>{user.attributes["custom:typeUser"]}</Caption>
+                      </View>
                     </>
-                    // <Caption style={styles.caption}>@j_doe</Caption>
+                    // 
                   )}
                     
               </View>
-              </Drawer.Section>
+              
             </View>
+            </Drawer.Section>
             <DrawerItemList {...props} />
           
           <Drawer.Section style={styles.drawerSection}>

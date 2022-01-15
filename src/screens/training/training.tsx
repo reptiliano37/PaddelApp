@@ -17,6 +17,7 @@ type TrainingProps = {
 export default function Training({navigation}: TrainingProps) {
   const { user } = useAuth();
   const [signingOut, setSigningOut] = useState(false);
+  
   return (
     <View style={styles.container}>
         <ImageBackground source={require("../../../assets/fondo2.jpg")} resizeMode="cover" style={styles.image}>

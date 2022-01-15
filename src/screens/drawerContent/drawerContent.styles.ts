@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
       caption: {
         fontSize: 14,
         lineHeight: 14,
+        marginTop:5
       },
       row: {
         marginTop: 20,
