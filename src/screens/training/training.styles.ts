@@ -14,8 +14,22 @@ const styles = StyleSheet.create({
         width:120,
         height:140,
         borderRadius:20,
-        marginBottom:300,
-        marginLeft:20
+        marginLeft:20,
+        marginBottom:80,
+        marginTop:50
+    },
+    buttonTraining2:{
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        borderWidth:1,
+        borderColor:'white',
+        alignItems:'center',
+        justifyContent:'center',
+        width:120,
+        height:140,
+        borderRadius:20,
+        marginLeft:90,
+        marginBottom:80,
+        marginTop:50
     },
     image: {
         flex: 1,
