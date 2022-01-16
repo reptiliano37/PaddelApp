@@ -21,6 +21,12 @@ export default function Training({navigation}: TrainingProps) {
   return (
     <View style={styles.container}>
         <ImageBackground source={require("../../../assets/fondo2.jpg")} resizeMode="cover" style={styles.image}>
+          <TouchableOpacity style={styles.buttonTraining}>
+              <View style={{flexDirection:'column',alignItems:'center'}}>
+                <Text style={{color:'white',fontWeight: "bold",marginTop:20,fontSize:50}}>+</Text>
+                <Text style={{color:'white',fontWeight: "bold",marginTop:10}}>Añadir jugador</Text>
+              </View>
+          </TouchableOpacity>
         </ImageBackground>
      </View>
   );

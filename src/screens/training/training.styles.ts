@@ -6,19 +6,16 @@ const styles = StyleSheet.create({
         flex:1
     },
     buttonTraining:{
-        flex:1,
-        backgroundColor: 'white',
-        borderRadius: 25,
-        padding: 50,
-        marginBottom: 1,
-        marginTop: 20,
-        shadowColor: '#303838',
-        shadowOffset: { width: 5, height: 5 },
-        shadowRadius: 10,
-        shadowOpacity: 0.35,
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection:"column"
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        borderWidth:1,
+        borderColor:'white',
+        alignItems:'center',
+        justifyContent:'center',
+        width:120,
+        height:140,
+        borderRadius:20,
+        marginBottom:300,
+        marginLeft:20
     },
     image: {
         flex: 1,
