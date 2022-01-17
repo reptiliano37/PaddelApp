@@ -1,4 +1,4 @@
-import {StyleSheet} from "react-native";
+import {StatusBar, StyleSheet} from "react-native";
 // import * as paddleLogo from "../../../assets/paddle.png";
 
 const styles = StyleSheet.create({
@@ -11,29 +11,20 @@ const styles = StyleSheet.create({
         borderColor:'white',
         alignItems:'center',
         justifyContent:'center',
-        width:120,
-        height:140,
-        borderRadius:20,
+        width:100,
+        height:100,
+        borderRadius:50,
         marginLeft:20,
-        marginBottom:80,
-        marginTop:50
-    },
-    buttonTraining2:{
-        backgroundColor: 'rgba(0, 0, 0, 0.3)',
-        borderWidth:1,
-        borderColor:'white',
-        alignItems:'center',
-        justifyContent:'center',
-        width:120,
-        height:140,
-        borderRadius:20,
-        marginLeft:90,
-        marginBottom:80,
-        marginTop:50
+        marginTop:450
     },
     image: {
         flex: 1,
         justifyContent: "center"
+    },
+    startTraining: {
+        width: 50,
+        height: 50,
+        resizeMode: 'contain',
     },
     text_footer: {
         fontWeight: "bold",
@@ -47,7 +38,48 @@ const styles = StyleSheet.create({
         bottom: 0, 
         justifyContent: 'center', 
         alignItems: 'center'
-    }
+    },
+    containerList: {
+        flex: 1,
+        marginTop: StatusBar.currentHeight || 0,
+      },
+      item: {
+        padding: 20,
+        marginVertical: 8,
+        marginHorizontal: 16,
+      },
+      title: {
+        fontStyle:'italic',
+        fontWeight:'bold',
+        fontSize: 18,
+      },
+      centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
+      },
+      buttonOpen: {
+        backgroundColor: "#F194FF",
+      },
+      buttonClose: {
+        backgroundColor: "#2196F3",
+      },
+      textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+      },
+      modalText: {
+        marginBottom: 30,
+        textAlign: "center"
+      },
+      button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 6,
+        marginBottom:20
+      },
 });
 
 export default styles;
