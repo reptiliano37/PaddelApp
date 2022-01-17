@@ -16,6 +16,7 @@ import awsExports from "../../aws-exports";
 // import { Item } from 'react-native-paper/lib/typescript/components/List/List';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Title } from 'react-native-paper';
+import { LinearGradient } from 'expo-linear-gradient';
 Amplify.configure(awsExports);
 
 
@@ -62,7 +63,6 @@ export default function Training({navigation}: TrainingProps) {
       const players = todoData["data"]["listPlayers"]["items"]
       setPlayers(players)
       setModalVisible(true)
-      // console.log(modalVisible)
     } catch (err) { console.log('error fetching todos',err) }
   }
   
@@ -95,10 +95,13 @@ export default function Training({navigation}: TrainingProps) {
                   extraData={selected}
                 />
                 <Pressable
-                    style={[styles.button, styles.buttonClose]}
+                    style={[styles.button]}
                     onPress={() => setModalVisible(!modalVisible)}
                   >
-                    <Text style={styles.textStyle}>Listo</Text>
+                    <LinearGradient style={[styles.button]} colors={['#6495ED', 'cyan']} >
+                      <Text style={styles.textStyle}>Listo</Text>
+                    </LinearGradient>
+                   
                   </Pressable>
               </SafeAreaView>
             </Modal>

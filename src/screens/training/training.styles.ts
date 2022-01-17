@@ -75,10 +75,12 @@ const styles = StyleSheet.create({
         textAlign: "center"
       },
       button: {
+        width: '100%',
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
         borderRadius: 20,
-        padding: 10,
-        elevation: 6,
-        marginBottom:20
+        marginBottom:10,
       },
 });
 
