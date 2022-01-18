@@ -43,6 +43,7 @@ export default function Training({navigation}: TrainingProps) {
   const { user } = useAuth();
   const [signingOut, setSigningOut] = useState(false);
   const [players, setPlayers] = useState([])
+  const [names, setNames] = useState([])
   const [modalVisible, setModalVisible] = useState(false);
   // const [selectedId, setSelectedId] = useState(null);
   const [selected, setSelected] = React.useState(new Map());
@@ -65,7 +66,13 @@ export default function Training({navigation}: TrainingProps) {
       setModalVisible(true)
     } catch (err) { console.log('error fetching todos',err) }
   }
-  
+  async function startTraining(selectedPlayers:Map<String, boolean>){
+
+  }
+  async function savePlayers(selectedPlayers:Map<String, boolean>){
+    let namesPlayers = (Array.from( selectedPlayers, ([name, value]) => value ? (name) : [] ))
+    setNames(namesPlayers)
+  }
   return (
     <View style={styles.container}>
         <ImageBackground source={require("../../../assets/fondo2.jpg")} resizeMode="cover" style={styles.image}>
@@ -85,9 +92,9 @@ export default function Training({navigation}: TrainingProps) {
                   data={players}
                   renderItem={({ item }) => (
                     <Item
-                      id={item.id}
+                      id={item.username}
                       title={item["username"]}
-                      selected={!!selected.get(item.id)}
+                      selected={!!selected.get(item.username)}
                       onSelect={onSelect}
                     />
                   )}
@@ -96,7 +103,10 @@ export default function Training({navigation}: TrainingProps) {
                 />
                 <Pressable
                     style={[styles.button]}
-                    onPress={() => setModalVisible(!modalVisible)}
+                    onPress={() => {
+                      setModalVisible(!modalVisible);
+                      startTraining(selected);
+                      savePlayers(selected);}}
                   >
                     <LinearGradient style={[styles.button]} colors={['#6495ED', 'cyan']} >
                       <Text style={styles.textStyle}>Listo</Text>
@@ -105,6 +115,19 @@ export default function Training({navigation}: TrainingProps) {
                   </Pressable>
               </SafeAreaView>
             </Modal>
+            {names ?
+              <>
+                {names.map((name) =>
+                  <View>
+                    <Text>{name}</Text>
+                  </View>
+                )}
+              </>
+              :
+              <>
+              </>
+            }
+
               <View style={{flexDirection:'row',alignContent:'center'}}>
                 <TouchableOpacity style={styles.buttonTraining} onPress={()=>{fetchPlayers()}}>
                     <View style={{flexDirection:'column',alignItems:'center'}}>
