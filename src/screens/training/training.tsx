@@ -39,6 +39,24 @@ function Item({ id, title, selected, onSelect }) {
   );
 }
 
+
+const Player = (props) => {
+  // Create function to show players with image only if is string,  not object.
+  if (typeof(props.name) === 'string'){
+    return (
+      <View>
+        <>
+          <Image source={require("../../../assets/serving-o.png")} style={styles.playerTraining}/>
+          <Text style={{color:'white', fontWeight:'bold'}}>{props.name}</Text>
+        </>
+      </View>
+    )
+  }
+  else{
+    return(<></>)
+  }
+}
+
 export default function Training({navigation}: TrainingProps) {
   const { user } = useAuth();
   const [signingOut, setSigningOut] = useState(false);
@@ -119,7 +137,7 @@ export default function Training({navigation}: TrainingProps) {
               <>
                 {names.map((name) =>
                   <View>
-                    <Text>{name}</Text>
+                      <Player name={name} />
                   </View>
                 )}
               </>

@@ -82,6 +82,10 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         marginBottom:10,
       },
+      playerTraining: {
+        width: 50,
+        height: 50,
+      },
 });
 
 export default styles;
