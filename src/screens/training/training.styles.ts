@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
         height:100,
         borderRadius:50,
         marginLeft:20,
-        marginTop:450
+        marginTop:450,
     },
     image: {
         flex: 1,
@@ -82,9 +82,21 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         marginBottom:10,
       },
+      containerParent:{
+        flex:1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      containerPlayer:{
+        flex:1,
+        marginStart:10
+      },
       playerTraining: {
         width: 50,
         height: 50,
+        marginBottom:10,
+        marginTop:10,
+        marginEnd:10,
       },
 });
 

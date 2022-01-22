@@ -43,14 +43,46 @@ function Item({ id, title, selected, onSelect }) {
 const Player = (props) => {
   // Create function to show players with image only if is string,  not object.
   if (typeof(props.name) === 'string'){
-    return (
-      <View>
+    if(props.index == 0){
+      return (
         <>
+        <View style={{marginTop:100,alignItems:'center',height: 100,width: 100,flexDirection:'column',justifyContent:'center'}}>
           <Image source={require("../../../assets/serving-o.png")} style={styles.playerTraining}/>
-          <Text style={{color:'white', fontWeight:'bold'}}>{props.name}</Text>
+          <Text style={{color:'white', fontWeight:'bold', width: 200,height: 50,flex:1,justifyContent:'center',textAlign: 'center'}}>{props.name}</Text>
+        </View>
         </>
-      </View>
-    )
+      )
+    }
+    if(props.index == 1){
+      return (
+        <>
+        <View style={{marginStart:200, marginTop:100,alignItems:'center',height: 100,width: 100,flexDirection:'column',justifyContent:'center'}}>
+          <Image source={require("../../../assets/serving-o.png")} style={styles.playerTraining}/>
+          <Text style={{color:'white', fontWeight:'bold', width: 200,height: 50,flex:1,justifyContent:'center',textAlign: 'center'}}>{props.name}</Text>
+        </View>
+        </>
+      )
+    }
+    if(props.index == 2){
+      return (
+        <>
+        <View style={{marginTop:300,alignItems:'center',height: 100,width: 100,flexDirection:'column',justifyContent:'center'}}>
+          <Image source={require("../../../assets/serving-o.png")} style={styles.playerTraining}/>
+          <Text style={{color:'white', fontWeight:'bold', width: 200,height: 50,flex:1,justifyContent:'center',textAlign: 'center'}}>{props.name}</Text>
+        </View>
+        </>
+      )
+    }
+    if(props.index == 3){
+      return (
+        <>
+        <View style={{marginStart:200,marginTop:300,alignItems:'center',height: 100,width: 100,flexDirection:'column',justifyContent:'center'}}>
+          <Image source={require("../../../assets/serving-o.png")} style={styles.playerTraining}/>
+          <Text style={{color:'white', fontWeight:'bold', width: 200,height: 50,flex:1,justifyContent:'center',textAlign: 'center'}}>{props.name}</Text>
+        </View>
+        </>
+      )
+    }
   }
   else{
     return(<></>)
@@ -89,9 +121,11 @@ export default function Training({navigation}: TrainingProps) {
   }
   async function savePlayers(selectedPlayers:Map<String, boolean>){
     let namesPlayers = (Array.from( selectedPlayers, ([name, value]) => value ? (name) : [] ))
+    console.log(namesPlayers)
     setNames(namesPlayers)
   }
   return (
+    
     <View style={styles.container}>
         <ImageBackground source={require("../../../assets/fondo2.jpg")} resizeMode="cover" style={styles.image}>
           <View>
@@ -134,13 +168,13 @@ export default function Training({navigation}: TrainingProps) {
               </SafeAreaView>
             </Modal>
             {names ?
-              <>
-                {names.map((name) =>
-                  <View>
-                      <Player name={name} />
+              <View>
+                {names.map((name,index) =>
+                  <View style={styles.containerPlayer}>
+                      <Player name={name} index={index}/>
                   </View>
                 )}
-              </>
+              </View>
               :
               <>
               </>
