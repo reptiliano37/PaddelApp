@@ -73,7 +73,7 @@ type Training
   status: TrainingStatus!
   trainer: String
   owners: [String!]!
-  winner: String!
+  winner: String
   hit: [TrainingHit!]!
   users: [PlayerTraining] @connection(keyName: "byTraining", fields: ["id"])
 }

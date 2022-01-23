@@ -116,8 +116,16 @@ export default function Training({navigation}: TrainingProps) {
       setModalVisible(true)
     } catch (err) { console.log('error fetching todos',err) }
   }
-  async function startTraining(selectedPlayers:Map<String, boolean>){
+  async function startTraining(selectedPlayers:Array<String>){
 
+  }
+  async function cleanList(selectedPlayers){
+    selectedPlayers.forEach((element,index) => {
+      console.log(typeof(element))
+      if(typeof(element) != 'string'){
+        selectedPlayers.splice(index,1)
+      }
+    });
   }
   async function savePlayers(selectedPlayers:Map<String, boolean>){
     let namesPlayers = (Array.from( selectedPlayers, ([name, value]) => value ? (name) : [] ))
@@ -157,7 +165,7 @@ export default function Training({navigation}: TrainingProps) {
                     style={[styles.button]}
                     onPress={() => {
                       setModalVisible(!modalVisible);
-                      startTraining(selected);
+                      // startTraining(selected);
                       savePlayers(selected);}}
                   >
                     <LinearGradient style={[styles.button]} colors={['#6495ED', 'cyan']} >
@@ -188,8 +196,13 @@ export default function Training({navigation}: TrainingProps) {
                       {/* <Text style={{color:'white',fontWeight: "bold",marginTop:10}}>Añadir jugadores</Text> */}
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.buttonTraining}>
+                <TouchableOpacity style={styles.buttonTraining} onPress={() => 
+                    { 
+                      cleanList(names);
+                      console.log(names)
+                    }}>
                   <Image source={require("../../../assets/tennis.png")} style={styles.startTraining}/>
+
                 </TouchableOpacity>
             </View>
           </View>
