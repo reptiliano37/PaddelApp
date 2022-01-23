@@ -127,22 +127,36 @@ export default function Training({navigation}: TrainingProps) {
         player: element
       }
       // console.log(infoInitialTraining)
-      try{
+      // try{
         const newTraining = await API.graphql({
           query:createTraining,
           variables: {input: infoInitialTraining},
           authMode: GRAPHQL_AUTH_MODE.AWS_IAM})
-        console.log(newTraining)
+        console.log(newTraining["data"]["createTraining"])
+          // const infoPlayerTraining ={
+          //   trainingID: newTraining["data"][]
+          //   createdAt: String!
+          //   playerUsername: String!
+          //   userUsername: String!
+          //   players: [String!]!
+          //   training: Training! @connection(fields: ["trainingID"])
+          //   user: User! @connection(fields: ["userUsername"])
+          //   player: Player! @connection(fields: ["playerUsername"])
+          // }
+        // const newPlayerTraining = await API.graphql({
+        //   query:createTraining,
+        //   variables: {input: infoInitialTraining},
+        //   authMode: GRAPHQL_AUTH_MODE.AWS_IAM})
+        // console.log(newTraining)
 
-      }catch(err){
-        console.log('error fetching todos',err)
-      }
+      // }catch(err){
+      //   console.log('error fetching todos',err)
+      // }
     })
 
   }
   async function cleanList(selectedPlayers){
     selectedPlayers.forEach((element,index) => {
-      console.log(typeof(element))
       if(typeof(element) != 'string'){
         selectedPlayers.splice(index,1)
       }
@@ -150,7 +164,6 @@ export default function Training({navigation}: TrainingProps) {
   }
   async function savePlayers(selectedPlayers:Map<String, boolean>){
     let namesPlayers = (Array.from( selectedPlayers, ([name, value]) => value ? (name) : [] ))
-    console.log(namesPlayers)
     setNames(namesPlayers)
   }
   return (

@@ -48,6 +48,12 @@ type PlayerTraining
   @key(name:"byTraining", fields: ["trainingID"])
   @key(name:"byPlayer", fields:["playerUsername","createdAt"])
   @key(name:"byUser", fields:["userUsername","createdAt"])
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "owners", operations: [read,create,update,delete] }
+      { allow: private, provider: iam, operations: [read, create, update, delete] }
+    ]
+  ) 
   {
     id: ID!
     trainingID: ID!

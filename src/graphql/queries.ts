@@ -11,6 +11,8 @@ export const getUser = /* GraphQL */ `
       name
       email
       typeUser
+      createdAt
+      updatedAt
       trainings {
         items {
           id
@@ -20,11 +22,10 @@ export const getUser = /* GraphQL */ `
           userUsername
           players
           updatedAt
+          owners
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -50,11 +51,11 @@ export const listUsers = /* GraphQL */ `
         name
         email
         typeUser
+        createdAt
+        updatedAt
         trainings {
           nextToken
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }
@@ -82,11 +83,11 @@ export const searchUsers = /* GraphQL */ `
         name
         email
         typeUser
+        createdAt
+        updatedAt
         trainings {
           nextToken
         }
-        createdAt
-        updatedAt
       }
       nextToken
       total
@@ -102,6 +103,8 @@ export const getPlayer = /* GraphQL */ `
       name
       email
       typeUser
+      createdAt
+      updatedAt
       trainings {
         items {
           id
@@ -111,11 +114,10 @@ export const getPlayer = /* GraphQL */ `
           userUsername
           players
           updatedAt
+          owners
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -141,11 +143,11 @@ export const listPlayers = /* GraphQL */ `
         name
         email
         typeUser
+        createdAt
+        updatedAt
         trainings {
           nextToken
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }
@@ -173,11 +175,11 @@ export const searchPlayers = /* GraphQL */ `
         name
         email
         typeUser
+        createdAt
+        updatedAt
         trainings {
           nextToken
         }
-        createdAt
-        updatedAt
       }
       nextToken
       total
@@ -194,6 +196,8 @@ export const getTraining = /* GraphQL */ `
       owners
       winner
       hit
+      createdAt
+      updatedAt
       users {
         items {
           id
@@ -203,11 +207,10 @@ export const getTraining = /* GraphQL */ `
           userUsername
           players
           updatedAt
+          owners
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -226,11 +229,11 @@ export const listTrainings = /* GraphQL */ `
         owners
         winner
         hit
+        createdAt
+        updatedAt
         users {
           nextToken
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }

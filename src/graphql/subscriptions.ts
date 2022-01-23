@@ -2,165 +2,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreatePlayerTraining = /* GraphQL */ `
-  subscription OnCreatePlayerTraining {
-    onCreatePlayerTraining {
-      id
-      trainingID
-      createdAt
-      playerUsername
-      userUsername
-      players
-      updatedAt
-      user {
-        id
-        cognitoID
-        username
-        name
-        email
-        typeUser
-        trainings {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      player {
-        id
-        cognitoID
-        username
-        name
-        email
-        typeUser
-        trainings {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      training {
-        id
-        status
-        trainer
-        player
-        owners
-        winner
-        hit
-        users {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-    }
-  }
-`;
-export const onUpdatePlayerTraining = /* GraphQL */ `
-  subscription OnUpdatePlayerTraining {
-    onUpdatePlayerTraining {
-      id
-      trainingID
-      createdAt
-      playerUsername
-      userUsername
-      players
-      updatedAt
-      user {
-        id
-        cognitoID
-        username
-        name
-        email
-        typeUser
-        trainings {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      player {
-        id
-        cognitoID
-        username
-        name
-        email
-        typeUser
-        trainings {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      training {
-        id
-        status
-        trainer
-        player
-        owners
-        winner
-        hit
-        users {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-    }
-  }
-`;
-export const onDeletePlayerTraining = /* GraphQL */ `
-  subscription OnDeletePlayerTraining {
-    onDeletePlayerTraining {
-      id
-      trainingID
-      createdAt
-      playerUsername
-      userUsername
-      players
-      updatedAt
-      user {
-        id
-        cognitoID
-        username
-        name
-        email
-        typeUser
-        trainings {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      player {
-        id
-        cognitoID
-        username
-        name
-        email
-        typeUser
-        trainings {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      training {
-        id
-        status
-        trainer
-        player
-        owners
-        winner
-        hit
-        users {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-    }
-  }
-`;
 export const onCreateUser = /* GraphQL */ `
   subscription OnCreateUser {
     onCreateUser {
@@ -170,6 +11,8 @@ export const onCreateUser = /* GraphQL */ `
       name
       email
       typeUser
+      createdAt
+      updatedAt
       trainings {
         items {
           id
@@ -179,11 +22,10 @@ export const onCreateUser = /* GraphQL */ `
           userUsername
           players
           updatedAt
+          owners
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -196,6 +38,8 @@ export const onUpdateUser = /* GraphQL */ `
       name
       email
       typeUser
+      createdAt
+      updatedAt
       trainings {
         items {
           id
@@ -205,11 +49,10 @@ export const onUpdateUser = /* GraphQL */ `
           userUsername
           players
           updatedAt
+          owners
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -222,6 +65,8 @@ export const onDeleteUser = /* GraphQL */ `
       name
       email
       typeUser
+      createdAt
+      updatedAt
       trainings {
         items {
           id
@@ -231,11 +76,10 @@ export const onDeleteUser = /* GraphQL */ `
           userUsername
           players
           updatedAt
+          owners
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -248,6 +92,8 @@ export const onCreatePlayer = /* GraphQL */ `
       name
       email
       typeUser
+      createdAt
+      updatedAt
       trainings {
         items {
           id
@@ -257,11 +103,10 @@ export const onCreatePlayer = /* GraphQL */ `
           userUsername
           players
           updatedAt
+          owners
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -274,6 +119,8 @@ export const onUpdatePlayer = /* GraphQL */ `
       name
       email
       typeUser
+      createdAt
+      updatedAt
       trainings {
         items {
           id
@@ -283,11 +130,10 @@ export const onUpdatePlayer = /* GraphQL */ `
           userUsername
           players
           updatedAt
+          owners
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -300,6 +146,8 @@ export const onDeletePlayer = /* GraphQL */ `
       name
       email
       typeUser
+      createdAt
+      updatedAt
       trainings {
         items {
           id
@@ -309,11 +157,172 @@ export const onDeletePlayer = /* GraphQL */ `
           userUsername
           players
           updatedAt
+          owners
         }
         nextToken
       }
+    }
+  }
+`;
+export const onCreatePlayerTraining = /* GraphQL */ `
+  subscription OnCreatePlayerTraining($owners: String) {
+    onCreatePlayerTraining(owners: $owners) {
+      id
+      trainingID
       createdAt
+      playerUsername
+      userUsername
+      players
       updatedAt
+      user {
+        id
+        cognitoID
+        username
+        name
+        email
+        typeUser
+        createdAt
+        updatedAt
+        trainings {
+          nextToken
+        }
+      }
+      player {
+        id
+        cognitoID
+        username
+        name
+        email
+        typeUser
+        createdAt
+        updatedAt
+        trainings {
+          nextToken
+        }
+      }
+      owners
+      training {
+        id
+        status
+        trainer
+        player
+        owners
+        winner
+        hit
+        createdAt
+        updatedAt
+        users {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const onUpdatePlayerTraining = /* GraphQL */ `
+  subscription OnUpdatePlayerTraining($owners: String) {
+    onUpdatePlayerTraining(owners: $owners) {
+      id
+      trainingID
+      createdAt
+      playerUsername
+      userUsername
+      players
+      updatedAt
+      user {
+        id
+        cognitoID
+        username
+        name
+        email
+        typeUser
+        createdAt
+        updatedAt
+        trainings {
+          nextToken
+        }
+      }
+      player {
+        id
+        cognitoID
+        username
+        name
+        email
+        typeUser
+        createdAt
+        updatedAt
+        trainings {
+          nextToken
+        }
+      }
+      owners
+      training {
+        id
+        status
+        trainer
+        player
+        owners
+        winner
+        hit
+        createdAt
+        updatedAt
+        users {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const onDeletePlayerTraining = /* GraphQL */ `
+  subscription OnDeletePlayerTraining($owners: String) {
+    onDeletePlayerTraining(owners: $owners) {
+      id
+      trainingID
+      createdAt
+      playerUsername
+      userUsername
+      players
+      updatedAt
+      user {
+        id
+        cognitoID
+        username
+        name
+        email
+        typeUser
+        createdAt
+        updatedAt
+        trainings {
+          nextToken
+        }
+      }
+      player {
+        id
+        cognitoID
+        username
+        name
+        email
+        typeUser
+        createdAt
+        updatedAt
+        trainings {
+          nextToken
+        }
+      }
+      owners
+      training {
+        id
+        status
+        trainer
+        player
+        owners
+        winner
+        hit
+        createdAt
+        updatedAt
+        users {
+          nextToken
+        }
+      }
     }
   }
 `;
@@ -327,6 +336,8 @@ export const onCreateTraining = /* GraphQL */ `
       owners
       winner
       hit
+      createdAt
+      updatedAt
       users {
         items {
           id
@@ -336,11 +347,10 @@ export const onCreateTraining = /* GraphQL */ `
           userUsername
           players
           updatedAt
+          owners
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -354,6 +364,8 @@ export const onUpdateTraining = /* GraphQL */ `
       owners
       winner
       hit
+      createdAt
+      updatedAt
       users {
         items {
           id
@@ -363,11 +375,10 @@ export const onUpdateTraining = /* GraphQL */ `
           userUsername
           players
           updatedAt
+          owners
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -381,6 +392,8 @@ export const onDeleteTraining = /* GraphQL */ `
       owners
       winner
       hit
+      createdAt
+      updatedAt
       users {
         items {
           id
@@ -390,11 +403,10 @@ export const onDeleteTraining = /* GraphQL */ `
           userUsername
           players
           updatedAt
+          owners
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
