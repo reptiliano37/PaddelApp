@@ -42,6 +42,7 @@ export const onCreatePlayerTraining = /* GraphQL */ `
         id
         status
         trainer
+        player
         owners
         winner
         hit
@@ -94,6 +95,7 @@ export const onUpdatePlayerTraining = /* GraphQL */ `
         id
         status
         trainer
+        player
         owners
         winner
         hit
@@ -146,6 +148,7 @@ export const onDeletePlayerTraining = /* GraphQL */ `
         id
         status
         trainer
+        player
         owners
         winner
         hit
@@ -320,6 +323,7 @@ export const onCreateTraining = /* GraphQL */ `
       id
       status
       trainer
+      player
       owners
       winner
       hit
@@ -346,6 +350,7 @@ export const onUpdateTraining = /* GraphQL */ `
       id
       status
       trainer
+      player
       owners
       winner
       hit
@@ -372,6 +377,7 @@ export const onDeleteTraining = /* GraphQL */ `
       id
       status
       trainer
+      player
       owners
       winner
       hit

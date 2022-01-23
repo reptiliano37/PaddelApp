@@ -9,7 +9,7 @@ type User
   @key(fields: ["username"])
   @auth(
     rules: [
-      { allow: private, operations: [read] }
+      { allow: private, operations: [read,create,update,delete] }
       { allow: owner, ownerField: "username", operations: [update] }
       { allow: private, provider: iam, operations: [read, create, update, delete] }
     ]
@@ -64,17 +64,18 @@ type Training
 @model
 @auth(
     rules: [
-      { allow: owner, ownerField: "owners", operations: [read] }
+      { allow: owner, ownerField: "owners", operations: [read,create,update,delete] }
       { allow: private, provider: iam, operations: [read, create, update, delete] }
     ]
   ) 
 {
   id: ID!
   status: TrainingStatus!
-  trainer: String
+  trainer: String!
+  player: String!
   owners: [String!]!
   winner: String
-  hit: [TrainingHit!]!
+  hit: [TrainingHit]
   users: [PlayerTraining] @connection(keyName: "byTraining", fields: ["id"])
 }
 

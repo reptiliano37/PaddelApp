@@ -17,6 +17,8 @@ import awsExports from "../../aws-exports";
 import { ScrollView } from 'react-native-gesture-handler';
 import { Title } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
+import { createTraining } from '../../graphql/mutations';
+import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 Amplify.configure(awsExports);
 
 
@@ -47,7 +49,7 @@ const Player = (props) => {
       return (
         <>
         <View style={{marginTop:100,alignItems:'center',height: 100,width: 100,flexDirection:'column',justifyContent:'center'}}>
-          <Image source={require("../../../assets/serving-o.png")} style={styles.playerTraining}/>
+          <Image source={require("../../../assets/user-o.png")} style={styles.playerTraining}/>
           <Text style={{color:'white', fontWeight:'bold', width: 200,height: 50,flex:1,justifyContent:'center',textAlign: 'center'}}>{props.name}</Text>
         </View>
         </>
@@ -57,7 +59,7 @@ const Player = (props) => {
       return (
         <>
         <View style={{marginStart:200, marginTop:100,alignItems:'center',height: 100,width: 100,flexDirection:'column',justifyContent:'center'}}>
-          <Image source={require("../../../assets/serving-o.png")} style={styles.playerTraining}/>
+          <Image source={require("../../../assets/user-o.png")} style={styles.playerTraining}/>
           <Text style={{color:'white', fontWeight:'bold', width: 200,height: 50,flex:1,justifyContent:'center',textAlign: 'center'}}>{props.name}</Text>
         </View>
         </>
@@ -67,7 +69,7 @@ const Player = (props) => {
       return (
         <>
         <View style={{marginTop:300,alignItems:'center',height: 100,width: 100,flexDirection:'column',justifyContent:'center'}}>
-          <Image source={require("../../../assets/serving-o.png")} style={styles.playerTraining}/>
+          <Image source={require("../../../assets/user-o.png")} style={styles.playerTraining}/>
           <Text style={{color:'white', fontWeight:'bold', width: 200,height: 50,flex:1,justifyContent:'center',textAlign: 'center'}}>{props.name}</Text>
         </View>
         </>
@@ -77,7 +79,7 @@ const Player = (props) => {
       return (
         <>
         <View style={{marginStart:200,marginTop:300,alignItems:'center',height: 100,width: 100,flexDirection:'column',justifyContent:'center'}}>
-          <Image source={require("../../../assets/serving-o.png")} style={styles.playerTraining}/>
+          <Image source={require("../../../assets/user-o.png")} style={styles.playerTraining}/>
           <Text style={{color:'white', fontWeight:'bold', width: 200,height: 50,flex:1,justifyContent:'center',textAlign: 'center'}}>{props.name}</Text>
         </View>
         </>
@@ -117,6 +119,25 @@ export default function Training({navigation}: TrainingProps) {
     } catch (err) { console.log('error fetching todos',err) }
   }
   async function startTraining(selectedPlayers:Array<String>){
+    selectedPlayers.forEach(async (element,index) => {
+      const infoInitialTraining ={
+        status: 'ACTIVO',
+        trainer: user.username,
+        owners: selectedPlayers,
+        player: element
+      }
+      // console.log(infoInitialTraining)
+      try{
+        const newTraining = await API.graphql({
+          query:createTraining,
+          variables: {input: infoInitialTraining},
+          authMode: GRAPHQL_AUTH_MODE.AWS_IAM})
+        console.log(newTraining)
+
+      }catch(err){
+        console.log('error fetching todos',err)
+      }
+    })
 
   }
   async function cleanList(selectedPlayers){
@@ -199,7 +220,7 @@ export default function Training({navigation}: TrainingProps) {
                 <TouchableOpacity style={styles.buttonTraining} onPress={() => 
                     { 
                       cleanList(names);
-                      console.log(names)
+                      startTraining(names);
                     }}>
                   <Image source={require("../../../assets/tennis.png")} style={styles.startTraining}/>
 

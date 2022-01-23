@@ -190,6 +190,7 @@ export const getTraining = /* GraphQL */ `
       id
       status
       trainer
+      player
       owners
       winner
       hit
@@ -221,6 +222,7 @@ export const listTrainings = /* GraphQL */ `
         id
         status
         trainer
+        player
         owners
         winner
         hit

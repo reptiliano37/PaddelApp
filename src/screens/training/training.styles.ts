@@ -92,8 +92,8 @@ const styles = StyleSheet.create({
         marginStart:10
       },
       playerTraining: {
-        width: 50,
-        height: 50,
+        width: 60,
+        height: 60,
         marginBottom:10,
         marginTop:10,
         marginEnd:10,
