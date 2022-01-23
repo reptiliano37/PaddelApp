@@ -18,6 +18,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Title } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 import { createTraining } from '../../graphql/mutations';
+import { createPlayerTraining } from '../../graphql/mutations';
 import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 Amplify.configure(awsExports);
 
@@ -97,6 +98,7 @@ export default function Training({navigation}: TrainingProps) {
   const [players, setPlayers] = useState([])
   const [names, setNames] = useState([])
   const [modalVisible, setModalVisible] = useState(false);
+  const [buttonsVisible, setbuttonsVisible] = useState(false);
   // const [selectedId, setSelectedId] = useState(null);
   const [selected, setSelected] = React.useState(new Map());
   const onSelect = React.useCallback(
@@ -111,7 +113,6 @@ export default function Training({navigation}: TrainingProps) {
 
   async function fetchPlayers() {
     try {
-
       const todoData = await API.graphql(graphqlOperation(listPlayers))
       const players = todoData["data"]["listPlayers"]["items"]
       setPlayers(players)
@@ -126,44 +127,38 @@ export default function Training({navigation}: TrainingProps) {
         owners: selectedPlayers,
         player: element
       }
-      // console.log(infoInitialTraining)
-      // try{
+      try{
         const newTraining = await API.graphql({
           query:createTraining,
           variables: {input: infoInitialTraining},
           authMode: GRAPHQL_AUTH_MODE.AWS_IAM})
-        console.log(newTraining["data"]["createTraining"])
-          // const infoPlayerTraining ={
-          //   trainingID: newTraining["data"][]
-          //   createdAt: String!
-          //   playerUsername: String!
-          //   userUsername: String!
-          //   players: [String!]!
-          //   training: Training! @connection(fields: ["trainingID"])
-          //   user: User! @connection(fields: ["userUsername"])
-          //   player: Player! @connection(fields: ["playerUsername"])
-          // }
-        // const newPlayerTraining = await API.graphql({
-        //   query:createTraining,
-        //   variables: {input: infoInitialTraining},
-        //   authMode: GRAPHQL_AUTH_MODE.AWS_IAM})
-        // console.log(newTraining)
+        
+        const infoPlayerTraining ={
+          trainingID: newTraining["data"]["createTraining"]["id"],
+          createdAt: newTraining["data"]["createTraining"]["createdAt"],
+          playerUsername: newTraining["data"]["createTraining"]["player"],
+          userUsername: newTraining["data"]["createTraining"]["trainer"],
+          players: newTraining["data"]["createTraining"]["owners"]
+        }
+        const newPlayerTraining = await API.graphql({
+          query:createPlayerTraining,
+          variables: {input: infoPlayerTraining},
+          authMode: GRAPHQL_AUTH_MODE.AWS_IAM})
+        console.log(newPlayerTraining)
 
-      // }catch(err){
-      //   console.log('error fetching todos',err)
-      // }
+      }catch(err){
+        console.log('error fetching todos',err)
+      }
     })
 
   }
-  async function cleanList(selectedPlayers){
-    selectedPlayers.forEach((element,index) => {
-      if(typeof(element) != 'string'){
-        selectedPlayers.splice(index,1)
-      }
-    });
-  }
   async function savePlayers(selectedPlayers:Map<String, boolean>){
     let namesPlayers = (Array.from( selectedPlayers, ([name, value]) => value ? (name) : [] ))
+    namesPlayers.forEach((element,index) => {
+      if(typeof(element) != 'string'){
+        namesPlayers.splice(index,1)
+      }
+    });
     setNames(namesPlayers)
   }
   return (
@@ -223,21 +218,30 @@ export default function Training({navigation}: TrainingProps) {
             }
 
               <View style={{flexDirection:'row',alignContent:'center'}}>
+                {buttonsVisible ? (
+                  <TouchableOpacity style={styles.buttonTraining} onPress={() => 
+                    { 
+                      // startTraining(names);
+                      setbuttonsVisible(false);
+                    }}>
+                  <Image source={require("../../../assets/senal-de-stop.png")} style={styles.startTraining}/>
+                </TouchableOpacity>
+                ): 
+                <>
                 <TouchableOpacity style={styles.buttonTraining} onPress={()=>{fetchPlayers()}}>
                     <View style={{flexDirection:'column',alignItems:'center'}}>
                       <Text style={{color:'white',fontWeight: "bold",fontSize:50}}>+</Text>
                       <Text style={{color:'white',fontWeight: "bold",fontSize:50,marginTop:-20}}>-</Text>
-                      {/* <Text style={{color:'white',fontWeight: "bold",marginTop:10}}>Añadir jugadores</Text> */}
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.buttonTraining} onPress={() => 
                     { 
-                      cleanList(names);
                       startTraining(names);
+                      setbuttonsVisible(true);
                     }}>
                   <Image source={require("../../../assets/tennis.png")} style={styles.startTraining}/>
-
                 </TouchableOpacity>
+              </>}
             </View>
           </View>
         </ImageBackground>

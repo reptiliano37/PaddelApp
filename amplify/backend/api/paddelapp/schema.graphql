@@ -62,8 +62,8 @@ type PlayerTraining
     userUsername: String!
     players: [String!]!
     training: Training! @connection(fields: ["trainingID"])
-    user: User! @connection(fields: ["userUsername"])
-    player: Player! @connection(fields: ["playerUsername"])
+    user: User @connection(fields: ["userUsername"])
+    player: Player @connection(fields: ["playerUsername"])
 }
 
 type Training 

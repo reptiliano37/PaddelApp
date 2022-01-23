@@ -17,6 +17,17 @@ const styles = StyleSheet.create({
         marginLeft:20,
         marginTop:450,
     },
+    buttonStop:{
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        borderWidth:1,
+        borderColor:'white',
+        alignItems:'flex-end',
+        justifyContent:'center',
+        width:100,
+        height:100,
+        borderRadius:50,
+        marginTop:450,
+    },
     image: {
         flex: 1,
         justifyContent: "center"
