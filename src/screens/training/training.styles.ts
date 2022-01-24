@@ -109,6 +109,43 @@ const styles = StyleSheet.create({
         marginTop:10,
         marginEnd:10,
       },
+      containerTimer: {
+        flex: 1,
+        alignItems: 'center',
+        padding: 20,
+    },
+      timer: {
+        marginVertical: 10,
+      },
+      timerText: {
+          fontSize: 20,
+          color: 'white',
+          marginTop:450,
+      },
+      buttonStart: {
+        marginVertical: 5,
+        backgroundColor: 'white',
+        borderRadius: 24,
+        width: 100,
+        marginLeft:20,
+        marginTop:450,
+    },
+      buttonPause: {
+        marginVertical: 5,
+        backgroundColor: 'white',
+        borderRadius: 24,
+        width: 100,
+        marginLeft:20,
+        marginTop:450,
+    },
+      buttonResume: {
+        marginVertical: 5,
+        backgroundColor: 'white',
+        borderRadius: 24,
+        width: 100,
+        marginLeft:20,
+        marginTop:450,
+    },
 });
 
 export default styles;

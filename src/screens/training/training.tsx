@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect,useRef } from 'react';
 import { View, Text, Alert, TouchableOpacity,Button,Image, ImageBackground, SafeAreaView, FlatList,  Modal,Pressable} from 'react-native';
 
 import styles from './training.styles'
@@ -20,6 +20,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { createTraining } from '../../graphql/mutations';
 import { createPlayerTraining } from '../../graphql/mutations';
 import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
+import {Timer} from 'react-native-element-timer';
 Amplify.configure(awsExports);
 
 
@@ -101,6 +102,7 @@ export default function Training({navigation}: TrainingProps) {
   const [buttonsVisible, setbuttonsVisible] = useState(false);
   // const [selectedId, setSelectedId] = useState(null);
   const [selected, setSelected] = React.useState(new Map());
+  const timerRef = useRef(null);
   const onSelect = React.useCallback(
     id => {
       const newSelected = new Map(selected);
@@ -200,7 +202,6 @@ export default function Training({navigation}: TrainingProps) {
                     <LinearGradient style={[styles.button]} colors={['#6495ED', 'cyan']} >
                       <Text style={styles.textStyle}>Listo</Text>
                     </LinearGradient>
-                   
                   </Pressable>
               </SafeAreaView>
             </Modal>
@@ -219,13 +220,47 @@ export default function Training({navigation}: TrainingProps) {
 
               <View style={{flexDirection:'row',alignContent:'center'}}>
                 {buttonsVisible ? (
-                  <TouchableOpacity style={styles.buttonTraining} onPress={() => 
-                    { 
-                      // startTraining(names);
-                      setbuttonsVisible(false);
-                    }}>
-                  <Image source={require("../../../assets/senal-de-stop.png")} style={styles.startTraining}/>
-                </TouchableOpacity>
+                  <>
+                    <TouchableOpacity style={styles.buttonTraining} onPress={() => 
+                      { 
+                        // startTraining(names);
+                        setbuttonsVisible(false);
+                        timerRef.current.stop();
+                      }}>
+                      <Image source={require("../../../assets/senal-de-stop.png")} style={styles.startTraining}/>
+                    </TouchableOpacity>
+                    <SafeAreaView style={styles.containerTimer}>
+                      <Timer
+                        ref={timerRef}
+                        style={styles.timer}
+                        textStyle={styles.timerText}
+                        onTimes={e => {}}
+                        onPause={e => {}}
+                        onEnd={e => {}}
+                      />
+                      <ButtonComponent
+                        style={styles.buttonStart}
+                        title='Start'
+                        onPress={() => {
+                            timerRef.current.start();
+                        }}
+                      />
+                      <ButtonComponent
+                        style={styles.buttonPause}
+                        title={'Pause'}
+                        onPress={() => {
+                            timerRef.current.pause();
+                        }}
+                      />
+                      <ButtonComponent
+                        style={styles.button}
+                        title={'Resume'}
+                        onPress={() => {
+                            timerRef.current.resume();
+                        }}
+                    />
+                    </SafeAreaView>
+                </>
                 ): 
                 <>
                 <TouchableOpacity style={styles.buttonTraining} onPress={()=>{fetchPlayers()}}>
@@ -238,6 +273,7 @@ export default function Training({navigation}: TrainingProps) {
                     { 
                       startTraining(names);
                       setbuttonsVisible(true);
+                      
                     }}>
                   <Image source={require("../../../assets/tennis.png")} style={styles.startTraining}/>
                 </TouchableOpacity>
