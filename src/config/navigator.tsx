@@ -13,6 +13,8 @@ import SignUpScreen from '../screens/signUp/signUpScreen';
 import Training from '../screens/training/training';
 import Calendar from '../screens/calendar/calendar';
 import Score from '../screens/score/score';
+import Booking from '../screens/booking/booking';
+import HomePlayer from '../screens/home/homePlayer';
 import DrawerContent from '../screens/drawerContent/drawerContent';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -21,9 +23,11 @@ export type StackNavigatorParams = {
     SignInScreen:undefined;
     SignUpScreen:{username: string } | undefined;
     Home: {username: string } | undefined;
+    HomePlayer: {username: string } | undefined;
     Training: {username: string } | undefined;
     Calendar: {username: string } | undefined;
     Score: {username: string } | undefined;
+    Booking: {username: string } | undefined;
 }
 
 const Stack = createNativeStackNavigator<StackNavigatorParams>();
@@ -31,7 +35,8 @@ const Drawer = createDrawerNavigator<StackNavigatorParams>();
 
 export default function Navigator(): ReactElement {
     const { user } = useAuth();
-         
+    if (user)
+      if (user.attributes["custom:typeUser"] == 'Entrenador')
         return (
             <NavigationContainer>
                 { user  ? (
@@ -105,4 +110,90 @@ export default function Navigator(): ReactElement {
                     )}
             </NavigationContainer>
       )
-    }
+      else{
+         return (
+            <NavigationContainer>
+                { user  ? (
+                    <>
+                        <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />} 
+                                          screenOptions={{
+                                                drawerStyle: {
+                                                backgroundColor: 'white',
+                                                width: 240,
+                                                },
+                                                headerTintColor: 'black'
+                                            }}>
+                            <Drawer.Screen name = "Home" component={HomePlayer} options={ {
+                               title: 'Home',
+                               drawerActiveTintColor:"black",
+                               drawerIcon: ({focused, size}) => (
+                                  <Icon
+                                     name="home"
+                                     size={size}
+                                     color={focused ? 'cyan' : '#ccc'}
+                                  />
+                               ),
+                               
+                            }}/>
+                            <Drawer.Screen name = "Booking" component={Booking} options={ {
+                               title: 'Reservar pista',
+                               drawerActiveTintColor:"black",
+                               drawerIcon: ({focused, size}) => (
+                                  <Icon
+                                     name="tennis-ball"
+                                     size={size}
+                                     color={focused ? 'yellow' : '#ccc'}
+                                  />
+                               ),
+                              //  headerShown: false,
+                               
+                            }}/>
+                            <Drawer.Screen name = "Calendar" component={Calendar} options={ {
+                               title: 'Calendario',
+                               drawerActiveTintColor:"black",
+                               drawerIcon: ({focused, size}) => (
+                                  <Icon
+                                     name="calendar"
+                                     size={size}
+                                     color={focused ? '#6495ED' : '#ccc'}
+                                  />
+                               ),
+                            }}/>
+                            <Drawer.Screen name = "Score" component={Score} options={ {
+                               title: 'Marcador',
+                               drawerActiveTintColor:"black",
+                               drawerIcon: ({focused, size}) => (
+                                  <Icon
+                                     name="scoreboard"
+                                     size={size}
+                                     color={focused ? '#6495ED' : '#ccc'}
+                                  />
+                               ),
+                               headerShown: false,
+                            }}/>
+                        </Drawer.Navigator>
+                    </>
+                    ) : (
+                    <>
+                    <Stack.Navigator screenOptions={{ headerShown: false }}>
+                        <Stack.Screen name = "SplashScreen" component={SplashScreen}/>
+                        <Stack.Screen name = "SignInScreen" component={SignInScreen}/>
+                        <Stack.Screen name = "SignUpScreen" component={SignUpScreen}/>                 
+                    </Stack.Navigator>
+                    </> 
+                    )}
+            </NavigationContainer>
+      )
+      }
+      else{
+         return(
+            <NavigationContainer>
+               <Stack.Navigator screenOptions={{ headerShown: false }}>
+                  <Stack.Screen name = "SplashScreen" component={SplashScreen}/>
+                  <Stack.Screen name = "SignInScreen" component={SignInScreen}/>
+                  <Stack.Screen name = "SignUpScreen" component={SignUpScreen}/>                 
+               </Stack.Navigator>
+            </NavigationContainer> 
+         )
+      }
+   }
