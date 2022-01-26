@@ -110,9 +110,11 @@ const styles = StyleSheet.create({
         marginEnd:10,
       },
       containerTimer: {
-        flex: 1,
+        // flex: 1,
         alignItems: 'center',
         padding: 20,
+        marginStart:150
+        // marginBottom:300,
     },
       timer: {
         marginVertical: 10,
@@ -120,31 +122,25 @@ const styles = StyleSheet.create({
       timerText: {
           fontSize: 20,
           color: 'white',
-          marginTop:450,
+          // marginTop:450,
       },
       buttonStart: {
-        marginVertical: 5,
-        backgroundColor: 'white',
-        borderRadius: 24,
-        width: 100,
+        marginVertical: 15,
+        width: 20,
+        height: 20,
         marginLeft:20,
-        marginTop:450,
     },
       buttonPause: {
         marginVertical: 5,
-        backgroundColor: 'white',
-        borderRadius: 24,
-        width: 100,
+        width: 20,
+        height: 20,
         marginLeft:20,
-        marginTop:450,
     },
       buttonResume: {
         marginVertical: 5,
-        backgroundColor: 'white',
-        borderRadius: 24,
-        width: 100,
+        width: 20,
+        height: 20,
         marginLeft:20,
-        marginTop:450,
     },
 });
 

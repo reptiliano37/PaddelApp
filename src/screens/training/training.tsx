@@ -228,35 +228,41 @@ export default function Training({navigation}: TrainingProps) {
                       <Image source={require("../../../assets/senal-de-stop.png")} style={styles.startTraining}/>
                     </TouchableOpacity>
                     <SafeAreaView style={styles.containerTimer}>
-                      <Timer
-                        ref={timerRef}
-                        style={styles.timer}
-                        textStyle={styles.timerText}
-                        onTimes={e => {}}
-                        onPause={e => {}}
-                        onEnd={e => {}}
-                      />
-                      <ButtonComponent
-                        style={styles.buttonStart}
-                        title='Start'
-                        onPress={() => {
-                            timerRef.current.start();
-                        }}
-                      />
-                      <ButtonComponent
-                        style={styles.buttonPause}
-                        title={'Pause'}
-                        onPress={() => {
-                            timerRef.current.pause();
-                        }}
-                      />
-                      <ButtonComponent
-                        style={styles.button}
-                        title={'Resume'}
-                        onPress={() => {
-                            timerRef.current.resume();
-                        }}
-                    />
+                      <View style={{flexDirection:'row',marginStart:-20,marginTop:120}}>
+                        <Timer
+                          ref={timerRef}
+                          style={styles.timer}
+                          textStyle={styles.timerText}
+                          onTimes={e => {}}
+                          onPause={e => {}}
+                          onEnd={e => {}}
+                        />
+                      </View>
+                      <View style={{flexDirection:'column',marginTop:-130,marginStart:20}}>
+                        <TouchableOpacity
+                          style={styles.buttonStart}
+                          onPress={() => {
+                              timerRef.current.start();
+                          }}>
+                            <Image source={require("../../../assets/power-o.png")} style={styles.buttonStart}/>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                          style={styles.buttonStart}
+                          onPress={() => {
+                              timerRef.current.pause();
+                          }}>
+                            <Image source={require("../../../assets/pause-o.png")} style={styles.buttonPause}/>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                          style={styles.buttonStart}
+                          onPress={() => {
+                              timerRef.current.resume();
+                          }}>
+                            <Image source={require("../../../assets/play-o.png")} style={styles.buttonResume}/>
+                        </TouchableOpacity>
+                        </View>
                     </SafeAreaView>
                 </>
                 ): 
