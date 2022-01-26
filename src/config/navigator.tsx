@@ -35,7 +35,7 @@ const Drawer = createDrawerNavigator<StackNavigatorParams>();
 
 export default function Navigator(): ReactElement {
     const { user } = useAuth();
-    if (user)
+    if (user){
       if (user.attributes["custom:typeUser"] == 'Entrenador')
         return (
             <NavigationContainer>
@@ -185,7 +185,7 @@ export default function Navigator(): ReactElement {
             </NavigationContainer>
       )
       }
-      else{
+   }else{
          return(
             <NavigationContainer>
                <Stack.Navigator screenOptions={{ headerShown: false }}>

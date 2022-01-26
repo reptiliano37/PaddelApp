@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
         height:100,
         borderRadius:50,
         marginLeft:20,
-        marginTop:450,
+        marginTop:100,
     },
     buttonStop:{
         backgroundColor: 'rgba(0, 0, 0, 0.3)',
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
       },
       containerPlayer:{
-        flex:1,
+        // flex:1,
         marginStart:10
       },
       playerTraining: {

@@ -1,5 +1,5 @@
 import React, { useState,useEffect,useRef } from 'react';
-import { View, Text, Alert, TouchableOpacity,Button,Image, ImageBackground, SafeAreaView, FlatList,  Modal,Pressable} from 'react-native';
+import { View, Text, Alert, TouchableOpacity,Button,Image, ImageBackground, SafeAreaView, FlatList,  Modal,Pressable, TouchableHighlight, Touchable} from 'react-native';
 
 import styles from './training.styles'
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -50,40 +50,40 @@ const Player = (props) => {
     if(props.index == 0){
       return (
         <>
-        <View style={{marginTop:100,alignItems:'center',height: 100,width: 100,flexDirection:'column',justifyContent:'center'}}>
+        <TouchableOpacity style={{flex:1,marginTop:250,alignItems:'center',height: 100,width: 100,flexDirection:'column',justifyContent:'center'}}>
           <Image source={require("../../../assets/user-o.png")} style={styles.playerTraining}/>
-          <Text style={{color:'white', fontWeight:'bold', width: 200,height: 50,flex:1,justifyContent:'center',textAlign: 'center'}}>{props.name}</Text>
-        </View>
+          <Text style={{color:'white', fontWeight:'bold', width: 200,height:200,justifyContent:'center',textAlign: 'center'}}>{props.name}</Text>
+        </TouchableOpacity>
         </>
       )
     }
     if(props.index == 1){
       return (
         <>
-        <View style={{marginStart:200, marginTop:100,alignItems:'center',height: 100,width: 100,flexDirection:'column',justifyContent:'center'}}>
+        <TouchableOpacity style={{marginStart:210, marginTop:-130,alignItems:'center',height: 100,width: 100,flexDirection:'column',justifyContent:'center'}}>
           <Image source={require("../../../assets/user-o.png")} style={styles.playerTraining}/>
           <Text style={{color:'white', fontWeight:'bold', width: 200,height: 50,flex:1,justifyContent:'center',textAlign: 'center'}}>{props.name}</Text>
-        </View>
+        </TouchableOpacity>
         </>
       )
     }
     if(props.index == 2){
       return (
         <>
-        <View style={{marginTop:300,alignItems:'center',height: 100,width: 100,flexDirection:'column',justifyContent:'center'}}>
+        <TouchableOpacity style={{marginTop:90,alignItems:'center',height: 100,width: 100,justifyContent:'space-evenly'}}>
           <Image source={require("../../../assets/user-o.png")} style={styles.playerTraining}/>
           <Text style={{color:'white', fontWeight:'bold', width: 200,height: 50,flex:1,justifyContent:'center',textAlign: 'center'}}>{props.name}</Text>
-        </View>
+        </TouchableOpacity>
         </>
       )
     }
     if(props.index == 3){
       return (
         <>
-        <View style={{marginStart:200,marginTop:300,alignItems:'center',height: 100,width: 100,flexDirection:'column',justifyContent:'center'}}>
+        <TouchableOpacity style={{marginStart:210,marginTop:-100,alignItems:'center',height: 100,width: 100,flexDirection:'column',justifyContent:'space-around'}}>
           <Image source={require("../../../assets/user-o.png")} style={styles.playerTraining}/>
           <Text style={{color:'white', fontWeight:'bold', width: 200,height: 50,flex:1,justifyContent:'center',textAlign: 'center'}}>{props.name}</Text>
-        </View>
+        </TouchableOpacity>
         </>
       )
     }
@@ -167,7 +167,6 @@ export default function Training({navigation}: TrainingProps) {
     
     <View style={styles.container}>
         <ImageBackground source={require("../../../assets/fondo2.jpg")} resizeMode="cover" style={styles.image}>
-          <View>
             <Modal
               animationType="slide"
               // transparent={true}
@@ -206,7 +205,7 @@ export default function Training({navigation}: TrainingProps) {
               </SafeAreaView>
             </Modal>
             {names ?
-              <View>
+              <View style={{flex:2}}>
                 {names.map((name,index) =>
                   <View style={styles.containerPlayer}>
                       <Player name={name} index={index}/>
@@ -217,8 +216,7 @@ export default function Training({navigation}: TrainingProps) {
               <>
               </>
             }
-
-              <View style={{flexDirection:'row',alignContent:'center'}}>
+            <View style={{flex:1,flexDirection:'row',alignContent:'center'}}>
                 {buttonsVisible ? (
                   <>
                     <TouchableOpacity style={styles.buttonTraining} onPress={() => 
@@ -279,7 +277,6 @@ export default function Training({navigation}: TrainingProps) {
                 </TouchableOpacity>
               </>}
             </View>
-          </View>
         </ImageBackground>
      </View>
   );

@@ -84,11 +84,27 @@ type Training
   hit: [TrainingHit]
   users: [PlayerTraining] @connection(keyName: "byTraining", fields: ["id"])
 }
-
+type Court
+@model
+@auth(
+    rules: [
+      { allow: owner, ownerField: "owners", operations: [read,create,update,delete] }
+      { allow: private, provider: iam, operations: [read, create, update, delete] }
+    ]
+  ) 
+{
+  id: ID!
+  status: CourtStatus!
+  player: String
+}
 enum TrainingStatus{
   ACTIVO
   FINALIZADO
   CANCELADO
+}
+enum CourtStatus{
+  DISPONIBLE
+  RESVADA
 }
 enum TrainingHit{
   ERROR_NO_FORZADO_DERECHA
