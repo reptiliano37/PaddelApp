@@ -21,7 +21,19 @@ import { createTraining } from '../../graphql/mutations';
 import { createPlayerTraining } from '../../graphql/mutations';
 import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import {Timer} from 'react-native-element-timer';
+import CircleCheckBox, {LABEL_POSITION} from 'react-native-circle-checkbox';  
 Amplify.configure(awsExports);
+
+let statistics =[
+ {key:"ERROR NO FORZADO REVéS"},
+ {key:"ERROR VOLEA DERECHA"},
+ {key:"ERROR DERECHA"},
+ {key:"ERROR REVÉS"},
+ {key:"ACIERTO DERECHA"},
+ {key:"ACIERTO REVÉS"},
+ {key:"ACIERTO REMATE"},
+ {key:"WINNER"}
+]
 
 
 type TrainingProps = {
@@ -43,64 +55,16 @@ function Item({ id, title, selected, onSelect }) {
   );
 }
 
-
-const Player = (props) => {
-  // Create function to show players with image only if is string,  not object.
-  if (typeof(props.name) === 'string'){
-    if(props.index == 0){
-      return (
-        <>
-        <TouchableOpacity style={{flex:1,marginTop:250,alignItems:'center',height: 100,width: 100,flexDirection:'column',justifyContent:'center'}}>
-          <Image source={require("../../../assets/user-o.png")} style={styles.playerTraining}/>
-          <Text style={{color:'white', fontWeight:'bold', width: 200,height:200,justifyContent:'center',textAlign: 'center'}}>{props.name}</Text>
-        </TouchableOpacity>
-        </>
-      )
-    }
-    if(props.index == 1){
-      return (
-        <>
-        <TouchableOpacity style={{marginStart:210, marginTop:-130,alignItems:'center',height: 100,width: 100,flexDirection:'column',justifyContent:'center'}}>
-          <Image source={require("../../../assets/user-o.png")} style={styles.playerTraining}/>
-          <Text style={{color:'white', fontWeight:'bold', width: 200,height: 50,flex:1,justifyContent:'center',textAlign: 'center'}}>{props.name}</Text>
-        </TouchableOpacity>
-        </>
-      )
-    }
-    if(props.index == 2){
-      return (
-        <>
-        <TouchableOpacity style={{marginTop:90,alignItems:'center',height: 100,width: 100,justifyContent:'space-evenly'}}>
-          <Image source={require("../../../assets/user-o.png")} style={styles.playerTraining}/>
-          <Text style={{color:'white', fontWeight:'bold', width: 200,height: 50,flex:1,justifyContent:'center',textAlign: 'center'}}>{props.name}</Text>
-        </TouchableOpacity>
-        </>
-      )
-    }
-    if(props.index == 3){
-      return (
-        <>
-        <TouchableOpacity style={{marginStart:210,marginTop:-100,alignItems:'center',height: 100,width: 100,flexDirection:'column',justifyContent:'space-around'}}>
-          <Image source={require("../../../assets/user-o.png")} style={styles.playerTraining}/>
-          <Text style={{color:'white', fontWeight:'bold', width: 200,height: 50,flex:1,justifyContent:'center',textAlign: 'center'}}>{props.name}</Text>
-        </TouchableOpacity>
-        </>
-      )
-    }
-  }
-  else{
-    return(<></>)
-  }
-}
-
 export default function Training({navigation}: TrainingProps) {
   const { user } = useAuth();
   const [signingOut, setSigningOut] = useState(false);
   const [players, setPlayers] = useState([])
   const [names, setNames] = useState([])
+  const [listInfoHitPlayers, setlistInfoHitPlayers] = useState([])
   const [modalVisible, setModalVisible] = useState(false);
   const [buttonsVisible, setbuttonsVisible] = useState(false);
-  // const [selectedId, setSelectedId] = useState(null);
+  const [selectedHit, setSelectedHit] = React.useState(new Map());
+  const [modalVisibleStatistic, setModalVisibleStatistic] = useState(false);
   const [selected, setSelected] = React.useState(new Map());
   const timerRef = useRef(null);
   const onSelect = React.useCallback(
@@ -112,16 +76,76 @@ export default function Training({navigation}: TrainingProps) {
     },
     [selected],
   );
+  const onSelectHit = React.useCallback(
+    id => {
+      const newSelectedHit = new Map(selectedHit);
+      newSelectedHit.set(id, !selectedHit.get(id));
 
+      setSelectedHit(newSelectedHit);
+    },
+    [selected],
+  );
+  const Player = (props) => {
+    // Create function to show players with image only if is string,  not object.
+    if (typeof(props.name) === 'string'){
+      let namePlayer=props.name
+      if(props.index == 0){
+        return (
+          <>
+          <TouchableOpacity style={styles.playerButton1} onPress={()=> {showStatistics({namePlayer})}}>
+            <Image source={require("../../../assets/user-o.png")} style={styles.playerTraining}/>
+            <Text style={{color:'white', fontWeight:'bold', width: 200,height:200,justifyContent:'center',textAlign: 'center'}}>{props.name}</Text>
+          </TouchableOpacity>
+          </>
+        )
+      }
+      if(props.index == 1){
+        return (
+          <>
+          <TouchableOpacity style={styles.playerButton2}>
+            <Image source={require("../../../assets/user-o.png")} style={styles.playerTraining}/>
+            <Text style={{color:'white', fontWeight:'bold', width: 200,height: 50,flex:1,justifyContent:'center',textAlign: 'center'}}>{props.name}</Text>
+          </TouchableOpacity>
+          </>
+        )
+      }
+      if(props.index == 2){
+        return (
+          <>
+          <TouchableOpacity style={styles.playerButton3}>
+            <Image source={require("../../../assets/user-o.png")} style={styles.playerTraining}/>
+            <Text style={{color:'white', fontWeight:'bold', width: 200,height: 50,flex:1,justifyContent:'center',textAlign: 'center'}}>{props.name}</Text>
+          </TouchableOpacity>
+          </>
+        )
+      }
+      if(props.index == 3){
+        return (
+          <>
+          <TouchableOpacity style={styles.playerButton4}>
+            <Image source={require("../../../assets/user-o.png")} style={styles.playerTraining}/>
+            <Text style={{color:'white', fontWeight:'bold', width: 200,height: 50,flex:1,justifyContent:'center',textAlign: 'center'}}>{props.name}</Text>
+          </TouchableOpacity>
+          </>
+        )
+      }
+    }
+    else{
+      return(<></>)
+    }
+  }
+  
   async function fetchPlayers() {
     try {
       const todoData = await API.graphql(graphqlOperation(listPlayers))
       const players = todoData["data"]["listPlayers"]["items"]
+      console.log(players)
       setPlayers(players)
       setModalVisible(true)
     } catch (err) { console.log('error fetching todos',err) }
   }
   async function startTraining(selectedPlayers:Array<String>){
+    
     selectedPlayers.forEach(async (element,index) => {
       const infoInitialTraining ={
         status: 'ACTIVO',
@@ -146,14 +170,33 @@ export default function Training({navigation}: TrainingProps) {
           query:createPlayerTraining,
           variables: {input: infoPlayerTraining},
           authMode: GRAPHQL_AUTH_MODE.AWS_IAM})
-        console.log(newPlayerTraining)
+        // console.log(newPlayerTraining)
+
+        let infoHitPlayer = {
+          trainingID: newTraining["data"]["createTraining"]["id"],
+          player: newTraining["data"]["createTraining"]["player"]
+        }
+
+        listInfoHitPlayers.push(infoHitPlayer)
 
       }catch(err){
         console.log('error fetching todos',err)
       }
     })
-
+    return listInfoHitPlayers
   }
+  
+
+async function showStatistics(name){
+  
+  setModalVisibleStatistic(true)
+  // console.log(listInfoHitPlayers)
+  listInfoHitPlayers.forEach((element, index) =>{
+    console.log(element["player"])
+  })
+  console.log(name)
+}
+
   async function savePlayers(selectedPlayers:Map<String, boolean>){
     let namesPlayers = (Array.from( selectedPlayers, ([name, value]) => value ? (name) : [] ))
     namesPlayers.forEach((element,index) => {
@@ -196,7 +239,50 @@ export default function Training({navigation}: TrainingProps) {
                     onPress={() => {
                       setModalVisible(!modalVisible);
                       // startTraining(selected);
+                      
                       savePlayers(selected);}}
+                  >
+                    <LinearGradient style={[styles.button]} colors={['#6495ED', 'cyan']} >
+                      <Text style={styles.textStyle}>Listo</Text>
+                    </LinearGradient>
+                  </Pressable>
+              </SafeAreaView>
+            </Modal>
+            <Modal 
+              animationType="fade"
+              visible={modalVisibleStatistic}
+              onRequestClose={() => {
+                Alert.alert("Modal has been closed.");
+                setModalVisibleStatistic(!modalVisibleStatistic);
+              }}>
+                <SafeAreaView style={styles.containerList}>
+                <Title style={{marginLeft:5}}>Selecciona el golpe efectuado:</Title>
+                <FlatList
+                  data={statistics}
+                  renderItem={({ item }) => (
+                    <Item
+                      id={item}
+                      title={item.key}
+                      selected={!!selectedHit.get(item)}
+                      onSelect={onSelectHit}
+                    />
+                  )}
+                  keyExtractor={(item) => item.key}
+                  extraData={selectedHit}
+                />
+                <Pressable
+                    style={[styles.button]}
+                    onPress={() => {
+                      setModalVisibleStatistic(!modalVisibleStatistic);
+                      async function updateStatistcs(selectedHit) {
+                        
+                      }
+                      console.log(selectedHit);
+                      selectedHit.clear();
+
+                      // startTraining(selected);
+                      // savePlayers(selected);
+                    }}
                   >
                     <LinearGradient style={[styles.button]} colors={['#6495ED', 'cyan']} >
                       <Text style={styles.textStyle}>Listo</Text>
@@ -222,6 +308,7 @@ export default function Training({navigation}: TrainingProps) {
                     <TouchableOpacity style={styles.buttonTraining} onPress={() => 
                       { 
                         // startTraining(names);
+                        listInfoHitPlayers.splice(0,listInfoHitPlayers.length);
                         setbuttonsVisible(false);
                         timerRef.current.stop();
                       }}>

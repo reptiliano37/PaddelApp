@@ -142,6 +142,41 @@ const styles = StyleSheet.create({
         height: 20,
         marginLeft:20,
     },
+    playerButton1:{
+      flex:1,
+      marginTop:250,
+      alignItems:'center',
+      height: 100,
+      width: 100,
+      flexDirection:'column',
+      justifyContent:'center'
+    },
+    playerButton2:{
+      marginStart:210, 
+      marginTop:-130,
+      alignItems:'center',
+      height: 100,
+      width: 100,
+      flexDirection:'column',
+      justifyContent:'center'
+    },
+    playerButton3:{
+      marginTop:90,
+      alignItems:'center',
+      height: 100,
+      width: 100,
+      justifyContent:'space-evenly'
+    },
+    playerButton4:{
+      marginStart:210,
+      marginTop:-100,
+      alignItems:'center',
+      height: 100,
+      width: 100,
+      flexDirection:'column',
+      justifyContent:'space-around'
+    },
+    
 });
 
 export default styles;
