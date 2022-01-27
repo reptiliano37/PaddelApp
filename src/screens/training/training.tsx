@@ -19,18 +19,19 @@ import { Title } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 import { createTraining } from '../../graphql/mutations';
 import { createPlayerTraining } from '../../graphql/mutations';
+import { updateTraining } from '../../graphql/mutations';
 import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import {Timer} from 'react-native-element-timer';
 import CircleCheckBox, {LABEL_POSITION} from 'react-native-circle-checkbox';  
 Amplify.configure(awsExports);
 
 let statistics =[
- {key:"ERROR NO FORZADO REVéS"},
+ {key:"ERROR NO FORZADO REVES"},
  {key:"ERROR VOLEA DERECHA"},
  {key:"ERROR DERECHA"},
- {key:"ERROR REVÉS"},
+ {key:"ERROR REVES"},
  {key:"ACIERTO DERECHA"},
- {key:"ACIERTO REVÉS"},
+ {key:"ACIERTO REVES"},
  {key:"ACIERTO REMATE"},
  {key:"WINNER"}
 ]
@@ -59,6 +60,7 @@ export default function Training({navigation}: TrainingProps) {
   const { user } = useAuth();
   const [signingOut, setSigningOut] = useState(false);
   const [players, setPlayers] = useState([])
+  const [trainingIdentification, setTrainingIdentification] = useState('')
   const [names, setNames] = useState([])
   const [listInfoHitPlayers, setlistInfoHitPlayers] = useState([])
   const [modalVisible, setModalVisible] = useState(false);
@@ -67,6 +69,8 @@ export default function Training({navigation}: TrainingProps) {
   const [modalVisibleStatistic, setModalVisibleStatistic] = useState(false);
   const [selected, setSelected] = React.useState(new Map());
   const timerRef = useRef(null);
+  let namePlayer = ''
+  let trainingID = ''
   const onSelect = React.useCallback(
     id => {
       const newSelected = new Map(selected);
@@ -88,8 +92,9 @@ export default function Training({navigation}: TrainingProps) {
   const Player = (props) => {
     // Create function to show players with image only if is string,  not object.
     if (typeof(props.name) === 'string'){
-      let namePlayer=props.name
+      
       if(props.index == 0){
+        namePlayer=props.name
         return (
           <>
           <TouchableOpacity style={styles.playerButton1} onPress={()=> {showStatistics({namePlayer})}}>
@@ -139,7 +144,7 @@ export default function Training({navigation}: TrainingProps) {
     try {
       const todoData = await API.graphql(graphqlOperation(listPlayers))
       const players = todoData["data"]["listPlayers"]["items"]
-      console.log(players)
+      // console.log(players)
       setPlayers(players)
       setModalVisible(true)
     } catch (err) { console.log('error fetching todos',err) }
@@ -151,7 +156,8 @@ export default function Training({navigation}: TrainingProps) {
         status: 'ACTIVO',
         trainer: user.username,
         owners: selectedPlayers,
-        player: element
+        player: element,
+        hit:'WINNER',
       }
       try{
         const newTraining = await API.graphql({
@@ -185,16 +191,44 @@ export default function Training({navigation}: TrainingProps) {
     })
     return listInfoHitPlayers
   }
+
+  async function updateStatistcs(selectedHit,id) {
+    let hit = ''
+    selectedHit.forEach((element,index) => {
+      hit = (index["key"].replace(' ','_'))
+    });
+    const updateInfo = {
+      id: id,
+      hit: hit
+    }
+    console.log(updateInfo)
+    try {
+      const updateTrainingPlayer = await API.graphql({
+        query:updateTraining,
+        variables: {input: updateInfo},
+        authMode: GRAPHQL_AUTH_MODE.AWS_IAM})
+    } catch (error) {
+      console.log('error update',error)
+    }
+    
+  }
   
 
 async function showStatistics(name){
-  
-  setModalVisibleStatistic(true)
   // console.log(listInfoHitPlayers)
+  // console.log(name)
+  setModalVisibleStatistic(true)
   listInfoHitPlayers.forEach((element, index) =>{
-    console.log(element["player"])
+    // console.log(element["player"] == name["namePlayer"])
+    // Devuelve el id del entrenamiento para el jugador pulsado.
+
+    if (element["player"] == name["namePlayer"]){
+      setTrainingIdentification(element["trainingID"])
+      console.log(trainingIdentification)
+    }else{
+      trainingID = ''
+    }
   })
-  console.log(name)
 }
 
   async function savePlayers(selectedPlayers:Map<String, boolean>){
@@ -274,10 +308,10 @@ async function showStatistics(name){
                     style={[styles.button]}
                     onPress={() => {
                       setModalVisibleStatistic(!modalVisibleStatistic);
-                      async function updateStatistcs(selectedHit) {
-                        
-                      }
-                      console.log(selectedHit);
+                      // console.log(selectedHit);
+                      
+                      updateStatistcs(selectedHit,trainingIdentification)
+                      // console.log(selectedHit);
                       selectedHit.clear();
 
                       // startTraining(selected);
