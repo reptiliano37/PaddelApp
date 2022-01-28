@@ -10,16 +10,14 @@ import {Auth} from 'aws-amplify'
 import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer';
 
 import Amplify, { API, graphqlOperation } from 'aws-amplify'
-import { listPlayers } from '../../graphql/queries'
+import { listPlayers, getTraining } from '../../graphql/queries'
 
 import awsExports from "../../aws-exports";
 // import { Item } from 'react-native-paper/lib/typescript/components/List/List';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Title } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
-import { createTraining } from '../../graphql/mutations';
-import { createPlayerTraining } from '../../graphql/mutations';
-import { updateTraining } from '../../graphql/mutations';
+import { createTraining,createPlayerTraining,updateTraining  } from '../../graphql/mutations';
 import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import {Timer} from 'react-native-element-timer';
 import CircleCheckBox, {LABEL_POSITION} from 'react-native-circle-checkbox';  
@@ -60,7 +58,7 @@ export default function Training({navigation}: TrainingProps) {
   const { user } = useAuth();
   const [signingOut, setSigningOut] = useState(false);
   const [players, setPlayers] = useState([])
-  const [trainingIdentification, setTrainingIdentification] = useState('')
+  const [namePlayer, setNamePlayer] = useState('')
   const [names, setNames] = useState([])
   const [listInfoHitPlayers, setlistInfoHitPlayers] = useState([])
   const [modalVisible, setModalVisible] = useState(false);
@@ -69,8 +67,8 @@ export default function Training({navigation}: TrainingProps) {
   const [modalVisibleStatistic, setModalVisibleStatistic] = useState(false);
   const [selected, setSelected] = React.useState(new Map());
   const timerRef = useRef(null);
-  let namePlayer = ''
-  let trainingID = ''
+  const [trainingIdentification, setTrainingIdentification] = useState('')
+
   const onSelect = React.useCallback(
     id => {
       const newSelected = new Map(selected);
@@ -94,10 +92,10 @@ export default function Training({navigation}: TrainingProps) {
     if (typeof(props.name) === 'string'){
       
       if(props.index == 0){
-        namePlayer=props.name
+        let namePlayerPressed = props.name
         return (
           <>
-          <TouchableOpacity style={styles.playerButton1} onPress={()=> {showStatistics({namePlayer})}}>
+          <TouchableOpacity style={styles.playerButton1} onPress={()=> {showStatistics({namePlayerPressed})}}>
             <Image source={require("../../../assets/user-o.png")} style={styles.playerTraining}/>
             <Text style={{color:'white', fontWeight:'bold', width: 200,height:200,justifyContent:'center',textAlign: 'center'}}>{props.name}</Text>
           </TouchableOpacity>
@@ -105,9 +103,11 @@ export default function Training({navigation}: TrainingProps) {
         )
       }
       if(props.index == 1){
+        let namePlayerPressed = props.name
+
         return (
           <>
-          <TouchableOpacity style={styles.playerButton2}>
+          <TouchableOpacity style={styles.playerButton2} onPress={()=> {showStatistics({namePlayerPressed})}}>
             <Image source={require("../../../assets/user-o.png")} style={styles.playerTraining}/>
             <Text style={{color:'white', fontWeight:'bold', width: 200,height: 50,flex:1,justifyContent:'center',textAlign: 'center'}}>{props.name}</Text>
           </TouchableOpacity>
@@ -115,9 +115,11 @@ export default function Training({navigation}: TrainingProps) {
         )
       }
       if(props.index == 2){
+        let namePlayerPressed = props.name
+
         return (
           <>
-          <TouchableOpacity style={styles.playerButton3}>
+          <TouchableOpacity style={styles.playerButton3} onPress={()=> {showStatistics({namePlayerPressed})}}>
             <Image source={require("../../../assets/user-o.png")} style={styles.playerTraining}/>
             <Text style={{color:'white', fontWeight:'bold', width: 200,height: 50,flex:1,justifyContent:'center',textAlign: 'center'}}>{props.name}</Text>
           </TouchableOpacity>
@@ -125,9 +127,11 @@ export default function Training({navigation}: TrainingProps) {
         )
       }
       if(props.index == 3){
+        let namePlayerPressed = props.name
+
         return (
           <>
-          <TouchableOpacity style={styles.playerButton4}>
+          <TouchableOpacity style={styles.playerButton4} onPress={()=> {showStatistics({namePlayerPressed})}}>
             <Image source={require("../../../assets/user-o.png")} style={styles.playerTraining}/>
             <Text style={{color:'white', fontWeight:'bold', width: 200,height: 50,flex:1,justifyContent:'center',textAlign: 'center'}}>{props.name}</Text>
           </TouchableOpacity>
@@ -144,7 +148,6 @@ export default function Training({navigation}: TrainingProps) {
     try {
       const todoData = await API.graphql(graphqlOperation(listPlayers))
       const players = todoData["data"]["listPlayers"]["items"]
-      // console.log(players)
       setPlayers(players)
       setModalVisible(true)
     } catch (err) { console.log('error fetching todos',err) }
@@ -157,7 +160,6 @@ export default function Training({navigation}: TrainingProps) {
         trainer: user.username,
         owners: selectedPlayers,
         player: element,
-        hit:'WINNER',
       }
       try{
         const newTraining = await API.graphql({
@@ -192,14 +194,33 @@ export default function Training({navigation}: TrainingProps) {
     return listInfoHitPlayers
   }
 
-  async function updateStatistcs(selectedHit,id) {
+  async function updateStatistcs(selectedHit,name) {
+    
     let hit = ''
+    let hits = []
+    let id =''
     selectedHit.forEach((element,index) => {
-      hit = (index["key"].replace(' ','_'))
+      hit = (index["key"].replaceAll(' ','_'))
     });
+    console.log(name)
+    listInfoHitPlayers.forEach((element, index) =>{
+      if (element["player"] == name["namePlayerPressed"]){
+        id = element["trainingID"]
+      }
+    })
+
+    console.log(id)
+    const trainingSession = await API.graphql({
+      query:getTraining,
+        variables: {id: id},
+        authMode: GRAPHQL_AUTH_MODE.AWS_IAM
+    })
+    hits = trainingSession["data"]["getTraining"]["hit"] || []
+    hits.push(hit)
+    console.log(trainingSession)
     const updateInfo = {
       id: id,
-      hit: hit
+      hit: hits
     }
     console.log(updateInfo)
     try {
@@ -216,17 +237,22 @@ export default function Training({navigation}: TrainingProps) {
 
 async function showStatistics(name){
   // console.log(listInfoHitPlayers)
-  // console.log(name)
+  console.log(name)
   setModalVisibleStatistic(true)
+  setNamePlayer(name)
+  // console.log(trainingIdentification)
+  return name
+  // console.log(listInfoHitPlayers)
   listInfoHitPlayers.forEach((element, index) =>{
     // console.log(element["player"] == name["namePlayer"])
+
     // Devuelve el id del entrenamiento para el jugador pulsado.
 
     if (element["player"] == name["namePlayer"]){
       setTrainingIdentification(element["trainingID"])
       console.log(trainingIdentification)
     }else{
-      trainingID = ''
+      setTrainingIdentification('')
     }
   })
 }
@@ -309,8 +335,7 @@ async function showStatistics(name){
                     onPress={() => {
                       setModalVisibleStatistic(!modalVisibleStatistic);
                       // console.log(selectedHit);
-                      
-                      updateStatistcs(selectedHit,trainingIdentification)
+                      updateStatistcs(selectedHit,namePlayer)
                       // console.log(selectedHit);
                       selectedHit.clear();
 
