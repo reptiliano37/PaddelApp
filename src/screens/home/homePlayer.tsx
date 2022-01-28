@@ -27,6 +27,14 @@ export default function HomePlayer({navigation}: HomePlayerProps) {
             </View>
         </TouchableOpacity>
       </View>
+      <View style={styles.containerTraining}>
+        <TouchableOpacity style={styles.buttonStatistics} onPress={()=>{navigation.navigate("Statistics")}}>
+            <Image source={require("../../../assets/bar-chart.png")} style={styles.image}/>
+            <View style={styles.text_position}>
+              <Text style={styles.text_footer}>Estadísticas</Text>
+            </View>
+        </TouchableOpacity>
+      </View>
       <View style={styles.containerCalendar}>
         <TouchableOpacity style={styles.buttonCalendar} onPress={()=>{navigation.navigate("Calendar")}}>
             <Image source={require("../../../assets/calendario.png")} style={styles.image}/>

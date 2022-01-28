@@ -14,6 +14,7 @@ import Training from '../screens/training/training';
 import Calendar from '../screens/calendar/calendar';
 import Score from '../screens/score/score';
 import Booking from '../screens/booking/booking';
+import Statistics from '../screens/statistics/statistics';
 import HomePlayer from '../screens/home/homePlayer';
 import DrawerContent from '../screens/drawerContent/drawerContent';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -28,6 +29,7 @@ export type StackNavigatorParams = {
     Calendar: {username: string } | undefined;
     Score: {username: string } | undefined;
     Booking: {username: string } | undefined;
+    Statistics: {username: string } | undefined;
 }
 
 const Stack = createNativeStackNavigator<StackNavigatorParams>();
@@ -143,6 +145,19 @@ export default function Navigator(): ReactElement {
                                      name="tennis-ball"
                                      size={size}
                                      color={focused ? 'yellow' : '#ccc'}
+                                  />
+                               ),
+                              //  headerShown: false,
+                               
+                            }}/>
+                            <Drawer.Screen name = "Statistics" component={Statistics} options={ {
+                               title: 'Estadísticas',
+                               drawerActiveTintColor:"black",
+                               drawerIcon: ({focused, size}) => (
+                                  <Icon
+                                     name="chart-bar"
+                                     size={size}
+                                     color={focused ? 'pink' : '#ccc'}
                                   />
                                ),
                               //  headerShown: false,

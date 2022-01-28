@@ -11,7 +11,7 @@ import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navi
 
 
 type BookingProps = {
-  navigation: NativeStackNavigationProp<StackNavigatorParams, "Score">
+  navigation: NativeStackNavigationProp<StackNavigatorParams, "Booking">
 }
 
 export default function Booking({navigation}: BookingProps) {

@@ -20,7 +20,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { createTraining,createPlayerTraining,updateTraining  } from '../../graphql/mutations';
 import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import {Timer} from 'react-native-element-timer';
-import CircleCheckBox, {LABEL_POSITION} from 'react-native-circle-checkbox';  
 Amplify.configure(awsExports);
 
 let statistics =[
