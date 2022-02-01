@@ -1,5 +1,5 @@
 import React, { useState,useEffect,useRef } from 'react';
-import { View, Text, Alert, TouchableOpacity,Button,Image, ImageBackground, SafeAreaView, FlatList,  Modal,Pressable, TouchableHighlight, Touchable} from 'react-native';
+import { Animated,View, Text, Alert, TouchableOpacity,Button,Image, ImageBackground, SafeAreaView, FlatList,  Modal,Pressable, TouchableHighlight, Touchable} from 'react-native';
 
 import styles from './training.styles'
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -67,6 +67,25 @@ export default function Training({navigation}: TrainingProps) {
   const [selected, setSelected] = React.useState(new Map());
   const timerRef = useRef(null);
   const [trainingIdentification, setTrainingIdentification] = useState('')
+  const fadeAnim = useRef(new Animated.Value(1)).current;
+
+  const fadeIn = () => {
+    // Will change fadeAnim value to 1 in 5 seconds
+    Animated.timing(fadeAnim, {
+    toValue: 1,
+    duration: 2000,
+    useNativeDriver: false
+  }).start();
+  };
+
+  const fadeOut = () => {
+    // Will change fadeAnim value to 0 in 5 seconds
+    Animated.timing(fadeAnim, {
+    toValue: 0,
+    duration: 2000,
+    useNativeDriver: false
+  }).start();
+  };
 
   const onSelect = React.useCallback(
     id => {
@@ -241,19 +260,6 @@ async function showStatistics(name){
   setNamePlayer(name)
   // console.log(trainingIdentification)
   return name
-  // console.log(listInfoHitPlayers)
-  listInfoHitPlayers.forEach((element, index) =>{
-    // console.log(element["player"] == name["namePlayer"])
-
-    // Devuelve el id del entrenamiento para el jugador pulsado.
-
-    if (element["player"] == name["namePlayer"]){
-      setTrainingIdentification(element["trainingID"])
-      console.log(trainingIdentification)
-    }else{
-      setTrainingIdentification('')
-    }
-  })
 }
 
   async function savePlayers(selectedPlayers:Map<String, boolean>){
@@ -269,6 +275,19 @@ async function showStatistics(name){
     
     <View style={styles.container}>
         <ImageBackground source={require("../../../assets/fondo2.jpg")} resizeMode="cover" style={styles.image}>
+          {/* <View style={{flex: 1,
+                        alignItems: "center",
+                        justifyContent: "center"}}> */}
+            {/* <Animated.View
+              style={[
+                {
+                  opacity: fadeAnim // Bind opacity to animated value
+                }
+              ]}
+            >
+              <Text style={styles.initialText}>Entrenamiento</Text>
+            </Animated.View> */}
+          {/* </View> */}
             <Modal
               animationType="slide"
               // transparent={true}
@@ -412,7 +431,8 @@ async function showStatistics(name){
                 </>
                 ): 
                 <>
-                <TouchableOpacity style={styles.buttonTraining} onPress={()=>{fetchPlayers()}}>
+                <TouchableOpacity style={styles.buttonTraining} onPress={()=>{fetchPlayers();
+                fadeOut()}}>
                     <View style={{flexDirection:'column',alignItems:'center'}}>
                       <Text style={{color:'white',fontWeight: "bold",fontSize:50}}>+</Text>
                       <Text style={{color:'white',fontWeight: "bold",fontSize:50,marginTop:-20}}>-</Text>
