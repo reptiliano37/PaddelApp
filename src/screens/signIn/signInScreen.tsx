@@ -177,7 +177,7 @@ export default function SignInScreen({navigation}: SignInScreenProps) {
         >
             <Text style={[styles.text_footer, {
                 color: colors.text
-            }]}>Username</Text>
+            }]}>Nombre de usuario</Text>
             <View style={styles.action}>
                 <FontAwesome 
                     name="user-o"
@@ -185,7 +185,7 @@ export default function SignInScreen({navigation}: SignInScreenProps) {
                     size={20}
                 />
                 <TextInput 
-                    placeholder="Username"
+                    placeholder="Tu nombre de usuario"
                     placeholderTextColor="#666666"
                     style={[styles.textInput, {
                         color: colors.text
@@ -219,7 +219,7 @@ export default function SignInScreen({navigation}: SignInScreenProps) {
             <Text style={[styles.text_footer, {
                 color: colors.text,
                 marginTop: 35
-            }]}>Password</Text>
+            }]}>Contraseña</Text>
             <View style={styles.action}>
                 <Feather 
                     name="lock"
@@ -227,7 +227,7 @@ export default function SignInScreen({navigation}: SignInScreenProps) {
                     size={20}
                 />
                 <TextInput 
-                    placeholder="Your Password"
+                    placeholder="Tu contraseña"
                     placeholderTextColor="#666666"
                     secureTextEntry={isSecureEntry ? true : false}
                     style={[styles.textInput, {

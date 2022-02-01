@@ -201,7 +201,8 @@ type SignUpScreenProps = {
                             style={styles.textInput}
                             autoCapitalize="none"
                             onChangeText={(val) => 
-                                setDataInput("username",val)
+                               {textInputChange(val);
+                                setDataInput("username",val)}
                             }
                         />
                         {data.check_textInputChange ? 
@@ -260,7 +261,7 @@ type SignUpScreenProps = {
                             style={styles.textInput}
                             autoCapitalize="none"
                             onChangeText={(val) => 
-                                setDataInput("name",val)
+                                {setDataInput("name",val)}
                             }
                         />
                         {data.check_textInputChange ? 
@@ -324,7 +325,6 @@ type SignUpScreenProps = {
                             secureTextEntry={data.secureTextEntry ? true : false}
                             style={styles.textInput}
                             autoCapitalize="none"
-                            // onChangeText={(val) => handlePasswordChange(val)}
                             onChangeText={(val) => 
                                 setDataInput("password",val)
                             }
