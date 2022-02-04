@@ -410,3 +410,336 @@ export const onDeleteTraining = /* GraphQL */ `
     }
   }
 `;
+export const onCreateCourt = /* GraphQL */ `
+  subscription OnCreateCourt($owners: String) {
+    onCreateCourt(owners: $owners) {
+      id
+      numeroPista
+      day {
+        id
+        dia
+        mes
+        hora {
+          id
+          status
+          hora
+          playerUsername
+          userUsername
+          createdAt
+          updatedAt
+          owners
+        }
+        createdAt
+        updatedAt
+        owners
+      }
+      createdAt
+      updatedAt
+      owners
+    }
+  }
+`;
+export const onUpdateCourt = /* GraphQL */ `
+  subscription OnUpdateCourt($owners: String) {
+    onUpdateCourt(owners: $owners) {
+      id
+      numeroPista
+      day {
+        id
+        dia
+        mes
+        hora {
+          id
+          status
+          hora
+          playerUsername
+          userUsername
+          createdAt
+          updatedAt
+          owners
+        }
+        createdAt
+        updatedAt
+        owners
+      }
+      createdAt
+      updatedAt
+      owners
+    }
+  }
+`;
+export const onDeleteCourt = /* GraphQL */ `
+  subscription OnDeleteCourt($owners: String) {
+    onDeleteCourt(owners: $owners) {
+      id
+      numeroPista
+      day {
+        id
+        dia
+        mes
+        hora {
+          id
+          status
+          hora
+          playerUsername
+          userUsername
+          createdAt
+          updatedAt
+          owners
+        }
+        createdAt
+        updatedAt
+        owners
+      }
+      createdAt
+      updatedAt
+      owners
+    }
+  }
+`;
+export const onCreateDay = /* GraphQL */ `
+  subscription OnCreateDay($owners: String) {
+    onCreateDay(owners: $owners) {
+      id
+      dia
+      mes
+      hora {
+        id
+        status
+        hora
+        playerUsername
+        userUsername
+        createdAt
+        updatedAt
+        trainer {
+          id
+          cognitoID
+          username
+          name
+          email
+          typeUser
+          createdAt
+          updatedAt
+        }
+        player {
+          id
+          cognitoID
+          username
+          name
+          email
+          typeUser
+          createdAt
+          updatedAt
+        }
+        owners
+      }
+      createdAt
+      updatedAt
+      owners
+    }
+  }
+`;
+export const onUpdateDay = /* GraphQL */ `
+  subscription OnUpdateDay($owners: String) {
+    onUpdateDay(owners: $owners) {
+      id
+      dia
+      mes
+      hora {
+        id
+        status
+        hora
+        playerUsername
+        userUsername
+        createdAt
+        updatedAt
+        trainer {
+          id
+          cognitoID
+          username
+          name
+          email
+          typeUser
+          createdAt
+          updatedAt
+        }
+        player {
+          id
+          cognitoID
+          username
+          name
+          email
+          typeUser
+          createdAt
+          updatedAt
+        }
+        owners
+      }
+      createdAt
+      updatedAt
+      owners
+    }
+  }
+`;
+export const onDeleteDay = /* GraphQL */ `
+  subscription OnDeleteDay($owners: String) {
+    onDeleteDay(owners: $owners) {
+      id
+      dia
+      mes
+      hora {
+        id
+        status
+        hora
+        playerUsername
+        userUsername
+        createdAt
+        updatedAt
+        trainer {
+          id
+          cognitoID
+          username
+          name
+          email
+          typeUser
+          createdAt
+          updatedAt
+        }
+        player {
+          id
+          cognitoID
+          username
+          name
+          email
+          typeUser
+          createdAt
+          updatedAt
+        }
+        owners
+      }
+      createdAt
+      updatedAt
+      owners
+    }
+  }
+`;
+export const onCreateHour = /* GraphQL */ `
+  subscription OnCreateHour($owners: String) {
+    onCreateHour(owners: $owners) {
+      id
+      status
+      hora
+      playerUsername
+      userUsername
+      createdAt
+      updatedAt
+      trainer {
+        id
+        cognitoID
+        username
+        name
+        email
+        typeUser
+        createdAt
+        updatedAt
+        trainings {
+          nextToken
+        }
+      }
+      player {
+        id
+        cognitoID
+        username
+        name
+        email
+        typeUser
+        createdAt
+        updatedAt
+        trainings {
+          nextToken
+        }
+      }
+      owners
+    }
+  }
+`;
+export const onUpdateHour = /* GraphQL */ `
+  subscription OnUpdateHour($owners: String) {
+    onUpdateHour(owners: $owners) {
+      id
+      status
+      hora
+      playerUsername
+      userUsername
+      createdAt
+      updatedAt
+      trainer {
+        id
+        cognitoID
+        username
+        name
+        email
+        typeUser
+        createdAt
+        updatedAt
+        trainings {
+          nextToken
+        }
+      }
+      player {
+        id
+        cognitoID
+        username
+        name
+        email
+        typeUser
+        createdAt
+        updatedAt
+        trainings {
+          nextToken
+        }
+      }
+      owners
+    }
+  }
+`;
+export const onDeleteHour = /* GraphQL */ `
+  subscription OnDeleteHour($owners: String) {
+    onDeleteHour(owners: $owners) {
+      id
+      status
+      hora
+      playerUsername
+      userUsername
+      createdAt
+      updatedAt
+      trainer {
+        id
+        cognitoID
+        username
+        name
+        email
+        typeUser
+        createdAt
+        updatedAt
+        trainings {
+          nextToken
+        }
+      }
+      player {
+        id
+        cognitoID
+        username
+        name
+        email
+        typeUser
+        createdAt
+        updatedAt
+        trainings {
+          nextToken
+        }
+      }
+      owners
+    }
+  }
+`;

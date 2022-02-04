@@ -239,3 +239,210 @@ export const listTrainings = /* GraphQL */ `
     }
   }
 `;
+export const getCourt = /* GraphQL */ `
+  query GetCourt($id: ID!) {
+    getCourt(id: $id) {
+      id
+      numeroPista
+      day {
+        id
+        dia
+        mes
+        hora {
+          id
+          status
+          hora
+          playerUsername
+          userUsername
+          createdAt
+          updatedAt
+          owners
+        }
+        createdAt
+        updatedAt
+        owners
+      }
+      createdAt
+      updatedAt
+      owners
+    }
+  }
+`;
+export const listCourts = /* GraphQL */ `
+  query ListCourts(
+    $filter: ModelCourtFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listCourts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        numeroPista
+        day {
+          id
+          dia
+          mes
+          createdAt
+          updatedAt
+          owners
+        }
+        createdAt
+        updatedAt
+        owners
+      }
+      nextToken
+    }
+  }
+`;
+export const getDay = /* GraphQL */ `
+  query GetDay($id: ID!) {
+    getDay(id: $id) {
+      id
+      dia
+      mes
+      hora {
+        id
+        status
+        hora
+        playerUsername
+        userUsername
+        createdAt
+        updatedAt
+        trainer {
+          id
+          cognitoID
+          username
+          name
+          email
+          typeUser
+          createdAt
+          updatedAt
+        }
+        player {
+          id
+          cognitoID
+          username
+          name
+          email
+          typeUser
+          createdAt
+          updatedAt
+        }
+        owners
+      }
+      createdAt
+      updatedAt
+      owners
+    }
+  }
+`;
+export const listDays = /* GraphQL */ `
+  query ListDays(
+    $filter: ModelDayFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listDays(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        dia
+        mes
+        hora {
+          id
+          status
+          hora
+          playerUsername
+          userUsername
+          createdAt
+          updatedAt
+          owners
+        }
+        createdAt
+        updatedAt
+        owners
+      }
+      nextToken
+    }
+  }
+`;
+export const getHour = /* GraphQL */ `
+  query GetHour($id: ID!) {
+    getHour(id: $id) {
+      id
+      status
+      hora
+      playerUsername
+      userUsername
+      createdAt
+      updatedAt
+      trainer {
+        id
+        cognitoID
+        username
+        name
+        email
+        typeUser
+        createdAt
+        updatedAt
+        trainings {
+          nextToken
+        }
+      }
+      player {
+        id
+        cognitoID
+        username
+        name
+        email
+        typeUser
+        createdAt
+        updatedAt
+        trainings {
+          nextToken
+        }
+      }
+      owners
+    }
+  }
+`;
+export const listHours = /* GraphQL */ `
+  query ListHours(
+    $filter: ModelHourFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listHours(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        status
+        hora
+        playerUsername
+        userUsername
+        createdAt
+        updatedAt
+        trainer {
+          id
+          cognitoID
+          username
+          name
+          email
+          typeUser
+          createdAt
+          updatedAt
+        }
+        player {
+          id
+          cognitoID
+          username
+          name
+          email
+          typeUser
+          createdAt
+          updatedAt
+        }
+        owners
+      }
+      nextToken
+    }
+  }
+`;

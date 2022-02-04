@@ -16,6 +16,7 @@ type CalendarProps = {
 }
 
 import {LocaleConfig} from 'react-native-calendars';
+import { Title } from 'react-native-paper';
 
 LocaleConfig.locales['es'] = {
   monthNames: [
@@ -39,11 +40,14 @@ LocaleConfig.locales['es'] = {
 };
 LocaleConfig.defaultLocale = 'es';
 
+
 export default function CalendarFunction({navigation}: CalendarProps) {
   const { user } = useAuth();
   const [signingOut, setSigningOut] = useState(false);
+  
   return (
     <View style={{ paddingTop: 50, flex: 1 }}>
+      
         <Calendar
           // Initially visible month. Default = Date()
         //   current={'2012-03-01'}

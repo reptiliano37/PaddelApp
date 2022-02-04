@@ -94,8 +94,39 @@ type Court
   ) 
 {
   id: ID!
+  numeroPista: String!
+  day: [Day]
+}
+type Day
+@model
+@auth(
+    rules: [
+      { allow: owner, ownerField: "owners", operations: [read,create,update,delete] }
+      { allow: private, provider: iam, operations: [read, create, update, delete] }
+    ]
+  ) 
+{
+  id: ID!
+  dia:String!
+  mes:String!
+  hora: [Hour]
+}
+type Hour
+@model
+@auth(
+    rules: [
+      { allow: owner, ownerField: "owners", operations: [read,create,update,delete] }
+      { allow: private, provider: iam, operations: [read, create, update, delete] }
+    ]
+  ) 
+{
+  id: ID!
   status: CourtStatus!
-  player: String
+  hora: String!
+  playerUsername: String
+  userUsername: String
+  player: Player @connection(fields: ["playerUsername"])
+  trainer: User @connection(fields: ["userUsername"])
 }
 enum TrainingStatus{
   ACTIVO
@@ -104,7 +135,7 @@ enum TrainingStatus{
 }
 enum CourtStatus{
   DISPONIBLE
-  RESVADA
+  RESERVADA
 }
 enum TrainingHit{
   ERROR_NO_FORZADO_DERECHA

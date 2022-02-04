@@ -446,3 +446,363 @@ export const deleteTraining = /* GraphQL */ `
     }
   }
 `;
+export const createCourt = /* GraphQL */ `
+  mutation CreateCourt(
+    $input: CreateCourtInput!
+    $condition: ModelCourtConditionInput
+  ) {
+    createCourt(input: $input, condition: $condition) {
+      id
+      numeroPista
+      day {
+        id
+        dia
+        mes
+        hora {
+          id
+          status
+          hora
+          playerUsername
+          userUsername
+          createdAt
+          updatedAt
+          owners
+        }
+        createdAt
+        updatedAt
+        owners
+      }
+      createdAt
+      updatedAt
+      owners
+    }
+  }
+`;
+export const updateCourt = /* GraphQL */ `
+  mutation UpdateCourt(
+    $input: UpdateCourtInput!
+    $condition: ModelCourtConditionInput
+  ) {
+    updateCourt(input: $input, condition: $condition) {
+      id
+      numeroPista
+      day {
+        id
+        dia
+        mes
+        hora {
+          id
+          status
+          hora
+          playerUsername
+          userUsername
+          createdAt
+          updatedAt
+          owners
+        }
+        createdAt
+        updatedAt
+        owners
+      }
+      createdAt
+      updatedAt
+      owners
+    }
+  }
+`;
+export const deleteCourt = /* GraphQL */ `
+  mutation DeleteCourt(
+    $input: DeleteCourtInput!
+    $condition: ModelCourtConditionInput
+  ) {
+    deleteCourt(input: $input, condition: $condition) {
+      id
+      numeroPista
+      day {
+        id
+        dia
+        mes
+        hora {
+          id
+          status
+          hora
+          playerUsername
+          userUsername
+          createdAt
+          updatedAt
+          owners
+        }
+        createdAt
+        updatedAt
+        owners
+      }
+      createdAt
+      updatedAt
+      owners
+    }
+  }
+`;
+export const createDay = /* GraphQL */ `
+  mutation CreateDay(
+    $input: CreateDayInput!
+    $condition: ModelDayConditionInput
+  ) {
+    createDay(input: $input, condition: $condition) {
+      id
+      dia
+      mes
+      hora {
+        id
+        status
+        hora
+        playerUsername
+        userUsername
+        createdAt
+        updatedAt
+        trainer {
+          id
+          cognitoID
+          username
+          name
+          email
+          typeUser
+          createdAt
+          updatedAt
+        }
+        player {
+          id
+          cognitoID
+          username
+          name
+          email
+          typeUser
+          createdAt
+          updatedAt
+        }
+        owners
+      }
+      createdAt
+      updatedAt
+      owners
+    }
+  }
+`;
+export const updateDay = /* GraphQL */ `
+  mutation UpdateDay(
+    $input: UpdateDayInput!
+    $condition: ModelDayConditionInput
+  ) {
+    updateDay(input: $input, condition: $condition) {
+      id
+      dia
+      mes
+      hora {
+        id
+        status
+        hora
+        playerUsername
+        userUsername
+        createdAt
+        updatedAt
+        trainer {
+          id
+          cognitoID
+          username
+          name
+          email
+          typeUser
+          createdAt
+          updatedAt
+        }
+        player {
+          id
+          cognitoID
+          username
+          name
+          email
+          typeUser
+          createdAt
+          updatedAt
+        }
+        owners
+      }
+      createdAt
+      updatedAt
+      owners
+    }
+  }
+`;
+export const deleteDay = /* GraphQL */ `
+  mutation DeleteDay(
+    $input: DeleteDayInput!
+    $condition: ModelDayConditionInput
+  ) {
+    deleteDay(input: $input, condition: $condition) {
+      id
+      dia
+      mes
+      hora {
+        id
+        status
+        hora
+        playerUsername
+        userUsername
+        createdAt
+        updatedAt
+        trainer {
+          id
+          cognitoID
+          username
+          name
+          email
+          typeUser
+          createdAt
+          updatedAt
+        }
+        player {
+          id
+          cognitoID
+          username
+          name
+          email
+          typeUser
+          createdAt
+          updatedAt
+        }
+        owners
+      }
+      createdAt
+      updatedAt
+      owners
+    }
+  }
+`;
+export const createHour = /* GraphQL */ `
+  mutation CreateHour(
+    $input: CreateHourInput!
+    $condition: ModelHourConditionInput
+  ) {
+    createHour(input: $input, condition: $condition) {
+      id
+      status
+      hora
+      playerUsername
+      userUsername
+      createdAt
+      updatedAt
+      trainer {
+        id
+        cognitoID
+        username
+        name
+        email
+        typeUser
+        createdAt
+        updatedAt
+        trainings {
+          nextToken
+        }
+      }
+      player {
+        id
+        cognitoID
+        username
+        name
+        email
+        typeUser
+        createdAt
+        updatedAt
+        trainings {
+          nextToken
+        }
+      }
+      owners
+    }
+  }
+`;
+export const updateHour = /* GraphQL */ `
+  mutation UpdateHour(
+    $input: UpdateHourInput!
+    $condition: ModelHourConditionInput
+  ) {
+    updateHour(input: $input, condition: $condition) {
+      id
+      status
+      hora
+      playerUsername
+      userUsername
+      createdAt
+      updatedAt
+      trainer {
+        id
+        cognitoID
+        username
+        name
+        email
+        typeUser
+        createdAt
+        updatedAt
+        trainings {
+          nextToken
+        }
+      }
+      player {
+        id
+        cognitoID
+        username
+        name
+        email
+        typeUser
+        createdAt
+        updatedAt
+        trainings {
+          nextToken
+        }
+      }
+      owners
+    }
+  }
+`;
+export const deleteHour = /* GraphQL */ `
+  mutation DeleteHour(
+    $input: DeleteHourInput!
+    $condition: ModelHourConditionInput
+  ) {
+    deleteHour(input: $input, condition: $condition) {
+      id
+      status
+      hora
+      playerUsername
+      userUsername
+      createdAt
+      updatedAt
+      trainer {
+        id
+        cognitoID
+        username
+        name
+        email
+        typeUser
+        createdAt
+        updatedAt
+        trainings {
+          nextToken
+        }
+      }
+      player {
+        id
+        cognitoID
+        username
+        name
+        email
+        typeUser
+        createdAt
+        updatedAt
+        trainings {
+          nextToken
+        }
+      }
+      owners
+    }
+  }
+`;
