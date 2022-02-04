@@ -49,6 +49,16 @@ const styles = StyleSheet.create({
         bottom: 0, 
         justifyContent: 'center', 
         alignItems: 'center'
+    },
+    golpes:{
+        fontStyle: "italic",
+        position: 'absolute', 
+        top: 100, 
+        left: 0, 
+        right: 0,
+        bottom: 0, 
+        justifyContent: 'center', 
+        alignItems: 'center'
     }
 })
 

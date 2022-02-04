@@ -30,12 +30,16 @@ function Item({ id, title,trainer,name,status,hit, onSelect }) {
           styles.buttonTraining}
       >
         <Title>Entrenamiento de {name}</Title>
+        
         <Text style={
                 styles.dia}>Fecha: {title.split('T')[0]}</Text>
         <Text style={
                 styles.hora}>Hora: {title.split('T')[1]}</Text>
         <Text style={
                 styles.entrenador}>Entrenador: {trainer}</Text>
+        <Text style={
+                styles.golpes}>Errores y aciertos cometidos: {hit}</Text>
+
       </TouchableOpacity>
     );
   }
