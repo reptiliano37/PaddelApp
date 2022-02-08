@@ -458,6 +458,7 @@ export const createCourt = /* GraphQL */ `
         id
         dia
         mes
+        year
         hora {
           id
           status
@@ -490,6 +491,7 @@ export const updateCourt = /* GraphQL */ `
         id
         dia
         mes
+        year
         hora {
           id
           status
@@ -522,6 +524,7 @@ export const deleteCourt = /* GraphQL */ `
         id
         dia
         mes
+        year
         hora {
           id
           status
@@ -551,6 +554,7 @@ export const createDay = /* GraphQL */ `
       id
       dia
       mes
+      year
       hora {
         id
         status
@@ -596,6 +600,7 @@ export const updateDay = /* GraphQL */ `
       id
       dia
       mes
+      year
       hora {
         id
         status
@@ -641,6 +646,7 @@ export const deleteDay = /* GraphQL */ `
       id
       dia
       mes
+      year
       hora {
         id
         status

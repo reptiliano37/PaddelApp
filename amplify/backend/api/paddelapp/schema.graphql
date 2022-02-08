@@ -109,6 +109,7 @@ type Day
   id: ID!
   dia:String!
   mes:String!
+  year:String!
   hora: [Hour]
 }
 type Hour

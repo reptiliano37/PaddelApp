@@ -6,7 +6,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {StackNavigatorParams} from '../../config/navigator'
 import ButtonComponent from '../../components/button/button'
 import {useAuth} from '../../contexts/auth-context';
-import {Auth} from 'aws-amplify'
+import {API, Auth, graphqlOperation} from 'aws-amplify'
 import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -15,6 +15,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Title } from 'react-native-paper';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
+import { listCourts, listPlayers } from '../../graphql/queries';
+import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 
 
 
@@ -22,22 +24,40 @@ type BookingProps = {
   navigation: NativeStackNavigationProp<StackNavigatorParams, "Booking">
 }
 
+
 export default function Booking({navigation}: BookingProps) {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [selected, setSelected] = useState('');
   const RootStack = createNativeStackNavigator();
+  const [courts, setCourts] = useState([])
+  const [players, setPlayers] = useState([])
   
   function BookScreen({ navigation }) {
-    console.log('bbbbbb')
     const onDayPress: CalendarProps['onDayPress'] = async day => {
       setSelected(day.dateString);
     };
+
+    async function checkDay(){
+      
+      try {
+        // const fetchCourts = await API.graphql(graphqlOperation(listCourts))
+        const resp = await API.graphql({
+          query:listCourts,
+          authMode: GRAPHQL_AUTH_MODE.AWS_IAM
+      })
+      const courts = resp["data"]["listCourts"]["items"]
+      setCourts(courts)
+      console.log(courts)
+    } catch (err) { 
+      console.log('error fetching todos',err)
+     }
+    }
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <Modal
             style={{margin:0,flex:1}}
-            animationType="slide"
+            animationType="fade"
             transparent={true}
             visible={modalVisible}
             onRequestClose={() => {
@@ -59,7 +79,9 @@ export default function Booking({navigation}: BookingProps) {
                     onDayPress={day =>{
                       onDayPress(day);
                       console.log(day);
-                      navigation.navigate('Hora')
+                      checkDay();
+                      
+                      // navigation.navigate('Hora')
                     }}
                     markedDates={{
                       [selected]: {

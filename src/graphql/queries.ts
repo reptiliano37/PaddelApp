@@ -248,6 +248,7 @@ export const getCourt = /* GraphQL */ `
         id
         dia
         mes
+        year
         hora {
           id
           status
@@ -282,6 +283,7 @@ export const listCourts = /* GraphQL */ `
           id
           dia
           mes
+          year
           createdAt
           updatedAt
           owners
@@ -300,6 +302,7 @@ export const getDay = /* GraphQL */ `
       id
       dia
       mes
+      year
       hora {
         id
         status
@@ -347,6 +350,7 @@ export const listDays = /* GraphQL */ `
         id
         dia
         mes
+        year
         hora {
           id
           status
