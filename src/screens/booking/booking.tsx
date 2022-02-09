@@ -10,18 +10,32 @@ import {API, Auth, graphqlOperation} from 'aws-amplify'
 import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Calendar, CalendarProps } from 'react-native-calendars';
+import { Calendar, CalendarProps, Agenda } from 'react-native-calendars';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Title } from 'react-native-paper';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { listCourts, listPlayers } from '../../graphql/queries';
 import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
-
+import AppointmentPicker from 'appointment-picker';
+import Animbutton from '../../components/animButon/animButton';
 
 
 type BookingProps = {
   navigation: NativeStackNavigationProp<StackNavigatorParams, "Booking">
+}
+
+const jsonData = { "slots" : {
+  "slot1": "10:00 a 11:30",
+  "slot2": "11:30 a 13:00",
+  "slot3": "13:00 a 14:30",
+  "slot4": "14:30 a 16:00",
+  "slot5": "16:00 a 17:30",
+  "slot6": "17:30 a 19:00",
+  "slot7": "19:00 a 20:30",
+  "slot8": "20:30 a 22:00",
+  "slot9": "22:00 a 23:00",
+}
 }
 
 
@@ -81,7 +95,7 @@ export default function Booking({navigation}: BookingProps) {
                       console.log(day);
                       checkDay();
                       
-                      // navigation.navigate('Hora')
+                      navigation.navigate('Hora')
                     }}
                     markedDates={{
                       [selected]: {
@@ -119,7 +133,7 @@ export default function Booking({navigation}: BookingProps) {
         
         <Pressable 
               style={styles.button}
-              onPress={() => setModalVisible(true)}>
+              onPress={() => setModalVisible(!modalVisible)}>
                 <LinearGradient style={[styles.button]} colors={['#6495ED', 'cyan']} >
                       <Text style={styles.textStyle}>Reservar una pista</Text>
                 </LinearGradient>
@@ -129,11 +143,30 @@ export default function Booking({navigation}: BookingProps) {
   }
   
   function ModalScreen({ navigation }) {
+    const slots = jsonData.slots
+    
+
     return (
-      <View>
-        <Title style={{ fontSize: 25, paddingTop:20 }}>Elige la hora para reservar pista:</Title>
+      <SafeAreaView>
+        <Title style={{ fontSize: 25}}>Elige la hora para reservar pista:</Title>
+        {slots ? 
+          <ScrollView>
+            {Object.keys(slots).map( function(k) {
+              return (  <View key={k} style={{margin:5}}>
+                          <LinearGradient style={[styles.buttonHour]} colors={['#6495ED', 'cyan']} >
+                            <ButtonComponent title={slots[k]} >
+
+                          </ButtonComponent>
+                          </LinearGradient>
+                        </View>)
+            })}
+            </ScrollView>
+            :
+            <>
+            </>
+          }
         <Button onPress={() => {navigation.goBack();}} title="Atrás" />
-      </View>
+      </SafeAreaView>
     );
   }
     

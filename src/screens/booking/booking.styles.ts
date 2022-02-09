@@ -11,6 +11,14 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         marginBottom:10,
       },
+      buttonHour: {
+        width: '100%',
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 20,
+        marginBottom:10,
+      },
     buttonModal: {
         width: '100%',
         height: 50,
