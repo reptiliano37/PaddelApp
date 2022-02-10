@@ -12,7 +12,7 @@ export default function ButtonComponent({ title, style, loading, ...props }: But
     // console.log(loading)
     return (
         
-        <TouchableOpacity disabled={loading} {...props}>
+        <TouchableOpacity style={style} disabled={loading} {...props}>
             {loading ? (
                 <ActivityIndicator color="white"></ActivityIndicator>
             ) : (

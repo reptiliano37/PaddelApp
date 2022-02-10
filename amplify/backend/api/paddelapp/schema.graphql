@@ -99,6 +99,7 @@ type Court
 }
 type Day
 @model
+@key(fields: ["dateString"])
 @auth(
     rules: [
       { allow: owner, ownerField: "owners", operations: [read,create,update,delete] }
@@ -107,9 +108,7 @@ type Day
   ) 
 {
   id: ID!
-  dia:String!
-  mes:String!
-  year:String!
+  dateString:String!
   hora: [Hour]
 }
 type Hour

@@ -417,9 +417,7 @@ export const onCreateCourt = /* GraphQL */ `
       numeroPista
       day {
         id
-        dia
-        mes
-        year
+        dateString
         hora {
           id
           status
@@ -447,9 +445,7 @@ export const onUpdateCourt = /* GraphQL */ `
       numeroPista
       day {
         id
-        dia
-        mes
-        year
+        dateString
         hora {
           id
           status
@@ -477,9 +473,7 @@ export const onDeleteCourt = /* GraphQL */ `
       numeroPista
       day {
         id
-        dia
-        mes
-        year
+        dateString
         hora {
           id
           status
@@ -504,9 +498,7 @@ export const onCreateDay = /* GraphQL */ `
   subscription OnCreateDay($owners: String) {
     onCreateDay(owners: $owners) {
       id
-      dia
-      mes
-      year
+      dateString
       hora {
         id
         status
@@ -547,9 +539,7 @@ export const onUpdateDay = /* GraphQL */ `
   subscription OnUpdateDay($owners: String) {
     onUpdateDay(owners: $owners) {
       id
-      dia
-      mes
-      year
+      dateString
       hora {
         id
         status
@@ -590,9 +580,7 @@ export const onDeleteDay = /* GraphQL */ `
   subscription OnDeleteDay($owners: String) {
     onDeleteDay(owners: $owners) {
       id
-      dia
-      mes
-      year
+      dateString
       hora {
         id
         status

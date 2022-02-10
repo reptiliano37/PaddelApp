@@ -456,9 +456,7 @@ export const createCourt = /* GraphQL */ `
       numeroPista
       day {
         id
-        dia
-        mes
-        year
+        dateString
         hora {
           id
           status
@@ -489,9 +487,7 @@ export const updateCourt = /* GraphQL */ `
       numeroPista
       day {
         id
-        dia
-        mes
-        year
+        dateString
         hora {
           id
           status
@@ -522,9 +518,7 @@ export const deleteCourt = /* GraphQL */ `
       numeroPista
       day {
         id
-        dia
-        mes
-        year
+        dateString
         hora {
           id
           status
@@ -552,9 +546,7 @@ export const createDay = /* GraphQL */ `
   ) {
     createDay(input: $input, condition: $condition) {
       id
-      dia
-      mes
-      year
+      dateString
       hora {
         id
         status
@@ -598,9 +590,7 @@ export const updateDay = /* GraphQL */ `
   ) {
     updateDay(input: $input, condition: $condition) {
       id
-      dia
-      mes
-      year
+      dateString
       hora {
         id
         status
@@ -644,9 +634,7 @@ export const deleteDay = /* GraphQL */ `
   ) {
     deleteDay(input: $input, condition: $condition) {
       id
-      dia
-      mes
-      year
+      dateString
       hora {
         id
         status

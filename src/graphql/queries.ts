@@ -246,9 +246,7 @@ export const getCourt = /* GraphQL */ `
       numeroPista
       day {
         id
-        dia
-        mes
-        year
+        dateString
         hora {
           id
           status
@@ -281,9 +279,7 @@ export const listCourts = /* GraphQL */ `
         numeroPista
         day {
           id
-          dia
-          mes
-          year
+          dateString
           createdAt
           updatedAt
           owners
@@ -297,12 +293,10 @@ export const listCourts = /* GraphQL */ `
   }
 `;
 export const getDay = /* GraphQL */ `
-  query GetDay($id: ID!) {
-    getDay(id: $id) {
+  query GetDay($dateString: String!) {
+    getDay(dateString: $dateString) {
       id
-      dia
-      mes
-      year
+      dateString
       hora {
         id
         status
@@ -341,16 +335,22 @@ export const getDay = /* GraphQL */ `
 `;
 export const listDays = /* GraphQL */ `
   query ListDays(
+    $dateString: String
     $filter: ModelDayFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listDays(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listDays(
+      dateString: $dateString
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
         id
-        dia
-        mes
-        year
+        dateString
         hora {
           id
           status

@@ -19,6 +19,18 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         marginBottom:10,
       },
+      atrasButton: {
+        width: '100%',
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 20,
+        // marginBottom:10,
+    },
+    textAtras: {
+      fontSize: 18,
+      fontWeight: 'bold'
+  },
     buttonModal: {
         width: '100%',
         height: 50,

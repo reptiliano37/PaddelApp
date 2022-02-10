@@ -15,11 +15,12 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Title } from 'react-native-paper';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { listCourts, listPlayers } from '../../graphql/queries';
+
 import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import AppointmentPicker from 'appointment-picker';
 import Animbutton from '../../components/animButon/animButton';
-
+import { createDay, updateCourt, updateDay } from '../../graphql/mutations';
+import { listCourts, listDays } from '../../graphql/queries';
 
 type BookingProps = {
   navigation: NativeStackNavigationProp<StackNavigatorParams, "Booking">
@@ -35,7 +36,7 @@ const jsonData = { "slots" : {
   "slot7": "19:00 a 20:30",
   "slot8": "20:30 a 22:00",
   "slot9": "22:00 a 23:00",
-}
+  } 
 }
 
 
@@ -45,6 +46,7 @@ export default function Booking({navigation}: BookingProps) {
   const [selected, setSelected] = useState('');
   const RootStack = createNativeStackNavigator();
   const [courts, setCourts] = useState([])
+  const [days, setDays] = useState([])
   const [players, setPlayers] = useState([])
   
   function BookScreen({ navigation }) {
@@ -52,20 +54,68 @@ export default function Booking({navigation}: BookingProps) {
       setSelected(day.dateString);
     };
 
-    async function checkDay(){
-      
+    async function checkDay(day){
+      // Miramos en la tabla Day, a ver si existe el dia
+      const dayInfo = {
+        dateString: day["dateString"]
+      }
+      const respListDays = await API.graphql({
+        query:listDays,
+        authMode: GRAPHQL_AUTH_MODE.AWS_IAM
+      })
+      console.log(respListDays["data"]["listDays"]["items"])
+      let days = respListDays["data"]["listDays"]["items"]
+      setDays(days)
+      // Si la tabla de dias esta vacia creamos un nuevo dia
+      if (days.length === 0){
+        const newDay = await API.graphql({
+          query:createDay,
+          variables: {input: dayInfo},
+          authMode: GRAPHQL_AUTH_MODE.AWS_IAM})
+      }
+      else{
+        let checkDaysList = []
+        days.forEach(async elementDay => {
+          checkDaysList.push(elementDay["dateString"])
+        })
+        
+        //Si no esta vacia miramos si en la tabla existe el dia, si no existe lo creamos.
+        if (checkDaysList.includes(day["dateString"])){
+          return
+        }else{
+          const newDay = await API.graphql({
+            query:createDay,
+            variables: {input: dayInfo},
+            authMode: GRAPHQL_AUTH_MODE.AWS_IAM})
+        }
+      }
+    }
+
+
+    async function checkCourt(day){
       try {
-        // const fetchCourts = await API.graphql(graphqlOperation(listCourts))
-        const resp = await API.graphql({
+
+        // Primero recorremos cada una de las pistas
+
+        const respListCourts = await API.graphql({
           query:listCourts,
           authMode: GRAPHQL_AUTH_MODE.AWS_IAM
-      })
-      const courts = resp["data"]["listCourts"]["items"]
-      setCourts(courts)
-      console.log(courts)
-    } catch (err) { 
-      console.log('error fetching todos',err)
-     }
+        })
+        const courts = respListCourts["data"]["listCourts"]["items"]
+        setCourts(courts)
+        // courts.forEach(async element => {
+        //   element["day"].forEach(dayCourt => {
+        //     if (element["day"] == null){
+
+        //     }
+        //     console.log(dayCourt)
+        //   });
+        // })
+
+      } catch (error) {
+        //Error en el primer try-catch
+        console.log('error fetching todos',error)
+      }
     }
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -93,7 +143,7 @@ export default function Booking({navigation}: BookingProps) {
                     onDayPress={day =>{
                       onDayPress(day);
                       console.log(day);
-                      checkDay();
+                      checkDay(day);
                       
                       navigation.navigate('Hora')
                     }}
@@ -147,25 +197,45 @@ export default function Booking({navigation}: BookingProps) {
     
 
     return (
-      <SafeAreaView>
-        <Title style={{ fontSize: 25}}>Elige la hora para reservar pista:</Title>
+      <SafeAreaView  style={{
+        // position:'absolute', 
+        // bottom:10,
+        // flexDirection: "row",
+        // justifyContent:'space-between',
+        // width:'100%'
+      }}>
+        <Title style={{ fontSize: 20}}>Elige la hora para reservar pista:</Title>
         {slots ? 
           <ScrollView>
             {Object.keys(slots).map( function(k) {
               return (  <View key={k} style={{margin:5}}>
                           <LinearGradient style={[styles.buttonHour]} colors={['#6495ED', 'cyan']} >
-                            <ButtonComponent title={slots[k]} >
+                            <ButtonComponent title={slots[k]} style={styles.buttonHour} >
 
                           </ButtonComponent>
                           </LinearGradient>
                         </View>)
             })}
+            <View style={{marginBottom:70,margin:5}}>
+            <TouchableOpacity
+                            onPress={() => navigation.goBack()}
+                            style={[styles.atrasButton, {
+                                borderColor: 'cyan',
+                                borderWidth: 1,
+                                // marginTop: 15
+                            }]}
+                        >
+                            <Text style={[styles.textAtras, {
+                                color: 'cyan'
+                            }]}>Volver a elegir día</Text>
+                        </TouchableOpacity>
+                        </View>
             </ScrollView>
             :
             <>
             </>
           }
-        <Button onPress={() => {navigation.goBack();}} title="Atrás" />
+        
       </SafeAreaView>
     );
   }
