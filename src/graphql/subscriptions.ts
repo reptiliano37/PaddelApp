@@ -414,27 +414,21 @@ export const onCreateCourt = /* GraphQL */ `
   subscription OnCreateCourt($owners: String) {
     onCreateCourt(owners: $owners) {
       id
-      numeroPista
-      day {
-        id
-        dateString
-        hora {
+      courtNumber
+      createdAt
+      updatedAt
+      owners
+      days {
+        items {
           id
-          status
-          hora
-          playerUsername
-          userUsername
+          dateString
+          courtNumber
           createdAt
           updatedAt
           owners
         }
-        createdAt
-        updatedAt
-        owners
+        nextToken
       }
-      createdAt
-      updatedAt
-      owners
     }
   }
 `;
@@ -442,27 +436,21 @@ export const onUpdateCourt = /* GraphQL */ `
   subscription OnUpdateCourt($owners: String) {
     onUpdateCourt(owners: $owners) {
       id
-      numeroPista
-      day {
-        id
-        dateString
-        hora {
+      courtNumber
+      createdAt
+      updatedAt
+      owners
+      days {
+        items {
           id
-          status
-          hora
-          playerUsername
-          userUsername
+          dateString
+          courtNumber
           createdAt
           updatedAt
           owners
         }
-        createdAt
-        updatedAt
-        owners
+        nextToken
       }
-      createdAt
-      updatedAt
-      owners
     }
   }
 `;
@@ -470,27 +458,126 @@ export const onDeleteCourt = /* GraphQL */ `
   subscription OnDeleteCourt($owners: String) {
     onDeleteCourt(owners: $owners) {
       id
-      numeroPista
-      day {
-        id
-        dateString
-        hora {
+      courtNumber
+      createdAt
+      updatedAt
+      owners
+      days {
+        items {
           id
-          status
-          hora
-          playerUsername
-          userUsername
+          dateString
+          courtNumber
           createdAt
           updatedAt
           owners
         }
+        nextToken
+      }
+    }
+  }
+`;
+export const onCreateCourtDay = /* GraphQL */ `
+  subscription OnCreateCourtDay($owners: String) {
+    onCreateCourtDay(owners: $owners) {
+      id
+      dateString
+      courtNumber
+      createdAt
+      updatedAt
+      court {
+        id
+        courtNumber
         createdAt
         updatedAt
         owners
+        days {
+          nextToken
+        }
       }
+      owners
+      day {
+        id
+        dateString
+        createdAt
+        updatedAt
+        courts {
+          nextToken
+        }
+        owners
+        horas {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const onUpdateCourtDay = /* GraphQL */ `
+  subscription OnUpdateCourtDay($owners: String) {
+    onUpdateCourtDay(owners: $owners) {
+      id
+      dateString
+      courtNumber
       createdAt
       updatedAt
+      court {
+        id
+        courtNumber
+        createdAt
+        updatedAt
+        owners
+        days {
+          nextToken
+        }
+      }
       owners
+      day {
+        id
+        dateString
+        createdAt
+        updatedAt
+        courts {
+          nextToken
+        }
+        owners
+        horas {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const onDeleteCourtDay = /* GraphQL */ `
+  subscription OnDeleteCourtDay($owners: String) {
+    onDeleteCourtDay(owners: $owners) {
+      id
+      dateString
+      courtNumber
+      createdAt
+      updatedAt
+      court {
+        id
+        courtNumber
+        createdAt
+        updatedAt
+        owners
+        days {
+          nextToken
+        }
+      }
+      owners
+      day {
+        id
+        dateString
+        createdAt
+        updatedAt
+        courts {
+          nextToken
+        }
+        owners
+        horas {
+          nextToken
+        }
+      }
     }
   }
 `;
@@ -499,39 +586,31 @@ export const onCreateDay = /* GraphQL */ `
     onCreateDay(owners: $owners) {
       id
       dateString
-      hora {
-        id
-        status
-        hora
-        playerUsername
-        userUsername
-        createdAt
-        updatedAt
-        trainer {
-          id
-          cognitoID
-          username
-          name
-          email
-          typeUser
-          createdAt
-          updatedAt
-        }
-        player {
-          id
-          cognitoID
-          username
-          name
-          email
-          typeUser
-          createdAt
-          updatedAt
-        }
-        owners
-      }
       createdAt
       updatedAt
+      courts {
+        items {
+          id
+          dateString
+          courtNumber
+          createdAt
+          updatedAt
+          owners
+        }
+        nextToken
+      }
       owners
+      horas {
+        items {
+          id
+          hora
+          dateString
+          createdAt
+          updatedAt
+          owners
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -540,39 +619,31 @@ export const onUpdateDay = /* GraphQL */ `
     onUpdateDay(owners: $owners) {
       id
       dateString
-      hora {
-        id
-        status
-        hora
-        playerUsername
-        userUsername
-        createdAt
-        updatedAt
-        trainer {
-          id
-          cognitoID
-          username
-          name
-          email
-          typeUser
-          createdAt
-          updatedAt
-        }
-        player {
-          id
-          cognitoID
-          username
-          name
-          email
-          typeUser
-          createdAt
-          updatedAt
-        }
-        owners
-      }
       createdAt
       updatedAt
+      courts {
+        items {
+          id
+          dateString
+          courtNumber
+          createdAt
+          updatedAt
+          owners
+        }
+        nextToken
+      }
       owners
+      horas {
+        items {
+          id
+          hora
+          dateString
+          createdAt
+          updatedAt
+          owners
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -581,7 +652,57 @@ export const onDeleteDay = /* GraphQL */ `
     onDeleteDay(owners: $owners) {
       id
       dateString
-      hora {
+      createdAt
+      updatedAt
+      courts {
+        items {
+          id
+          dateString
+          courtNumber
+          createdAt
+          updatedAt
+          owners
+        }
+        nextToken
+      }
+      owners
+      horas {
+        items {
+          id
+          hora
+          dateString
+          createdAt
+          updatedAt
+          owners
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const onCreateDayHour = /* GraphQL */ `
+  subscription OnCreateDayHour($owners: String) {
+    onCreateDayHour(owners: $owners) {
+      id
+      hora
+      dateString
+      createdAt
+      updatedAt
+      day {
+        id
+        dateString
+        createdAt
+        updatedAt
+        courts {
+          nextToken
+        }
+        owners
+        horas {
+          nextToken
+        }
+      }
+      owners
+      hour {
         id
         status
         hora
@@ -609,11 +730,127 @@ export const onDeleteDay = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        days {
+          nextToken
+        }
         owners
       }
+    }
+  }
+`;
+export const onUpdateDayHour = /* GraphQL */ `
+  subscription OnUpdateDayHour($owners: String) {
+    onUpdateDayHour(owners: $owners) {
+      id
+      hora
+      dateString
       createdAt
       updatedAt
+      day {
+        id
+        dateString
+        createdAt
+        updatedAt
+        courts {
+          nextToken
+        }
+        owners
+        horas {
+          nextToken
+        }
+      }
       owners
+      hour {
+        id
+        status
+        hora
+        playerUsername
+        userUsername
+        createdAt
+        updatedAt
+        trainer {
+          id
+          cognitoID
+          username
+          name
+          email
+          typeUser
+          createdAt
+          updatedAt
+        }
+        player {
+          id
+          cognitoID
+          username
+          name
+          email
+          typeUser
+          createdAt
+          updatedAt
+        }
+        days {
+          nextToken
+        }
+        owners
+      }
+    }
+  }
+`;
+export const onDeleteDayHour = /* GraphQL */ `
+  subscription OnDeleteDayHour($owners: String) {
+    onDeleteDayHour(owners: $owners) {
+      id
+      hora
+      dateString
+      createdAt
+      updatedAt
+      day {
+        id
+        dateString
+        createdAt
+        updatedAt
+        courts {
+          nextToken
+        }
+        owners
+        horas {
+          nextToken
+        }
+      }
+      owners
+      hour {
+        id
+        status
+        hora
+        playerUsername
+        userUsername
+        createdAt
+        updatedAt
+        trainer {
+          id
+          cognitoID
+          username
+          name
+          email
+          typeUser
+          createdAt
+          updatedAt
+        }
+        player {
+          id
+          cognitoID
+          username
+          name
+          email
+          typeUser
+          createdAt
+          updatedAt
+        }
+        days {
+          nextToken
+        }
+        owners
+      }
     }
   }
 `;
@@ -652,6 +889,17 @@ export const onCreateHour = /* GraphQL */ `
         trainings {
           nextToken
         }
+      }
+      days {
+        items {
+          id
+          hora
+          dateString
+          createdAt
+          updatedAt
+          owners
+        }
+        nextToken
       }
       owners
     }
@@ -693,6 +941,17 @@ export const onUpdateHour = /* GraphQL */ `
           nextToken
         }
       }
+      days {
+        items {
+          id
+          hora
+          dateString
+          createdAt
+          updatedAt
+          owners
+        }
+        nextToken
+      }
       owners
     }
   }
@@ -732,6 +991,17 @@ export const onDeleteHour = /* GraphQL */ `
         trainings {
           nextToken
         }
+      }
+      days {
+        items {
+          id
+          hora
+          dateString
+          createdAt
+          updatedAt
+          owners
+        }
+        nextToken
       }
       owners
     }

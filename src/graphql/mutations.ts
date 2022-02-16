@@ -453,27 +453,21 @@ export const createCourt = /* GraphQL */ `
   ) {
     createCourt(input: $input, condition: $condition) {
       id
-      numeroPista
-      day {
-        id
-        dateString
-        hora {
+      courtNumber
+      createdAt
+      updatedAt
+      owners
+      days {
+        items {
           id
-          status
-          hora
-          playerUsername
-          userUsername
+          dateString
+          courtNumber
           createdAt
           updatedAt
           owners
         }
-        createdAt
-        updatedAt
-        owners
+        nextToken
       }
-      createdAt
-      updatedAt
-      owners
     }
   }
 `;
@@ -484,27 +478,21 @@ export const updateCourt = /* GraphQL */ `
   ) {
     updateCourt(input: $input, condition: $condition) {
       id
-      numeroPista
-      day {
-        id
-        dateString
-        hora {
+      courtNumber
+      createdAt
+      updatedAt
+      owners
+      days {
+        items {
           id
-          status
-          hora
-          playerUsername
-          userUsername
+          dateString
+          courtNumber
           createdAt
           updatedAt
           owners
         }
-        createdAt
-        updatedAt
-        owners
+        nextToken
       }
-      createdAt
-      updatedAt
-      owners
     }
   }
 `;
@@ -515,27 +503,135 @@ export const deleteCourt = /* GraphQL */ `
   ) {
     deleteCourt(input: $input, condition: $condition) {
       id
-      numeroPista
-      day {
-        id
-        dateString
-        hora {
+      courtNumber
+      createdAt
+      updatedAt
+      owners
+      days {
+        items {
           id
-          status
-          hora
-          playerUsername
-          userUsername
+          dateString
+          courtNumber
           createdAt
           updatedAt
           owners
         }
+        nextToken
+      }
+    }
+  }
+`;
+export const createCourtDay = /* GraphQL */ `
+  mutation CreateCourtDay(
+    $input: CreateCourtDayInput!
+    $condition: ModelCourtDayConditionInput
+  ) {
+    createCourtDay(input: $input, condition: $condition) {
+      id
+      dateString
+      courtNumber
+      createdAt
+      updatedAt
+      court {
+        id
+        courtNumber
         createdAt
         updatedAt
         owners
+        days {
+          nextToken
+        }
       }
+      owners
+      day {
+        id
+        dateString
+        createdAt
+        updatedAt
+        courts {
+          nextToken
+        }
+        owners
+        horas {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const updateCourtDay = /* GraphQL */ `
+  mutation UpdateCourtDay(
+    $input: UpdateCourtDayInput!
+    $condition: ModelCourtDayConditionInput
+  ) {
+    updateCourtDay(input: $input, condition: $condition) {
+      id
+      dateString
+      courtNumber
       createdAt
       updatedAt
+      court {
+        id
+        courtNumber
+        createdAt
+        updatedAt
+        owners
+        days {
+          nextToken
+        }
+      }
       owners
+      day {
+        id
+        dateString
+        createdAt
+        updatedAt
+        courts {
+          nextToken
+        }
+        owners
+        horas {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const deleteCourtDay = /* GraphQL */ `
+  mutation DeleteCourtDay(
+    $input: DeleteCourtDayInput!
+    $condition: ModelCourtDayConditionInput
+  ) {
+    deleteCourtDay(input: $input, condition: $condition) {
+      id
+      dateString
+      courtNumber
+      createdAt
+      updatedAt
+      court {
+        id
+        courtNumber
+        createdAt
+        updatedAt
+        owners
+        days {
+          nextToken
+        }
+      }
+      owners
+      day {
+        id
+        dateString
+        createdAt
+        updatedAt
+        courts {
+          nextToken
+        }
+        owners
+        horas {
+          nextToken
+        }
+      }
     }
   }
 `;
@@ -547,39 +643,31 @@ export const createDay = /* GraphQL */ `
     createDay(input: $input, condition: $condition) {
       id
       dateString
-      hora {
-        id
-        status
-        hora
-        playerUsername
-        userUsername
-        createdAt
-        updatedAt
-        trainer {
-          id
-          cognitoID
-          username
-          name
-          email
-          typeUser
-          createdAt
-          updatedAt
-        }
-        player {
-          id
-          cognitoID
-          username
-          name
-          email
-          typeUser
-          createdAt
-          updatedAt
-        }
-        owners
-      }
       createdAt
       updatedAt
+      courts {
+        items {
+          id
+          dateString
+          courtNumber
+          createdAt
+          updatedAt
+          owners
+        }
+        nextToken
+      }
       owners
+      horas {
+        items {
+          id
+          hora
+          dateString
+          createdAt
+          updatedAt
+          owners
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -591,39 +679,31 @@ export const updateDay = /* GraphQL */ `
     updateDay(input: $input, condition: $condition) {
       id
       dateString
-      hora {
-        id
-        status
-        hora
-        playerUsername
-        userUsername
-        createdAt
-        updatedAt
-        trainer {
-          id
-          cognitoID
-          username
-          name
-          email
-          typeUser
-          createdAt
-          updatedAt
-        }
-        player {
-          id
-          cognitoID
-          username
-          name
-          email
-          typeUser
-          createdAt
-          updatedAt
-        }
-        owners
-      }
       createdAt
       updatedAt
+      courts {
+        items {
+          id
+          dateString
+          courtNumber
+          createdAt
+          updatedAt
+          owners
+        }
+        nextToken
+      }
       owners
+      horas {
+        items {
+          id
+          hora
+          dateString
+          createdAt
+          updatedAt
+          owners
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -635,7 +715,60 @@ export const deleteDay = /* GraphQL */ `
     deleteDay(input: $input, condition: $condition) {
       id
       dateString
-      hora {
+      createdAt
+      updatedAt
+      courts {
+        items {
+          id
+          dateString
+          courtNumber
+          createdAt
+          updatedAt
+          owners
+        }
+        nextToken
+      }
+      owners
+      horas {
+        items {
+          id
+          hora
+          dateString
+          createdAt
+          updatedAt
+          owners
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const createDayHour = /* GraphQL */ `
+  mutation CreateDayHour(
+    $input: CreateDayHourInput!
+    $condition: ModelDayHourConditionInput
+  ) {
+    createDayHour(input: $input, condition: $condition) {
+      id
+      hora
+      dateString
+      createdAt
+      updatedAt
+      day {
+        id
+        dateString
+        createdAt
+        updatedAt
+        courts {
+          nextToken
+        }
+        owners
+        horas {
+          nextToken
+        }
+      }
+      owners
+      hour {
         id
         status
         hora
@@ -663,11 +796,133 @@ export const deleteDay = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        days {
+          nextToken
+        }
         owners
       }
+    }
+  }
+`;
+export const updateDayHour = /* GraphQL */ `
+  mutation UpdateDayHour(
+    $input: UpdateDayHourInput!
+    $condition: ModelDayHourConditionInput
+  ) {
+    updateDayHour(input: $input, condition: $condition) {
+      id
+      hora
+      dateString
       createdAt
       updatedAt
+      day {
+        id
+        dateString
+        createdAt
+        updatedAt
+        courts {
+          nextToken
+        }
+        owners
+        horas {
+          nextToken
+        }
+      }
       owners
+      hour {
+        id
+        status
+        hora
+        playerUsername
+        userUsername
+        createdAt
+        updatedAt
+        trainer {
+          id
+          cognitoID
+          username
+          name
+          email
+          typeUser
+          createdAt
+          updatedAt
+        }
+        player {
+          id
+          cognitoID
+          username
+          name
+          email
+          typeUser
+          createdAt
+          updatedAt
+        }
+        days {
+          nextToken
+        }
+        owners
+      }
+    }
+  }
+`;
+export const deleteDayHour = /* GraphQL */ `
+  mutation DeleteDayHour(
+    $input: DeleteDayHourInput!
+    $condition: ModelDayHourConditionInput
+  ) {
+    deleteDayHour(input: $input, condition: $condition) {
+      id
+      hora
+      dateString
+      createdAt
+      updatedAt
+      day {
+        id
+        dateString
+        createdAt
+        updatedAt
+        courts {
+          nextToken
+        }
+        owners
+        horas {
+          nextToken
+        }
+      }
+      owners
+      hour {
+        id
+        status
+        hora
+        playerUsername
+        userUsername
+        createdAt
+        updatedAt
+        trainer {
+          id
+          cognitoID
+          username
+          name
+          email
+          typeUser
+          createdAt
+          updatedAt
+        }
+        player {
+          id
+          cognitoID
+          username
+          name
+          email
+          typeUser
+          createdAt
+          updatedAt
+        }
+        days {
+          nextToken
+        }
+        owners
+      }
     }
   }
 `;
@@ -709,6 +964,17 @@ export const createHour = /* GraphQL */ `
         trainings {
           nextToken
         }
+      }
+      days {
+        items {
+          id
+          hora
+          dateString
+          createdAt
+          updatedAt
+          owners
+        }
+        nextToken
       }
       owners
     }
@@ -753,6 +1019,17 @@ export const updateHour = /* GraphQL */ `
           nextToken
         }
       }
+      days {
+        items {
+          id
+          hora
+          dateString
+          createdAt
+          updatedAt
+          owners
+        }
+        nextToken
+      }
       owners
     }
   }
@@ -795,6 +1072,17 @@ export const deleteHour = /* GraphQL */ `
         trainings {
           nextToken
         }
+      }
+      days {
+        items {
+          id
+          hora
+          dateString
+          createdAt
+          updatedAt
+          owners
+        }
+        nextToken
       }
       owners
     }

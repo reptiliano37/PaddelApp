@@ -20,7 +20,7 @@ import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import AppointmentPicker from 'appointment-picker';
 import Animbutton from '../../components/animButon/animButton';
 import { createDay, updateCourt, updateDay } from '../../graphql/mutations';
-import { listCourts, listDays } from '../../graphql/queries';
+import { getCourt, getDay, listCourts, listDays } from '../../graphql/queries';
 
 type BookingProps = {
   navigation: NativeStackNavigationProp<StackNavigatorParams, "Booking">
@@ -42,12 +42,50 @@ const jsonData = { "slots" : {
 
 export default function Booking({navigation}: BookingProps) {
 
+  const { user } = useAuth();
   const [modalVisible, setModalVisible] = useState(false);
   const [selected, setSelected] = useState('');
   const RootStack = createNativeStackNavigator();
   const [courts, setCourts] = useState([])
   const [days, setDays] = useState([])
+  const [newDay, setNewDay] = useState({})
   const [players, setPlayers] = useState([])
+
+  async function checkCourt(newDay, hour){
+    console.log(newDay,hour)
+    try {
+      // Primero recorremos cada una de las pistas
+      let listDays = []
+      listDays.push(newDay)
+      const respListCourts = await API.graphql({
+        query:listCourts,
+        authMode: GRAPHQL_AUTH_MODE.AWS_IAM
+      })
+      const courts = respListCourts["data"]["listCourts"]["items"]
+      setCourts(courts)
+      courts.forEach(async element => {
+        console.log(element)
+        if (element["day"].length == 0) {
+          const updateInfo = {
+            id: element["id"],
+            day: listDays,
+          }
+          try {
+            const updateDayInCourt = await API.graphql({
+              query:updateCourt,
+              variables: {input: updateInfo},
+              authMode: GRAPHQL_AUTH_MODE.AWS_IAM})
+          } catch (error) {
+            console.log('error update',error)
+          }
+        }
+        })
+  
+    } catch (error) {
+      //Error en el primer try-catch
+      console.log('error fetching todos',error)
+    }
+  }
   
   function BookScreen({ navigation }) {
     const onDayPress: CalendarProps['onDayPress'] = async day => {
@@ -55,68 +93,65 @@ export default function Booking({navigation}: BookingProps) {
     };
 
     async function checkDay(day){
-      // Miramos en la tabla Day, a ver si existe el dia
+      // Miramos en la tabla Day si existe el dia
       const dayInfo = {
         dateString: day["dateString"]
       }
+      // let newDay = {}
       const respListDays = await API.graphql({
         query:listDays,
         authMode: GRAPHQL_AUTH_MODE.AWS_IAM
       })
-      console.log(respListDays["data"]["listDays"]["items"])
       let days = respListDays["data"]["listDays"]["items"]
       setDays(days)
       // Si la tabla de dias esta vacia creamos un nuevo dia
       if (days.length === 0){
-        const newDay = await API.graphql({
+          const newDay = await API.graphql({
           query:createDay,
           variables: {input: dayInfo},
           authMode: GRAPHQL_AUTH_MODE.AWS_IAM})
+          
+          const selectedDay = {
+            id: newDay["data"]["createDay"]["id"],
+            dateString: newDay["data"]["createDay"]["dateString"]
+          }
+          setNewDay(selectedDay)
       }
       else{
+        //Si no esta vacia metemos los days en una lista.
         let checkDaysList = []
         days.forEach(async elementDay => {
           checkDaysList.push(elementDay["dateString"])
         })
         
-        //Si no esta vacia miramos si en la tabla existe el dia, si no existe lo creamos.
+        //Si no esta vacia miramos si en la tabla existe el dia, si existe, lo devolvemos si no, lo creamos.
         if (checkDaysList.includes(day["dateString"])){
-          return
+            const newDay = await API.graphql({
+            query:getDay,
+              variables: {dateString: day["dateString"]},
+              authMode: GRAPHQL_AUTH_MODE.AWS_IAM
+          })
+          const selectedDay = {
+            id: newDay["data"]["getDay"]["id"],
+            dateString: newDay["data"]["getDay"]["dateString"]
+          }
+          setNewDay(selectedDay)
+          
         }else{
-          const newDay = await API.graphql({
+            const newDay = await API.graphql({
             query:createDay,
             variables: {input: dayInfo},
             authMode: GRAPHQL_AUTH_MODE.AWS_IAM})
+
+            const selectedDay = {
+              id: newDay["data"]["createDay"]["id"],
+              dateString: newDay["data"]["createDay"]["dateString"]
+            }
+            setNewDay(selectedDay)
         }
       }
     }
 
-
-    async function checkCourt(day){
-      try {
-
-        // Primero recorremos cada una de las pistas
-
-        const respListCourts = await API.graphql({
-          query:listCourts,
-          authMode: GRAPHQL_AUTH_MODE.AWS_IAM
-        })
-        const courts = respListCourts["data"]["listCourts"]["items"]
-        setCourts(courts)
-        // courts.forEach(async element => {
-        //   element["day"].forEach(dayCourt => {
-        //     if (element["day"] == null){
-
-        //     }
-        //     console.log(dayCourt)
-        //   });
-        // })
-
-      } catch (error) {
-        //Error en el primer try-catch
-        console.log('error fetching todos',error)
-      }
-    }
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <Modal
@@ -136,7 +171,7 @@ export default function Booking({navigation}: BookingProps) {
                     // Initially visible month. Default = Date()
                   //   current={'2012-03-01'}
                     // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
-                    minDate={'2012-05-10'}
+                    minDate={Date()}
                     // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
                     maxDate={'2023-05-30'}
                     // Handler which gets executed on day press. Default = undefined
@@ -144,7 +179,6 @@ export default function Booking({navigation}: BookingProps) {
                       onDayPress(day);
                       console.log(day);
                       checkDay(day);
-                      
                       navigation.navigate('Hora')
                     }}
                     markedDates={{
@@ -193,24 +227,21 @@ export default function Booking({navigation}: BookingProps) {
   }
   
   function ModalScreen({ navigation }) {
+
+    let selectedDay = newDay
     const slots = jsonData.slots
-    
 
     return (
-      <SafeAreaView  style={{
-        // position:'absolute', 
-        // bottom:10,
-        // flexDirection: "row",
-        // justifyContent:'space-between',
-        // width:'100%'
-      }}>
+      <SafeAreaView>
         <Title style={{ fontSize: 20}}>Elige la hora para reservar pista:</Title>
         {slots ? 
           <ScrollView>
             {Object.keys(slots).map( function(k) {
               return (  <View key={k} style={{margin:5}}>
                           <LinearGradient style={[styles.buttonHour]} colors={['#6495ED', 'cyan']} >
-                            <ButtonComponent title={slots[k]} style={styles.buttonHour} >
+                            <ButtonComponent title={slots[k]} style={styles.buttonHour} onPress={( ) =>{
+                              checkCourt(selectedDay,slots[k])
+                            }}>
 
                           </ButtonComponent>
                           </LinearGradient>

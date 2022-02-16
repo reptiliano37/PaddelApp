@@ -24,12 +24,13 @@ Amplify.configure(awsExports);
 
 let statistics =[
  {key:"ERROR NO FORZADO REVES"},
+ {key:"ERROR NO FORZADO DERECHA"},
  {key:"ERROR VOLEA DERECHA"},
- {key:"ERROR DERECHA"},
- {key:"ERROR REVES"},
- {key:"ACIERTO DERECHA"},
- {key:"ACIERTO REVES"},
- {key:"ACIERTO REMATE"},
+ {key:"ERROR FONDO DERECHA"},
+ {key:"ERROR FONDO REVES"},
+ {key:"ACIERTO VOLEA DERECHA"},
+ {key:"ACIERTO VOLEA REVES"},
+ {key:"ACIERTO REMATE X3"},
  {key:"WINNER"}
 ]
 

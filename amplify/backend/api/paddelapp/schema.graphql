@@ -84,8 +84,10 @@ type Training
   hit: [TrainingHit]
   users: [PlayerTraining] @connection(keyName: "byTraining", fields: ["id"])
 }
+
 type Court
 @model
+@key(fields: ["courtNumber"])
 @auth(
     rules: [
       { allow: owner, ownerField: "owners", operations: [read,create,update,delete] }
@@ -94,9 +96,28 @@ type Court
   ) 
 {
   id: ID!
-  numeroPista: String!
-  day: [Day]
+  courtNumber: String!
+  days: [CourtDay] @connection(keyName: "byCourt", fields: ["courtNumber"])
 }
+
+type CourtDay
+@model(queries: null)
+@key(name: "byDay", fields: ["dateString"])
+@key(name: "byCourt", fields: ["courtNumber"])
+@auth(
+    rules: [
+      { allow: owner, ownerField: "owners", operations: [read,create,update,delete] }
+      { allow: private, provider: iam, operations: [read, create, update, delete] }
+    ]
+  ) 
+{
+  id: ID!
+  dateString: String!
+  courtNumber: String!
+  day: Day! @connection(fields: ["dateString"])
+  court: Court! @connection(fields: ["courtNumber"])
+}
+
 type Day
 @model
 @key(fields: ["dateString"])
@@ -109,10 +130,31 @@ type Day
 {
   id: ID!
   dateString:String!
-  hora: [Hour]
+  courts: [CourtDay] @connection(keyName: "byDay", fields: ["dateString"])
+  horas: [DayHour] @connection(keyName: "byDateString", fields: ["dateString"])
 }
+
+type DayHour
+@model(queries: null)
+@key(name: "byHour", fields: ["hora"])
+@key(name: "byDateString", fields: ["dateString"])
+@auth(
+    rules: [
+      { allow: owner, ownerField: "owners", operations: [read,create,update,delete] }
+      { allow: private, provider: iam, operations: [read, create, update, delete] }
+    ]
+  ) 
+{
+  id: ID!
+  hora: String!
+  dateString: String!
+  hour: Hour! @connection(fields: ["hora"])
+  day: Day! @connection(fields: ["dateString"])
+}
+
 type Hour
 @model
+@key(fields: ["hora"])
 @auth(
     rules: [
       { allow: owner, ownerField: "owners", operations: [read,create,update,delete] }
@@ -127,7 +169,9 @@ type Hour
   userUsername: String
   player: Player @connection(fields: ["playerUsername"])
   trainer: User @connection(fields: ["userUsername"])
+  days: [DayHour] @connection(keyName: "byHour", fields: ["hora"])
 }
+
 enum TrainingStatus{
   ACTIVO
   FINALIZADO
