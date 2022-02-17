@@ -250,8 +250,8 @@ export const getCourt = /* GraphQL */ `
       days {
         items {
           id
-          dateString
           courtNumber
+          dateString
           createdAt
           updatedAt
           owners
@@ -291,29 +291,22 @@ export const listCourts = /* GraphQL */ `
   }
 `;
 export const getDay = /* GraphQL */ `
-  query GetDay($dateString: String!) {
-    getDay(dateString: $dateString) {
+  query GetDay($id: ID!) {
+    getDay(id: $id) {
       id
+      courtNumber
       dateString
       createdAt
       updatedAt
-      courts {
-        items {
-          id
-          dateString
-          courtNumber
-          createdAt
-          updatedAt
-          owners
-        }
-        nextToken
-      }
       owners
-      horas {
+      hours {
         items {
           id
-          hora
+          status
           dateString
+          hora
+          playerUsername
+          userUsername
           createdAt
           updatedAt
           owners
@@ -325,29 +318,19 @@ export const getDay = /* GraphQL */ `
 `;
 export const listDays = /* GraphQL */ `
   query ListDays(
-    $dateString: String
     $filter: ModelDayFilterInput
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listDays(
-      dateString: $dateString
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
+    listDays(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        courtNumber
         dateString
         createdAt
         updatedAt
-        courts {
-          nextToken
-        }
         owners
-        horas {
+        hours {
           nextToken
         }
       }
@@ -356,10 +339,11 @@ export const listDays = /* GraphQL */ `
   }
 `;
 export const getHour = /* GraphQL */ `
-  query GetHour($hora: String!) {
-    getHour(hora: $hora) {
+  query GetHour($id: ID!) {
+    getHour(id: $id) {
       id
       status
+      dateString
       hora
       playerUsername
       userUsername
@@ -391,39 +375,21 @@ export const getHour = /* GraphQL */ `
           nextToken
         }
       }
-      days {
-        items {
-          id
-          hora
-          dateString
-          createdAt
-          updatedAt
-          owners
-        }
-        nextToken
-      }
       owners
     }
   }
 `;
 export const listHours = /* GraphQL */ `
   query ListHours(
-    $hora: String
     $filter: ModelHourFilterInput
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listHours(
-      hora: $hora
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
+    listHours(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         status
+        dateString
         hora
         playerUsername
         userUsername
@@ -448,9 +414,6 @@ export const listHours = /* GraphQL */ `
           typeUser
           createdAt
           updatedAt
-        }
-        days {
-          nextToken
         }
         owners
       }

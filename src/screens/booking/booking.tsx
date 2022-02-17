@@ -55,8 +55,7 @@ export default function Booking({navigation}: BookingProps) {
     console.log(newDay,hour)
     try {
       // Primero recorremos cada una de las pistas
-      let listDays = []
-      listDays.push(newDay)
+      
       const respListCourts = await API.graphql({
         query:listCourts,
         authMode: GRAPHQL_AUTH_MODE.AWS_IAM
@@ -65,12 +64,17 @@ export default function Booking({navigation}: BookingProps) {
       setCourts(courts)
       courts.forEach(async element => {
         console.log(element)
-        if (element["day"].length == 0) {
-          const updateInfo = {
-            id: element["id"],
-            day: listDays,
-          }
+        if (element["days"] == null) {
+          
           try {
+            
+
+            const updateInfo = {
+              id: element["id"],
+              courtNumber: element["courtNumber"],
+              days: [newDay["dateString"]]
+            }
+
             const updateDayInCourt = await API.graphql({
               query:updateCourt,
               variables: {input: updateInfo},
