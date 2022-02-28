@@ -151,10 +151,25 @@ export default function SignInScreen({navigation}: SignInScreenProps) {
         setLoading(true);
         const {username, password} = data;
         try{
+            if ((username || password) == "" ) {
+                Alert.alert("Error", "Debes rellenar todos los campos");
+                setLoading(false)
+                return
+            }
             await Auth.signIn(username,password);
             navigation.navigate("Home",{username})
         } catch(error:any){
             console.log(error)
+            if (error.code === "UserNotFoundException"){
+                Alert.alert("Aviso","¡Usuario no existe! Por favor vuelve a introducir un usuario válido o regístrate.")
+                setLoading(false);
+                return
+            }
+            if (error.code === "NotAuthorizedException"){
+                Alert.alert("Aviso","¡Usuario o contraseña incorrect@! Por favor vuelve a introducir un usuario válido o regístrate.")
+                setLoading(false);
+                return
+            }
             if (error.code === "UserNotConfirmedException"){
                 Alert.alert("Aviso","¡Usuario no confirmado! Por favor vuelve a introducir el código de confirmación.")
                 navigation.navigate("SignUpScreen", {username})

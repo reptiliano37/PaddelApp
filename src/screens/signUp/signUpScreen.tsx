@@ -56,6 +56,21 @@ type SignUpScreenProps = {
         const {username, password, email, name, typeUser} = data;
         try{
             console.log(data)
+            if (username.indexOf(' ') >= 0){
+                Alert.alert("Error", "Has introducido un espacio en el nombre de usuario.");
+                setLoading(false)
+                return
+            }
+            if ((username || password || email || name || typeUser) == "" ) {
+                Alert.alert("Error", "Debes rellenar todos los campos");
+                setLoading(false)
+                return
+            }
+            if (password.length < 8){
+                Alert.alert("Error", "Debes introducir una contraseña con más de 7 carácteres.");
+                setLoading(false)
+                return
+            }
             await Auth.signUp({
                 username,
                 password,
@@ -68,6 +83,10 @@ type SignUpScreenProps = {
             setStep("otp");
         }catch(error){
             console.log(error);
+            if (error.code === " UsernameExistsException"){
+                Alert.alert("Aviso","¡El nombre de usuario ya existe! Por favor vuelve a introducir un nombre de usuario distinto.")
+                navigation.navigate("SignUpScreen", {username})
+            }
             Alert.alert("Error", "Ha ocurrido un error en el registro.");
         }
         setLoading(false);
