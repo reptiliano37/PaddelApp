@@ -2,7 +2,9 @@ import {StyleSheet} from "react-native";
 
 const styles = StyleSheet.create({
     container:{
-        flexDirection:'column'
+        flexDirection:'column',
+        flex:1,
+        
     },
     containerTraining:{
         alignItems: "center",
@@ -24,10 +26,10 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginLeft:10,
         marginRight:10,
-        shadowColor: 'cyan',
-        shadowOffset: { width: 5, height: 5 },
+        shadowColor: 'black',
+        shadowOffset: { width: 10, height: 10 },
         shadowRadius: 10,
-        shadowOpacity: 0.35,
+        shadowOpacity: 0.55,
         alignItems: "center",
         justifyContent: "center",
         flexDirection:"column"
@@ -42,10 +44,10 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginLeft:10,
         marginRight:10,
-        shadowColor: '#6495ED',
+        shadowColor: 'black',
         shadowOffset: { width: 5, height: 5 },
         shadowRadius: 10,
-        shadowOpacity: 0.35,
+        shadowOpacity: 0.55,
         alignItems: "center",
         justifyContent: "center",
         flexDirection:"column"
@@ -63,7 +65,7 @@ const styles = StyleSheet.create({
         shadowColor: 'pink',
         shadowOffset: { width: 5, height: 5 },
         shadowRadius: 10,
-        shadowOpacity: 0.35,
+        shadowOpacity: 0.55,
         alignItems: "center",
         justifyContent: "center",
         flexDirection:"column"
@@ -78,10 +80,10 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginLeft:10,
         marginRight:10,
-        shadowColor: 'purple',
+        shadowColor: 'black',
         shadowOffset: { width: 5, height: 5 },
         shadowRadius: 10,
-        shadowOpacity: 0.35,
+        shadowOpacity: 0.65,
         alignItems: "center",
         justifyContent: "center",
         flexDirection:"column"

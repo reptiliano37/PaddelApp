@@ -33,6 +33,7 @@ export default function SignInScreen({navigation}: SignInScreenProps) {
 
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
+    const [state, setState] = useState('');
     const [password, setPassword] = useState('');
 
     const [isError, setIsError] = useState(false);
@@ -40,15 +41,6 @@ export default function SignInScreen({navigation}: SignInScreenProps) {
     const [isLogin, setIsLogin] = useState(true);
     const [isSecureEntry, setSecureEntry] = useState(true)
 
-    const onChangeHandler = () => {
-        setIsLogin(!isLogin);
-        setMessage('');
-    };
-
-    const getMessage = () => {
-        const status = isError ? `Error: ` : `Success: `;
-        return status + message;
-    }
 
     const [data, setData] = React.useState({
         username: '',
@@ -105,47 +97,12 @@ export default function SignInScreen({navigation}: SignInScreenProps) {
 
     const updateSecureTextEntry = () => {
         setSecureEntry(!isSecureEntry)
-        // setData({
-        //     ...data,
-        //     secureTextEntry: !data.secureTextEntry
-        // });
     }
-
-    // const handleValidUser = (val) => {
-    //     if( val.trim().length >= 4 ) {
-    //         setData({
-    //             ...data,
-    //             isValidUser: true
-    //         });
-    //     } else {
-    //         setData({
-    //             ...data,
-    //             isValidUser: false
-    //         });
-    //     }
-    // }
-
-    // const loginHandle = (email:any, password:any) => {
-
-    //     // const foundUser = Users.filter( item => {
-    //     //     return email == item.email && password == item.password;
-    //     // } );
-
-    //     if ( email.length == 0 || password.length == 0 ) {
-    //         Alert.alert('Wrong Input!', 'email or password field cannot be empty.', [
-    //             {text: 'Okay'}
-    //         ]);
-    //         return;
-    //     }
-
-    //     if ( foundUser.length == 0 ) {
-    //         Alert.alert('Invalid User!', 'email or password is incorrect.', [
-    //             {text: 'Okay'}
-    //         ]);
-    //         return;
-    //     }
-    //     // signIn(foundUser);
-    // }
+    const cleanFields = () => {
+        setDataInput('username','')
+        setDataInput('password','')
+    }
+    
 
     const login = async() =>{
         setLoading(true);
@@ -162,12 +119,14 @@ export default function SignInScreen({navigation}: SignInScreenProps) {
             console.log(error)
             if (error.code === "UserNotFoundException"){
                 Alert.alert("Aviso","¡Usuario no existe! Por favor vuelve a introducir un usuario válido o regístrate.")
-                setLoading(false);
+                setLoading(false)
+                cleanFields()
                 return
             }
             if (error.code === "NotAuthorizedException"){
                 Alert.alert("Aviso","¡Usuario o contraseña incorrect@! Por favor vuelve a introducir un usuario válido o regístrate.")
                 setLoading(false);
+                cleanFields()
                 return
             }
             if (error.code === "UserNotConfirmedException"){
@@ -206,13 +165,15 @@ export default function SignInScreen({navigation}: SignInScreenProps) {
                         color: colors.text
                     }]}
                     autoCapitalize="none"
+                    value={data.username}
                     onChangeText={(val) => 
-                        setDataInput("username",val)
-                    }
+                        {setDataInput("username",val)
+                    }}
                     // onChangeText={setEmail}
                     // onEndEditing={(e)=>handleValidUser(e.nativeEvent.text)}
                 />
-                {/* {data.check_textInputChange ? 
+                {
+                /* {data.check_textInputChange ? 
                 <Animatable.View
                     animation="bounceIn"
                 >
@@ -249,6 +210,7 @@ export default function SignInScreen({navigation}: SignInScreenProps) {
                         color: colors.text
                     }]}
                     autoCapitalize="none"
+                    value={data.password}
                     onChangeText={(val) => 
                         setDataInput("password",val)
                     }

@@ -8,6 +8,7 @@ import ButtonComponent from '../../components/button/button'
 import {useAuth} from '../../contexts/auth-context';
 import {Auth} from 'aws-amplify'
 import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer';
+import { LinearGradient } from 'expo-linear-gradient';
 
 type HomeProps = {
   navigation: NativeStackNavigationProp<StackNavigatorParams, "Home">
@@ -19,6 +20,12 @@ export default function Home({navigation}: HomeProps) {
   const [signingOut, setSigningOut] = useState(false);
   return (
     <View  style={styles.container}>
+      <LinearGradient
+                    start={{x: 0.0, y: 0.25}} end={{x: 0.5, y: 1.0}}
+                    locations={[0,0.5,0.6]}
+                    colors={['cyan','#6495ED', '#6495ED']}
+                    style={{flex:1}}
+                >
       <View style={styles.containerTraining}>
         <TouchableOpacity style={styles.buttonTraining} onPress={()=>{navigation.navigate("Training")}}>
             <Image source={require("../../../assets/paddle.png")} style={styles.image}/>
@@ -43,6 +50,7 @@ export default function Home({navigation}: HomeProps) {
             </View>
         </TouchableOpacity>
       </View>
+      </LinearGradient>
      </View>
   );
 }
