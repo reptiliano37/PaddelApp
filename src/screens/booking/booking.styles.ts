@@ -8,14 +8,24 @@ const styles = StyleSheet.create({
         height:150,
         justifyContent: 'center',
         // alignItems: 'center',
-        borderRadius: 80,
+        borderRadius: 75,
         marginBottom:20,
         backgroundColor:'white',
-        alignItems: 'center'
+        alignItems: 'center',
+        shadowColor: 'black',
+        shadowOffset: { width: 10, height: 10 },
+        shadowRadius: 10,
+        shadowOpacity: 0.55,
       },
       text_footer: {
         fontWeight: "bold",
         fontStyle: "italic"
+    },
+    textButtonStyle:{
+      fontWeight: "bold",
+      fontStyle: "italic",
+      fontSize:20,
+      color:'white'
     },
     text_position:{
         position: 'absolute', 

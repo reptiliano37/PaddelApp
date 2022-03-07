@@ -21,6 +21,7 @@ import AppointmentPicker from 'appointment-picker';
 import Animbutton from '../../components/animButon/animButton';
 import { createDia, updatePista, updateDia } from '../../graphql/mutations';
 import { getPista, getDia, listPistas, listDias } from '../../graphql/queries';
+import { retry } from '@aws-amplify/core';
 
 type BookingProps = {
   navigation: NativeStackNavigationProp<StackNavigatorParams, "Booking">
@@ -64,6 +65,52 @@ export default function Booking({navigation}: BookingProps) {
   const [days, setDays] = useState([])
   const [newDay, setNewDay] = useState({})
   const [players, setPlayers] = useState([])
+  const [shouldShow, setShouldShow] = useState(true);
+  const [hourChoice, setHourChoice] = useState(false);
+  const HourButton = (props) => {
+    return(
+      <TouchableOpacity style={{marginTop:15} }onPress={()=>{
+        setShouldShow(false)
+        setHourChoice(true)
+      }}>
+        <LinearGradient colors={['cyan','#6495ED', '#6495ED']}
+                    style={styles.button}>
+          <Text style={styles.textButtonStyle}>1 hora </Text>
+        </LinearGradient>
+      </TouchableOpacity>
+    )
+  }
+  const HourAndHalfButton = (props) => {
+    return(
+      <TouchableOpacity onPress={()=>{
+        setShouldShow(false)
+        setHourChoice(false)
+      }}>
+        <LinearGradient colors={['cyan','#6495ED', '#6495ED']}
+                    style={styles.button}>
+          <Text style={styles.textButtonStyle}>1 hora y media</Text>
+        </LinearGradient>
+      </TouchableOpacity>
+    )
+  }
+  const VolverAtras = (props) =>{
+    return(
+    <View style={{marginBottom:70,margin:5}}>
+                <TouchableOpacity
+                                onPress={() => {
+                                                setShouldShow(true)}}
+                                style={[styles.atrasButton, {
+                                    borderColor: 'cyan',
+                                    borderWidth: 1
+                                }]}
+                            >
+                                <Text style={[styles.textAtras, {
+                                    color: 'cyan'
+                                }]}>Volver a elegir tiempo de reserva</Text>
+                            </TouchableOpacity>
+                            </View>)
+  }
+    
 
   async function checkCourt(newDay, hour){
     console.log(newDay,hour)
@@ -191,13 +238,8 @@ export default function Booking({navigation}: BookingProps) {
               {/* <View style={{ paddingTop: 50 }}> */}
               <Title>¿Qué dia quieres reservar pista?</Title>
                   <Calendar
-                    // Initially visible month. Default = Date()
-                  //   current={'2012-03-01'}
-                    // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
                     minDate={Date()}
-                    // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
                     maxDate={'2023-05-30'}
-                    // Handler which gets executed on day press. Default = undefined
                     onDayPress={day =>{
                       onDayPress(day);
                       console.log(day);
@@ -212,20 +254,10 @@ export default function Booking({navigation}: BookingProps) {
                         selectedTextColor: 'white'
                       }
                     }}
-                    // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
                     monthFormat={'yyyy MM'}
-                    // Handler which gets executed when visible month changes in calendar. Default = undefined
                     onMonthChange={month => {
                       console.log('month changed', month);
                     }}
-                    // Hide month navigation arrows. Default = false
-                  //   hideArrows={true}
-                    // Do not show days of other months in month page. Default = false
-                  //   hideExtraDays={true}
-                    // If hideArrows=false and hideExtraDays=false do not swich month when tapping on greyed out
-                    // day from another month that is visible in calendar page. Default = false
-                  //   disableMonthChange={true}
-                    // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday.
                     firstDay={1}
                     enableSwipeMonths={true}
                   />
@@ -256,44 +288,71 @@ export default function Booking({navigation}: BookingProps) {
   function HoraScreen({ navigation }) {
 
     let selectedDay = newDay
-    const slots = jsonHorasYmedia.slots
+    const horasYmedia = jsonHorasYmedia.slots
+    const horas = jsonHoras.slots
 
     return (
-      <SafeAreaView>
-        <Title style={{ fontSize: 20}}>Elige la hora para reservar pista:</Title>
-        {slots ? 
-          <ScrollView>
-            {Object.keys(slots).map( function(k) {
-              return (  <View key={k} style={{margin:5}}>
-                          <LinearGradient style={[styles.buttonHour]} colors={['#6495ED', 'cyan']} >
-                            <ButtonComponent title={slots[k]} style={styles.buttonHour} onPress={( ) =>{
-                              checkCourt(selectedDay,slots[k])
-                            }}>
-
-                          </ButtonComponent>
-                          </LinearGradient>
-                        </View>)
-            })}
+      <View style={{flex:1, backgroundColor:'white'}}>
+        {shouldShow ? (
+          <SafeAreaView style={{flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
+            <Title>¿Cuánto tiempo quieres reservar?</Title>
+            <HourButton/>
+            <HourAndHalfButton/>
             <View style={{marginBottom:70,margin:5}}>
-            <TouchableOpacity
-                            onPress={() => navigation.goBack()}
-                            style={[styles.atrasButton, {
-                                borderColor: 'cyan',
-                                borderWidth: 1
-                            }]}
-                        >
-                            <Text style={[styles.textAtras, {
-                                color: 'cyan'
-                            }]}>Volver a elegir día</Text>
-                        </TouchableOpacity>
-                        </View>
-            </ScrollView>
-            :
-            <>
-            </>
-          }
-        
-      </SafeAreaView>
+                <TouchableOpacity
+                                onPress={() => {navigation.goBack(BookScreen)}}
+                                style={[styles.atrasButton, {
+                                    borderColor: 'cyan',
+                                    borderWidth: 1,
+                                    marginTop:50
+                                }]}
+                            >
+                                <Text style={[styles.textAtras, {
+                                    color: 'cyan',
+                                    marginLeft:20,
+                                    marginRight:20
+                                }]}>Volver a elegir el día</Text>
+                            </TouchableOpacity>
+                            </View>
+          </SafeAreaView>
+        ) : (
+          <SafeAreaView>
+            <Title style={{ fontSize: 20}}>Elige la hora para reservar pista:</Title>
+            {hourChoice ? 
+              <ScrollView>
+                {Object.keys(horas).map( function(k) {
+                  return (  <View key={k} style={{margin:5}}>
+                              <LinearGradient style={[styles.buttonHour]} colors={['#6495ED', 'cyan']} >
+                                <ButtonComponent title={horas[k]} style={styles.buttonHour} onPress={( ) =>{
+                                  checkCourt(selectedDay,horas[k])
+                                }}>
+
+                              </ButtonComponent>
+                              </LinearGradient>
+                            </View>)
+                })}
+                  <VolverAtras/>
+                </ScrollView>
+                :
+                <ScrollView>
+                {Object.keys(horasYmedia).map( function(k) {
+                  return (  <View key={k} style={{margin:5}}>
+                              <LinearGradient style={[styles.buttonHour]} colors={['#6495ED', 'cyan']} >
+                                <ButtonComponent title={horasYmedia[k]} style={styles.buttonHour} onPress={( ) =>{
+                                  checkCourt(selectedDay,horasYmedia[k])
+                                }}>
+
+                              </ButtonComponent>
+                              </LinearGradient>
+                            </View>)
+                })}
+                  <VolverAtras/>
+                </ScrollView>
+              }
+            
+          </SafeAreaView>
+        )}
+      </View>
     );
   }
     
