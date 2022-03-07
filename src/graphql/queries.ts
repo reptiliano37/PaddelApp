@@ -239,20 +239,22 @@ export const listTrainings = /* GraphQL */ `
     }
   }
 `;
-export const getCourt = /* GraphQL */ `
-  query GetCourt($courtNumber: String!) {
-    getCourt(courtNumber: $courtNumber) {
+export const getPista = /* GraphQL */ `
+  query GetPista($numeroPista: String!) {
+    getPista(numeroPista: $numeroPista) {
       id
-      courtNumber
+      numeroPista
       createdAt
       updatedAt
       owners
-      days {
+      dias {
         items {
           id
           courtNumber
           dateString
           createdAt
+          hora
+          playerUsername
           updatedAt
           owners
         }
@@ -261,16 +263,16 @@ export const getCourt = /* GraphQL */ `
     }
   }
 `;
-export const listCourts = /* GraphQL */ `
-  query ListCourts(
-    $courtNumber: String
-    $filter: ModelCourtFilterInput
+export const listPistas = /* GraphQL */ `
+  query ListPistas(
+    $numeroPista: String
+    $filter: ModelPistaFilterInput
     $limit: Int
     $nextToken: String
     $sortDirection: ModelSortDirection
   ) {
-    listCourts(
-      courtNumber: $courtNumber
+    listPistas(
+      numeroPista: $numeroPista
       filter: $filter
       limit: $limit
       nextToken: $nextToken
@@ -278,11 +280,11 @@ export const listCourts = /* GraphQL */ `
     ) {
       items {
         id
-        courtNumber
+        numeroPista
         createdAt
         updatedAt
         owners
-        days {
+        dias {
           nextToken
         }
       }
@@ -290,130 +292,52 @@ export const listCourts = /* GraphQL */ `
     }
   }
 `;
-export const getDay = /* GraphQL */ `
-  query GetDay($id: ID!) {
-    getDay(id: $id) {
+export const getDia = /* GraphQL */ `
+  query GetDia($dateString: String!) {
+    getDia(dateString: $dateString) {
       id
-      courtNumber
       dateString
       createdAt
       updatedAt
-      owners
-      hours {
+      pistas {
         items {
           id
-          status
+          courtNumber
           dateString
+          createdAt
           hora
           playerUsername
-          userUsername
-          createdAt
           updatedAt
           owners
         }
         nextToken
       }
-    }
-  }
-`;
-export const listDays = /* GraphQL */ `
-  query ListDays(
-    $filter: ModelDayFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listDays(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        courtNumber
-        dateString
-        createdAt
-        updatedAt
-        owners
-        hours {
-          nextToken
-        }
-      }
-      nextToken
-    }
-  }
-`;
-export const getHour = /* GraphQL */ `
-  query GetHour($id: ID!) {
-    getHour(id: $id) {
-      id
-      status
-      dateString
-      hora
-      playerUsername
-      userUsername
-      createdAt
-      updatedAt
-      trainer {
-        id
-        cognitoID
-        username
-        name
-        email
-        typeUser
-        createdAt
-        updatedAt
-        trainings {
-          nextToken
-        }
-      }
-      player {
-        id
-        cognitoID
-        username
-        name
-        email
-        typeUser
-        createdAt
-        updatedAt
-        trainings {
-          nextToken
-        }
-      }
       owners
     }
   }
 `;
-export const listHours = /* GraphQL */ `
-  query ListHours(
-    $filter: ModelHourFilterInput
+export const listDias = /* GraphQL */ `
+  query ListDias(
+    $dateString: String
+    $filter: ModelDiaFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listHours(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listDias(
+      dateString: $dateString
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
         id
-        status
         dateString
-        hora
-        playerUsername
-        userUsername
         createdAt
         updatedAt
-        trainer {
-          id
-          cognitoID
-          username
-          name
-          email
-          typeUser
-          createdAt
-          updatedAt
-        }
-        player {
-          id
-          cognitoID
-          username
-          name
-          email
-          typeUser
-          createdAt
-          updatedAt
+        pistas {
+          nextToken
         }
         owners
       }

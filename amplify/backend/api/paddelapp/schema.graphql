@@ -85,9 +85,25 @@ type Training
   users: [PlayerTraining] @connection(keyName: "byTraining", fields: ["id"])
 }
 
-type Court
+type Pista
 @model
-@key(fields: ["courtNumber"])
+@key(fields: ["numeroPista"])
+@auth(
+    rules: [
+      { allow: owner, ownerField: "owners", operations: [read,create,update,delete] }
+      { allow: private, provider: iam, operations: [read, create, update, delete] }
+    ]
+  ) 
+{
+  id: ID!
+  numeroPista: String!
+  dias: [ReservaPista] @connection(keyName:"byCourt", fields: ["numeroPista"])
+}
+
+type ReservaPista
+@model (queries: null)
+@key(name:"byCourt", fields: ["courtNumber"])
+@key(name:"byDay", fields: ["dateString","createdAt"])
 @auth(
     rules: [
       { allow: owner, ownerField: "owners", operations: [read,create,update,delete] }
@@ -97,45 +113,27 @@ type Court
 {
   id: ID!
   courtNumber: String!
-  days: [Day] @connection(keyName: "ByCourt", fields: ["courtNumber"])
-}
-
-
-type Day
-@model
-@key(name: "ByCourt", fields: ["courtNumber", "dateString"])
-@auth(
-    rules: [
-      { allow: owner, ownerField: "owners", operations: [read,create,update,delete] }
-      { allow: private, provider: iam, operations: [read, create, update, delete] }
-    ]
-  ) 
-{
-  id: ID!
-  courtNumber:String!
-  dateString:String!
-  hours: [Hour] @connection(keyName: "ByDay", fields: ["dateString"])
-}
-
-
-type Hour
-@model
-@key(name: "ByDay", fields: ["dateString", "hora"])
-@auth(
-    rules: [
-      { allow: owner, ownerField: "owners", operations: [read,create,update,delete] }
-      { allow: private, provider: iam, operations: [read, create, update, delete] }
-    ]
-  ) 
-{
-  id: ID!
-  status: CourtStatus!
   dateString: String!
-  hora: String!
-  playerUsername: String
-  userUsername: String
-  player: Player @connection(fields: ["playerUsername"])
-  trainer: User @connection(fields: ["userUsername"])
+  createdAt: String!
+  hora: String
+  playerUsername: String!
+  court: Pista! @connection(fields: ["courtNumber"])
+  day: Dia! @connection(fields: ["dateString"])
+}
+
+type Dia
+@model
+@key(fields: ["dateString"])
+@auth(
+    rules: [
+      { allow: owner, ownerField: "owners", operations: [read,create,update,delete] }
+      { allow: private, provider: iam, operations: [read, create, update, delete] }
+    ]
+  )
+{
+  id: ID!
+  dateString:String!
+  pistas: [ReservaPista] @connection(keyName:"byDay", fields: ["dateString"])
 }
 
 enum TrainingStatus{

@@ -19,14 +19,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import AppointmentPicker from 'appointment-picker';
 import Animbutton from '../../components/animButon/animButton';
-import { createDay, updateCourt, updateDay } from '../../graphql/mutations';
-import { getCourt, getDay, listCourts, listDays } from '../../graphql/queries';
+import { createDia, updatePista, updateDia } from '../../graphql/mutations';
+import { getPista, getDia, listPistas, listDias } from '../../graphql/queries';
 
 type BookingProps = {
   navigation: NativeStackNavigationProp<StackNavigatorParams, "Booking">
 }
 
-const jsonData = { "slots" : {
+const jsonHorasYmedia = { "slots" : {
   "slot1": "10:00 a 11:30",
   "slot2": "11:30 a 13:00",
   "slot3": "13:00 a 14:30",
@@ -36,6 +36,20 @@ const jsonData = { "slots" : {
   "slot7": "19:00 a 20:30",
   "slot8": "20:30 a 22:00",
   "slot9": "22:00 a 23:00",
+  } 
+}
+const jsonHoras = { "slots" : {
+  "slot1": "10:00 a 11:00",
+  "slot2": "11:00 a 12:00",
+  "slot3": "12:00 a 13:00",
+  "slot4": "13:00 a 14:00",
+  "slot5": "15:00 a 16:00",
+  "slot6": "16:00 a 17:00",
+  "slot7": "17:00 a 18:00",
+  "slot8": "18:00 a 19:00",
+  "slot9": "19:00 a 20:00",
+  "slot10": "21:00 a 22:00",
+  "slot11": "22:00 a 23:00",
   } 
 }
 
@@ -57,26 +71,25 @@ export default function Booking({navigation}: BookingProps) {
       // Primero recorremos cada una de las pistas
       
       const respListCourts = await API.graphql({
-        query:listCourts,
+        query:listPistas,
         authMode: GRAPHQL_AUTH_MODE.AWS_IAM
       })
       const courts = respListCourts["data"]["listCourts"]["items"]
       setCourts(courts)
       courts.forEach(async element => {
         console.log(element)
-        if (element["days"] == null) {
+        if (element["days"]["nextToken"] == null) {
           
           try {
             
-
             const updateInfo = {
               id: element["id"],
               courtNumber: element["courtNumber"],
-              days: [newDay["dateString"]]
+              day: [newDay["dateString"]]
             }
 
             const updateDayInCourt = await API.graphql({
-              query:updateCourt,
+              query:updatePista,
               variables: {input: updateInfo},
               authMode: GRAPHQL_AUTH_MODE.AWS_IAM})
           } catch (error) {
@@ -103,7 +116,7 @@ export default function Booking({navigation}: BookingProps) {
       }
       // let newDay = {}
       const respListDays = await API.graphql({
-        query:listDays,
+        query:listDias,
         authMode: GRAPHQL_AUTH_MODE.AWS_IAM
       })
       let days = respListDays["data"]["listDays"]["items"]
@@ -111,7 +124,7 @@ export default function Booking({navigation}: BookingProps) {
       // Si la tabla de dias esta vacia creamos un nuevo dia
       if (days.length === 0){
           const newDay = await API.graphql({
-          query:createDay,
+          query:createDia,
           variables: {input: dayInfo},
           authMode: GRAPHQL_AUTH_MODE.AWS_IAM})
           
@@ -131,7 +144,7 @@ export default function Booking({navigation}: BookingProps) {
         //Si no esta vacia miramos si en la tabla existe el dia, si existe, lo devolvemos si no, lo creamos.
         if (checkDaysList.includes(day["dateString"])){
             const newDay = await API.graphql({
-            query:getDay,
+            query:getDia,
               variables: {dateString: day["dateString"]},
               authMode: GRAPHQL_AUTH_MODE.AWS_IAM
           })
@@ -143,7 +156,7 @@ export default function Booking({navigation}: BookingProps) {
           
         }else{
             const newDay = await API.graphql({
-            query:createDay,
+            query:createDia,
             variables: {input: dayInfo},
             authMode: GRAPHQL_AUTH_MODE.AWS_IAM})
 
@@ -157,7 +170,13 @@ export default function Booking({navigation}: BookingProps) {
     }
 
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={{ flex: 1, justifyContent: 'center' }}>
+        <LinearGradient
+                    start={{x: 0.0, y: 0.25}} end={{x: 0.5, y: 1.0}}
+                    locations={[0,0.5,0.6]}
+                    colors={['cyan','#6495ED', '#6495ED']}
+                    style={{flex:1}}
+                >
           <Modal
             style={{margin:0,flex:1}}
             animationType="fade"
@@ -219,21 +238,25 @@ export default function Booking({navigation}: BookingProps) {
               </ScrollView>
           </Modal>
         
-        <Pressable 
-              style={styles.button}
-              onPress={() => setModalVisible(!modalVisible)}>
-                <LinearGradient style={[styles.button]} colors={['#6495ED', 'cyan']} >
-                      <Text style={styles.textStyle}>Reservar una pista</Text>
-                </LinearGradient>
-        </Pressable>
+        <View style={styles.buttonSection}>
+            <Pressable 
+                style={styles.button}
+                onPress={() => setModalVisible(!modalVisible)}>
+                  <Image source={require("../../../assets/tennis-court.png")} style={styles.image}/>
+                    <View style={styles.text_position}>
+                      <Text style={styles.text_footer}>Reservar pista</Text>
+                    </View>
+          </Pressable>
+        </View>
+        </LinearGradient>
         </View>
     );
   }
   
-  function ModalScreen({ navigation }) {
+  function HoraScreen({ navigation }) {
 
     let selectedDay = newDay
-    const slots = jsonData.slots
+    const slots = jsonHorasYmedia.slots
 
     return (
       <SafeAreaView>
@@ -256,8 +279,7 @@ export default function Booking({navigation}: BookingProps) {
                             onPress={() => navigation.goBack()}
                             style={[styles.atrasButton, {
                                 borderColor: 'cyan',
-                                borderWidth: 1,
-                                // marginTop: 15
+                                borderWidth: 1
                             }]}
                         >
                             <Text style={[styles.textAtras, {
@@ -282,7 +304,7 @@ export default function Booking({navigation}: BookingProps) {
           <RootStack.Screen name="Book" component={BookScreen}/>
         </RootStack.Group>
         <RootStack.Group screenOptions={{ presentation: 'modal' }}>
-          <RootStack.Screen name="Hora" component={ModalScreen} />
+          <RootStack.Screen name="Hora" component={HoraScreen} />
         </RootStack.Group>
       </RootStack.Navigator>
     )

@@ -4,12 +4,40 @@ import {StatusBar, StyleSheet} from "react-native";
 const styles = StyleSheet.create({
 
     button: {
-        width:100,
-        height:100,
+        width:150,
+        height:150,
         justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 50,
-        marginBottom:10,
+        // alignItems: 'center',
+        borderRadius: 80,
+        marginBottom:20,
+        backgroundColor:'white',
+        alignItems: 'center'
+      },
+      text_footer: {
+        fontWeight: "bold",
+        fontStyle: "italic"
+    },
+    text_position:{
+        position: 'absolute', 
+        top: 80, 
+        left: 0, 
+        right: 0,
+        bottom: 0, 
+        justifyContent: 'center', 
+        alignItems: 'center'
+    },
+    image: {
+      width: 100,
+      height: 60,
+      resizeMode: 'contain',
+      justifyContent: 'center',
+      marginBottom:20,
+  },
+      buttonSection:{
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center'
       },
       buttonHour: {
         width: '100%',

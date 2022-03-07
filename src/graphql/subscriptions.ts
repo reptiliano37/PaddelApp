@@ -410,20 +410,22 @@ export const onDeleteTraining = /* GraphQL */ `
     }
   }
 `;
-export const onCreateCourt = /* GraphQL */ `
-  subscription OnCreateCourt($owners: String) {
-    onCreateCourt(owners: $owners) {
+export const onCreatePista = /* GraphQL */ `
+  subscription OnCreatePista($owners: String) {
+    onCreatePista(owners: $owners) {
       id
-      courtNumber
+      numeroPista
       createdAt
       updatedAt
       owners
-      days {
+      dias {
         items {
           id
           courtNumber
           dateString
           createdAt
+          hora
+          playerUsername
           updatedAt
           owners
         }
@@ -432,20 +434,22 @@ export const onCreateCourt = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateCourt = /* GraphQL */ `
-  subscription OnUpdateCourt($owners: String) {
-    onUpdateCourt(owners: $owners) {
+export const onUpdatePista = /* GraphQL */ `
+  subscription OnUpdatePista($owners: String) {
+    onUpdatePista(owners: $owners) {
       id
-      courtNumber
+      numeroPista
       createdAt
       updatedAt
       owners
-      days {
+      dias {
         items {
           id
           courtNumber
           dateString
           createdAt
+          hora
+          playerUsername
           updatedAt
           owners
         }
@@ -454,20 +458,22 @@ export const onUpdateCourt = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteCourt = /* GraphQL */ `
-  subscription OnDeleteCourt($owners: String) {
-    onDeleteCourt(owners: $owners) {
+export const onDeletePista = /* GraphQL */ `
+  subscription OnDeletePista($owners: String) {
+    onDeletePista(owners: $owners) {
       id
-      courtNumber
+      numeroPista
       createdAt
       updatedAt
       owners
-      days {
+      dias {
         items {
           id
           courtNumber
           dateString
           createdAt
+          hora
+          playerUsername
           updatedAt
           owners
         }
@@ -476,202 +482,175 @@ export const onDeleteCourt = /* GraphQL */ `
     }
   }
 `;
-export const onCreateDay = /* GraphQL */ `
-  subscription OnCreateDay($owners: String) {
-    onCreateDay(owners: $owners) {
+export const onCreateReservaPista = /* GraphQL */ `
+  subscription OnCreateReservaPista($owners: String) {
+    onCreateReservaPista(owners: $owners) {
       id
       courtNumber
       dateString
       createdAt
+      hora
+      playerUsername
       updatedAt
-      owners
-      hours {
-        items {
-          id
-          status
-          dateString
-          hora
-          playerUsername
-          userUsername
-          createdAt
-          updatedAt
-          owners
+      court {
+        id
+        numeroPista
+        createdAt
+        updatedAt
+        owners
+        dias {
+          nextToken
         }
-        nextToken
+      }
+      owners
+      day {
+        id
+        dateString
+        createdAt
+        updatedAt
+        pistas {
+          nextToken
+        }
+        owners
       }
     }
   }
 `;
-export const onUpdateDay = /* GraphQL */ `
-  subscription OnUpdateDay($owners: String) {
-    onUpdateDay(owners: $owners) {
+export const onUpdateReservaPista = /* GraphQL */ `
+  subscription OnUpdateReservaPista($owners: String) {
+    onUpdateReservaPista(owners: $owners) {
       id
       courtNumber
       dateString
       createdAt
+      hora
+      playerUsername
       updatedAt
-      owners
-      hours {
-        items {
-          id
-          status
-          dateString
-          hora
-          playerUsername
-          userUsername
-          createdAt
-          updatedAt
-          owners
+      court {
+        id
+        numeroPista
+        createdAt
+        updatedAt
+        owners
+        dias {
+          nextToken
         }
-        nextToken
+      }
+      owners
+      day {
+        id
+        dateString
+        createdAt
+        updatedAt
+        pistas {
+          nextToken
+        }
+        owners
       }
     }
   }
 `;
-export const onDeleteDay = /* GraphQL */ `
-  subscription OnDeleteDay($owners: String) {
-    onDeleteDay(owners: $owners) {
+export const onDeleteReservaPista = /* GraphQL */ `
+  subscription OnDeleteReservaPista($owners: String) {
+    onDeleteReservaPista(owners: $owners) {
       id
       courtNumber
       dateString
       createdAt
+      hora
+      playerUsername
       updatedAt
+      court {
+        id
+        numeroPista
+        createdAt
+        updatedAt
+        owners
+        dias {
+          nextToken
+        }
+      }
       owners
-      hours {
+      day {
+        id
+        dateString
+        createdAt
+        updatedAt
+        pistas {
+          nextToken
+        }
+        owners
+      }
+    }
+  }
+`;
+export const onCreateDia = /* GraphQL */ `
+  subscription OnCreateDia($owners: String) {
+    onCreateDia(owners: $owners) {
+      id
+      dateString
+      createdAt
+      updatedAt
+      pistas {
         items {
           id
-          status
+          courtNumber
           dateString
+          createdAt
           hora
           playerUsername
-          userUsername
-          createdAt
           updatedAt
           owners
         }
         nextToken
       }
+      owners
     }
   }
 `;
-export const onCreateHour = /* GraphQL */ `
-  subscription OnCreateHour($owners: String) {
-    onCreateHour(owners: $owners) {
+export const onUpdateDia = /* GraphQL */ `
+  subscription OnUpdateDia($owners: String) {
+    onUpdateDia(owners: $owners) {
       id
-      status
       dateString
-      hora
-      playerUsername
-      userUsername
       createdAt
       updatedAt
-      trainer {
-        id
-        cognitoID
-        username
-        name
-        email
-        typeUser
-        createdAt
-        updatedAt
-        trainings {
-          nextToken
+      pistas {
+        items {
+          id
+          courtNumber
+          dateString
+          createdAt
+          hora
+          playerUsername
+          updatedAt
+          owners
         }
-      }
-      player {
-        id
-        cognitoID
-        username
-        name
-        email
-        typeUser
-        createdAt
-        updatedAt
-        trainings {
-          nextToken
-        }
+        nextToken
       }
       owners
     }
   }
 `;
-export const onUpdateHour = /* GraphQL */ `
-  subscription OnUpdateHour($owners: String) {
-    onUpdateHour(owners: $owners) {
+export const onDeleteDia = /* GraphQL */ `
+  subscription OnDeleteDia($owners: String) {
+    onDeleteDia(owners: $owners) {
       id
-      status
       dateString
-      hora
-      playerUsername
-      userUsername
       createdAt
       updatedAt
-      trainer {
-        id
-        cognitoID
-        username
-        name
-        email
-        typeUser
-        createdAt
-        updatedAt
-        trainings {
-          nextToken
+      pistas {
+        items {
+          id
+          courtNumber
+          dateString
+          createdAt
+          hora
+          playerUsername
+          updatedAt
+          owners
         }
-      }
-      player {
-        id
-        cognitoID
-        username
-        name
-        email
-        typeUser
-        createdAt
-        updatedAt
-        trainings {
-          nextToken
-        }
-      }
-      owners
-    }
-  }
-`;
-export const onDeleteHour = /* GraphQL */ `
-  subscription OnDeleteHour($owners: String) {
-    onDeleteHour(owners: $owners) {
-      id
-      status
-      dateString
-      hora
-      playerUsername
-      userUsername
-      createdAt
-      updatedAt
-      trainer {
-        id
-        cognitoID
-        username
-        name
-        email
-        typeUser
-        createdAt
-        updatedAt
-        trainings {
-          nextToken
-        }
-      }
-      player {
-        id
-        cognitoID
-        username
-        name
-        email
-        typeUser
-        createdAt
-        updatedAt
-        trainings {
-          nextToken
-        }
+        nextToken
       }
       owners
     }

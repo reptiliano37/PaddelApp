@@ -446,23 +446,25 @@ export const deleteTraining = /* GraphQL */ `
     }
   }
 `;
-export const createCourt = /* GraphQL */ `
-  mutation CreateCourt(
-    $input: CreateCourtInput!
-    $condition: ModelCourtConditionInput
+export const createPista = /* GraphQL */ `
+  mutation CreatePista(
+    $input: CreatePistaInput!
+    $condition: ModelPistaConditionInput
   ) {
-    createCourt(input: $input, condition: $condition) {
+    createPista(input: $input, condition: $condition) {
       id
-      courtNumber
+      numeroPista
       createdAt
       updatedAt
       owners
-      days {
+      dias {
         items {
           id
           courtNumber
           dateString
           createdAt
+          hora
+          playerUsername
           updatedAt
           owners
         }
@@ -471,23 +473,25 @@ export const createCourt = /* GraphQL */ `
     }
   }
 `;
-export const updateCourt = /* GraphQL */ `
-  mutation UpdateCourt(
-    $input: UpdateCourtInput!
-    $condition: ModelCourtConditionInput
+export const updatePista = /* GraphQL */ `
+  mutation UpdatePista(
+    $input: UpdatePistaInput!
+    $condition: ModelPistaConditionInput
   ) {
-    updateCourt(input: $input, condition: $condition) {
+    updatePista(input: $input, condition: $condition) {
       id
-      courtNumber
+      numeroPista
       createdAt
       updatedAt
       owners
-      days {
+      dias {
         items {
           id
           courtNumber
           dateString
           createdAt
+          hora
+          playerUsername
           updatedAt
           owners
         }
@@ -496,23 +500,25 @@ export const updateCourt = /* GraphQL */ `
     }
   }
 `;
-export const deleteCourt = /* GraphQL */ `
-  mutation DeleteCourt(
-    $input: DeleteCourtInput!
-    $condition: ModelCourtConditionInput
+export const deletePista = /* GraphQL */ `
+  mutation DeletePista(
+    $input: DeletePistaInput!
+    $condition: ModelPistaConditionInput
   ) {
-    deleteCourt(input: $input, condition: $condition) {
+    deletePista(input: $input, condition: $condition) {
       id
-      courtNumber
+      numeroPista
       createdAt
       updatedAt
       owners
-      days {
+      dias {
         items {
           id
           courtNumber
           dateString
           createdAt
+          hora
+          playerUsername
           updatedAt
           owners
         }
@@ -521,220 +527,193 @@ export const deleteCourt = /* GraphQL */ `
     }
   }
 `;
-export const createDay = /* GraphQL */ `
-  mutation CreateDay(
-    $input: CreateDayInput!
-    $condition: ModelDayConditionInput
+export const createReservaPista = /* GraphQL */ `
+  mutation CreateReservaPista(
+    $input: CreateReservaPistaInput!
+    $condition: ModelReservaPistaConditionInput
   ) {
-    createDay(input: $input, condition: $condition) {
+    createReservaPista(input: $input, condition: $condition) {
       id
       courtNumber
       dateString
       createdAt
+      hora
+      playerUsername
       updatedAt
-      owners
-      hours {
-        items {
-          id
-          status
-          dateString
-          hora
-          playerUsername
-          userUsername
-          createdAt
-          updatedAt
-          owners
+      court {
+        id
+        numeroPista
+        createdAt
+        updatedAt
+        owners
+        dias {
+          nextToken
         }
-        nextToken
+      }
+      owners
+      day {
+        id
+        dateString
+        createdAt
+        updatedAt
+        pistas {
+          nextToken
+        }
+        owners
       }
     }
   }
 `;
-export const updateDay = /* GraphQL */ `
-  mutation UpdateDay(
-    $input: UpdateDayInput!
-    $condition: ModelDayConditionInput
+export const updateReservaPista = /* GraphQL */ `
+  mutation UpdateReservaPista(
+    $input: UpdateReservaPistaInput!
+    $condition: ModelReservaPistaConditionInput
   ) {
-    updateDay(input: $input, condition: $condition) {
+    updateReservaPista(input: $input, condition: $condition) {
       id
       courtNumber
       dateString
       createdAt
+      hora
+      playerUsername
       updatedAt
-      owners
-      hours {
-        items {
-          id
-          status
-          dateString
-          hora
-          playerUsername
-          userUsername
-          createdAt
-          updatedAt
-          owners
+      court {
+        id
+        numeroPista
+        createdAt
+        updatedAt
+        owners
+        dias {
+          nextToken
         }
-        nextToken
+      }
+      owners
+      day {
+        id
+        dateString
+        createdAt
+        updatedAt
+        pistas {
+          nextToken
+        }
+        owners
       }
     }
   }
 `;
-export const deleteDay = /* GraphQL */ `
-  mutation DeleteDay(
-    $input: DeleteDayInput!
-    $condition: ModelDayConditionInput
+export const deleteReservaPista = /* GraphQL */ `
+  mutation DeleteReservaPista(
+    $input: DeleteReservaPistaInput!
+    $condition: ModelReservaPistaConditionInput
   ) {
-    deleteDay(input: $input, condition: $condition) {
+    deleteReservaPista(input: $input, condition: $condition) {
       id
       courtNumber
       dateString
       createdAt
+      hora
+      playerUsername
       updatedAt
+      court {
+        id
+        numeroPista
+        createdAt
+        updatedAt
+        owners
+        dias {
+          nextToken
+        }
+      }
       owners
-      hours {
+      day {
+        id
+        dateString
+        createdAt
+        updatedAt
+        pistas {
+          nextToken
+        }
+        owners
+      }
+    }
+  }
+`;
+export const createDia = /* GraphQL */ `
+  mutation CreateDia(
+    $input: CreateDiaInput!
+    $condition: ModelDiaConditionInput
+  ) {
+    createDia(input: $input, condition: $condition) {
+      id
+      dateString
+      createdAt
+      updatedAt
+      pistas {
         items {
           id
-          status
+          courtNumber
           dateString
+          createdAt
           hora
           playerUsername
-          userUsername
-          createdAt
           updatedAt
           owners
         }
         nextToken
       }
+      owners
     }
   }
 `;
-export const createHour = /* GraphQL */ `
-  mutation CreateHour(
-    $input: CreateHourInput!
-    $condition: ModelHourConditionInput
+export const updateDia = /* GraphQL */ `
+  mutation UpdateDia(
+    $input: UpdateDiaInput!
+    $condition: ModelDiaConditionInput
   ) {
-    createHour(input: $input, condition: $condition) {
+    updateDia(input: $input, condition: $condition) {
       id
-      status
       dateString
-      hora
-      playerUsername
-      userUsername
       createdAt
       updatedAt
-      trainer {
-        id
-        cognitoID
-        username
-        name
-        email
-        typeUser
-        createdAt
-        updatedAt
-        trainings {
-          nextToken
+      pistas {
+        items {
+          id
+          courtNumber
+          dateString
+          createdAt
+          hora
+          playerUsername
+          updatedAt
+          owners
         }
-      }
-      player {
-        id
-        cognitoID
-        username
-        name
-        email
-        typeUser
-        createdAt
-        updatedAt
-        trainings {
-          nextToken
-        }
+        nextToken
       }
       owners
     }
   }
 `;
-export const updateHour = /* GraphQL */ `
-  mutation UpdateHour(
-    $input: UpdateHourInput!
-    $condition: ModelHourConditionInput
+export const deleteDia = /* GraphQL */ `
+  mutation DeleteDia(
+    $input: DeleteDiaInput!
+    $condition: ModelDiaConditionInput
   ) {
-    updateHour(input: $input, condition: $condition) {
+    deleteDia(input: $input, condition: $condition) {
       id
-      status
       dateString
-      hora
-      playerUsername
-      userUsername
       createdAt
       updatedAt
-      trainer {
-        id
-        cognitoID
-        username
-        name
-        email
-        typeUser
-        createdAt
-        updatedAt
-        trainings {
-          nextToken
+      pistas {
+        items {
+          id
+          courtNumber
+          dateString
+          createdAt
+          hora
+          playerUsername
+          updatedAt
+          owners
         }
-      }
-      player {
-        id
-        cognitoID
-        username
-        name
-        email
-        typeUser
-        createdAt
-        updatedAt
-        trainings {
-          nextToken
-        }
-      }
-      owners
-    }
-  }
-`;
-export const deleteHour = /* GraphQL */ `
-  mutation DeleteHour(
-    $input: DeleteHourInput!
-    $condition: ModelHourConditionInput
-  ) {
-    deleteHour(input: $input, condition: $condition) {
-      id
-      status
-      dateString
-      hora
-      playerUsername
-      userUsername
-      createdAt
-      updatedAt
-      trainer {
-        id
-        cognitoID
-        username
-        name
-        email
-        typeUser
-        createdAt
-        updatedAt
-        trainings {
-          nextToken
-        }
-      }
-      player {
-        id
-        cognitoID
-        username
-        name
-        email
-        typeUser
-        createdAt
-        updatedAt
-        trainings {
-          nextToken
-        }
+        nextToken
       }
       owners
     }
