@@ -101,7 +101,7 @@ type Pista
 }
 
 type ReservaPista
-@model (queries: null)
+@model
 @key(name:"byCourt", fields: ["courtNumber"])
 @key(name:"byDay", fields: ["dateString","createdAt"])
 @auth(
@@ -117,8 +117,8 @@ type ReservaPista
   createdAt: String!
   hora: String
   playerUsername: String!
-  court: Pista! @connection(fields: ["courtNumber"])
-  day: Dia! @connection(fields: ["dateString"])
+  court: Pista @connection(fields: ["courtNumber"])
+  day: Dia @connection(fields: ["dateString"])
 }
 
 type Dia

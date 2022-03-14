@@ -292,6 +292,75 @@ export const listPistas = /* GraphQL */ `
     }
   }
 `;
+export const getReservaPista = /* GraphQL */ `
+  query GetReservaPista($id: ID!) {
+    getReservaPista(id: $id) {
+      id
+      courtNumber
+      dateString
+      createdAt
+      hora
+      playerUsername
+      updatedAt
+      court {
+        id
+        numeroPista
+        createdAt
+        updatedAt
+        owners
+        dias {
+          nextToken
+        }
+      }
+      owners
+      day {
+        id
+        dateString
+        createdAt
+        updatedAt
+        pistas {
+          nextToken
+        }
+        owners
+      }
+    }
+  }
+`;
+export const listReservaPistas = /* GraphQL */ `
+  query ListReservaPistas(
+    $filter: ModelReservaPistaFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listReservaPistas(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        courtNumber
+        dateString
+        createdAt
+        hora
+        playerUsername
+        updatedAt
+        court {
+          id
+          numeroPista
+          createdAt
+          updatedAt
+          owners
+        }
+        owners
+        day {
+          id
+          dateString
+          createdAt
+          updatedAt
+          owners
+        }
+      }
+      nextToken
+    }
+  }
+`;
 export const getDia = /* GraphQL */ `
   query GetDia($dateString: String!) {
     getDia(dateString: $dateString) {
