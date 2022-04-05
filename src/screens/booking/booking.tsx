@@ -11,7 +11,7 @@ import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navi
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Calendar, CalendarProps, Agenda } from 'react-native-calendars';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler';
 import { Title } from 'react-native-paper';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
@@ -22,6 +22,7 @@ import Animbutton from '../../components/animButon/animButton';
 import { createDia, updatePista, updateDia, createReservaPista } from '../../graphql/mutations';
 import { getPista, getDia, listPistas, listDias, listReservaPistas } from '../../graphql/queries';
 import { retry } from '@aws-amplify/core';
+import {Divider } from 'react-native-elements';
 
 type BookingProps = {
   navigation: NativeStackNavigationProp<StackNavigatorParams, "Booking">
@@ -59,15 +60,24 @@ export default function Booking({navigation}: BookingProps) {
 
   const { user } = useAuth();
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalReservasVisible, setModalReservasVisible] = useState(false);
   const [selected, setSelected] = useState('');
   const RootStack = createNativeStackNavigator();
   const [reservas, setReservas] = useState([])
+  const [courtsNotAvailable, setCourtsNotAvailable] = useState([])
   const [days, setDays] = useState([])
   const [dayToBook, setDayToBook] = useState({})
+  const [infoReservaGlobal, setInfoReserva] = useState({})
   const [shouldShow, setShouldShow] = useState(true);
   const [hourChoice, setHourChoice] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  
+  const toggleModalVisible = async () => {
+    setModalVisible(!modalVisible);
+  }
+  const toggleModalReservasVisible = async () => {
+    setModalReservasVisible(!modalReservasVisible);
+  }
   
   const VolverAtras = (props) =>{
     return(
@@ -116,7 +126,8 @@ export default function Booking({navigation}: BookingProps) {
         hora: newHourBooked["data"]["createReservaPista"]["hora"],
         playerUsername: newHourBooked["data"]["createReservaPista"]["playerUsername"]
       }
-      return infoReserva
+      setLoading(false)
+      setInfoReserva(infoReserva)
 
     } catch (error) {
       console.log(error)
@@ -126,7 +137,9 @@ export default function Booking({navigation}: BookingProps) {
     
 
   async function  checkCourt(day){
-    
+    // OBJ: Funcion que consulta las reservas del dia que ha sido seleccionado
+    // RET: Void. - Modifica la lista global añadiendo las horas y numero de pista que estan reservadas. 
+
     let courtsNotAvailable = []
     try {
       
@@ -144,10 +157,9 @@ export default function Booking({navigation}: BookingProps) {
           variables: {filter: filter},
           authMode: GRAPHQL_AUTH_MODE.AWS_IAM
         })
-        const reservasDiaSolicitado = respListReservaPistas["data"]["listReservaPistas"]["items"] || []
-
+        const reservasDiaSolicitado = respListReservaPistas["data"]["listReservaPistas"]["items"]
         //Guardamos todas las reservas de ese dia en la lista globlal reservas. 
-      
+        
         setReservas(reservasDiaSolicitado)
 
         // Recorremos todas las reservas de la lista
@@ -157,17 +169,20 @@ export default function Booking({navigation}: BookingProps) {
             return
           }else{
             let courtBooked = {
+
+              date:element["dateString"],
               court: element["courtNumber"],
-              hora: element["hora"]
+              hora: element["hora"],
+              courtStatus: "RESERVADA"
             }
             //Guardamos las horas que no estan disponibles las pistas
             courtsNotAvailable.push(courtBooked)
           }
         
         })
+        console.log(courtsNotAvailable)
+        setCourtsNotAvailable(courtsNotAvailable)
 
-        return courtsNotAvailable
-        
       } catch (error) {
         console.log(error)
       }
@@ -261,59 +276,124 @@ export default function Booking({navigation}: BookingProps) {
               setModalVisible(!modalVisible);
             }}
           >
-              <ScrollView style={styles.containerList}>
-              <Title>¿Qué dia quieres reservar pista?</Title>
-                  <Calendar
-                    minDate={Date()}
-                    maxDate={'2023-05-30'}
-                    onDayPress={day =>{
-                      onDayPress(day);
-                      checkDay(day);
-                      navigation.navigate('Hora')
-                    }}
-                    markedDates={{
-                      [selected]: {
-                        selected: true,
-                        disableTouchEvent: false,
-                        selectedColor: 'blue',
-                        selectedTextColor: 'white'
-                      }
-                    }}
-                    monthFormat={'yyyy MM'}
-                    firstDay={1}
-                    enableSwipeMonths={true}
-                  />
-                  <Pressable
-                  style={styles.buttonModal}
-                  onPress={() => {setModalVisible(!modalVisible);
+            <Divider/>
+            <ScrollView style={styles.containerList}>
+              <View style={{alignItems:'center'}}>
+                <Title style={{color:'black' }}>Día</Title>
+              </View>
+            <Divider/>
+              <View style={{alignItems:'center'}}>
+                <Title style={{color:'#6495ED',fontWeight:'bold', }}>¿Qué dia quieres reservar pista?</Title>
+              </View>
+            <Divider/>
+              <Calendar
+                minDate={Date()}
+                maxDate={'2023-05-30'}
+                onDayPress={day =>{
+                  onDayPress(day);
+                  checkDay(day);
+                  navigation.navigate('Hora')
+                }}
+                markedDates={{
+                  [selected]: {
+                    selected: true,
+                    disableTouchEvent: false,
+                    selectedColor: '#6495ED',
+                    selectedTextColor: 'white'
+                  }
+                }}
+                monthFormat={'yyyy MM'}
+                firstDay={1}
+                enableSwipeMonths={true}
+              />
+                  <Divider/>
+                  <TouchableHighlight
+                  style={[styles.atrasButton, {
+                    borderColor: 'cyan',
+                    borderWidth: 1,
+                    marginTop:20,
+                }]}
+                  onPress={() => {toggleModalVisible();
                                  }}
                 >
-                  <Text style={styles.textButtonModal}>Atrás</Text>
-                </Pressable>
+                  <Text style={[styles.textAtras, {
+                                        color: 'cyan',
+                                        marginLeft:20,
+                                        marginRight:20
+                                    }]}>Atrás</Text>
+                </TouchableHighlight>
               </ScrollView>
           </Modal>
-        
-        <View style={styles.buttonSection}>
-            <Pressable 
-                style={styles.button}
-                onPress={() => setModalVisible(!modalVisible)}>
-                  <Image source={require("../../../assets/tennis-court.png")} style={styles.image}/>
-                    <View style={styles.text_position}>
-                      <Text style={styles.text_footer}>Reservar pista</Text>
-                    </View>
-            </Pressable>
-        </View>
+          <Modal
+            style={{margin:0,flex:1}}
+            animationType="slide"
+            transparent={true}
+            visible={modalReservasVisible}
+            onRequestClose={() => {
+              toggleModalVisible();
+            }}
+          >
+          <Divider/>
+            <ScrollView style={styles.containerList}>
+            <Divider/>
+              <View style={{alignItems:'center'}}>
+                <Title style={{color:'#6495ED',fontWeight:'bold', }}>Tus Reservas</Title>
+              </View>
+            <Divider/>
+              <TouchableHighlight
+                  style={[styles.atrasButton, {
+                    borderColor: 'cyan',
+                    borderWidth: 1,
+                    marginTop:20,
+                }]}
+                  onPress={() => {toggleModalReservasVisible();
+                                 }}
+                >
+                  <Text style={[styles.textAtras, {
+                                        color: 'cyan',
+                                        marginLeft:20,
+                                        marginRight:20
+                                    }]}>Atrás</Text>
+                </TouchableHighlight>
+            </ScrollView>
+            <Divider/>
+            <Divider/>
+                  
+          </Modal>
+          <View style={{flexDirection:'column',flex:1}}>
+            <View style={[styles.buttonSection,,{flex:1}]}>
+                <TouchableOpacity 
+                    style={styles.button}
+                    onPress={() => toggleModalVisible()}>
+                      <Image source={require("../../../assets/tennis-court.png")} style={styles.image}/>
+                        <View style={styles.text_position}>
+                          <Text style={styles.text_footer}>Reservar pista</Text>
+                        </View>
+                </TouchableOpacity>
+            </View>
+            <View style={[styles.buttonSection,{flex:1}]}>
+              <TouchableOpacity 
+                  style={[styles.button]}
+                  onPress={() => toggleModalReservasVisible()}>
+                    <Image source={require("../../../assets/booking.png")} style={styles.image}/>
+                      <View style={styles.text_position}>
+                        <Text style={styles.text_footer}>Tus reservas</Text>
+                      </View>
+              </TouchableOpacity>
+            </View>
+          </View>
         </LinearGradient>
-        </View>
+      </View>
     );
   }
   
   function HoraScreen({ navigation }) {
 
-    let selectedDay = dayToBook
+    const selectedDay = dayToBook
     const horasYmedia = jsonHorasYmedia.slots
     const horas = jsonHoras.slots
-    let infoReserva = {}
+    const infoReserva = infoReservaGlobal
+    const bookedHours = courtsNotAvailable
 
     const HourButton = (props) => {
       return(
@@ -347,56 +427,100 @@ export default function Booking({navigation}: BookingProps) {
     return (
       <View style={{flex:1, backgroundColor:'white'}}>
         {shouldShow ? (
-          <SafeAreaView style={{flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
-            <Title>¿Cuánto tiempo quieres reservar?</Title>
-            <HourButton/>
-            <HourAndHalfButton/>
-            <View style={{marginBottom:70,margin:5}}>
-                <TouchableOpacity
-                                onPress={() => {navigation.goBack(BookScreen);
-                                                setDayToBook("")}}
-                                style={[styles.atrasButton, {
-                                    borderColor: 'cyan',
-                                    borderWidth: 1,
-                                    marginTop:50
-                                }]}
-                            >
-                                <Text style={[styles.textAtras, {
-                                    color: 'cyan',
-                                    marginLeft:20,
-                                    marginRight:20
-                                }]}>Volver a elegir el día</Text>
-                            </TouchableOpacity>
-                            </View>
-          </SafeAreaView>
+          
+            <ScrollView >
+              <Divider/>
+              <View style={{alignItems:'center'}}>
+                <Title style={{color:'#6495ED',fontWeight:'bold',alignItems:'center'}}>¿Cuánto tiempo quieres reservar?</Title>
+              </View>
+              <Divider/>
+              <View style={{flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
+              
+                <Text style={{color:'#6495ED'}}>Reserva para el día:<Text style={[styles.textAtras, {
+                                      color: '#6495ED',
+                                      marginLeft:20,
+                                      marginRight:20
+                                  }]}>{dayToBook["dateString"]}</Text>
+                                  
+                                  </Text>
+              
+                <HourButton/>
+                <HourAndHalfButton/>
+              </View>
+              <View style={{marginBottom:70,margin:5}}>
+                  <TouchableOpacity
+                                  onPress={() => {navigation.goBack(BookScreen);
+                                                  setDayToBook("")}}
+                                  style={[styles.atrasButton, {
+                                      borderColor: 'cyan',
+                                      borderWidth: 1,
+                                      marginTop:50
+                                  }]}
+                              >
+                                  <Text style={[styles.textAtras, {
+                                      color: 'cyan',
+                                      marginLeft:20,
+                                      marginRight:20
+                                  }]}>Volver a elegir el día</Text>
+                  </TouchableOpacity>
+                </View>
+              </ScrollView>
+          
         ) : (
           <SafeAreaView>
-            <Title style={{ fontSize: 20}}>Elige la hora para reservar pista:</Title>
+            <Divider></Divider>
+            <View style={{alignItems:'center'}}>
+              <Title style={{ margin:0,fontSize: 20,color: '#6495ED',fontWeight:'bold'}}>Elige la hora para reservar pista</Title>
+            </View>
+            <Divider></Divider>
             {hourChoice ? 
               <ScrollView>
+                <View style={{marginTop:10}}>
                 {Object.keys(horas).map( function(k) {
+
                   return (  <View key={k} style={{margin:5}}>
+                              {!(bookedHours.some(e => e.hora === horas[k])) ?
                               <LinearGradient style={[styles.buttonHour]} colors={['#6495ED', 'cyan']} >
                                 <ButtonComponent title={horas[k]} loading={loading} style={styles.buttonHour} onPress={( ) =>{
-                                  infoReserva = bookHour(selectedDay,horas[k])
-                                  let message = "Información de la reserva:\n ID de Reserva: " + infoReserva["id"]  + "\nPista:" + infoReserva["courtNumber"]
+                                  bookHour(selectedDay,horas[k])
+                                  console.log(infoReserva)
+                                  let message = "Información de la reserva\n\n  " 
+                                                + "ID de Reserva:" + infoReserva["idReserva"] + "\n" +
+                                                + "Pista:" + infoReserva["courtNumber"] + "\n" +
+                                                + "Usuario:" + infoReserva["playerUsername"] + "\n" +
+                                                + "Dia:" + infoReserva["dateString"] + "\n" +
+                                                + "Hora:" + infoReserva["hora"]
                                   Alert.alert("PISTA RESERVADA",
-                                              message, )
+                                              message, 
+                                              [
+                                                { text: "OK", onPress: () => navigation.goBack(BookScreen) }
+                                              ])
                                 }}>
-
                               </ButtonComponent>
+                            </LinearGradient>
+                              :
+                              <LinearGradient style={[styles.buttonHour]} colors={['grey','grey']} >
+                                <ButtonComponent title={horas[k]} disabled={true} loading={loading} style={styles.buttonHourDisabled} onPress={( ) =>{
+                                  }}>
+                                </ButtonComponent>
                               </LinearGradient>
+                              }
+                              
                             </View>)
                 })}
                   <VolverAtras/>
+                  </View>
                 </ScrollView>
+                
                 :
                 <ScrollView>
+                  <View style={{marginTop:10}}>
                 {Object.keys(horasYmedia).map( function(k) {
                   return (  <View key={k} style={{margin:5}}>
                               <LinearGradient style={[styles.buttonHour]} colors={['#6495ED', 'cyan']} >
                                 <ButtonComponent title={horasYmedia[k]} style={styles.buttonHour} onPress={( ) =>{
-                                  infoReserva = bookHour(selectedDay,horasYmedia[k])
+                                  bookHour(selectedDay,horasYmedia[k])
+                                  let infoReserva = infoReservaGlobal
                                 }}>
 
                               </ButtonComponent>
@@ -404,6 +528,7 @@ export default function Booking({navigation}: BookingProps) {
                             </View>)
                 })}
                   <VolverAtras/>
+                  </View>
                 </ScrollView>
               }
             

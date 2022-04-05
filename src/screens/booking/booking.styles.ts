@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
         width:150,
         height:150,
         justifyContent: 'center',
-        // alignItems: 'center',
         borderRadius: 75,
         marginBottom:20,
         backgroundColor:'white',
@@ -16,6 +15,9 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 10, height: 10 },
         shadowRadius: 10,
         shadowOpacity: 0.55,
+      },
+      horizontal: {
+        marginBottom: 10,
       },
       text_footer: {
         fontWeight: "bold",
@@ -44,8 +46,9 @@ const styles = StyleSheet.create({
       marginBottom:20,
   },
       buttonSection:{
-        width: '100%',
-        height: '100%',
+        // width: '100%',
+        // height: '100%',
+        margin:50,
         justifyContent: 'center',
         alignItems: 'center'
       },
@@ -56,6 +59,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 20,
         marginBottom:10,
+      },
+      buttonHourDisabled: {
+        width: '100%',
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 20,
+        marginBottom:10,
+        color:'grey'
       },
       atrasButton: {
         width: '100%',
@@ -111,7 +123,8 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: StatusBar.currentHeight || 0,
         paddingTop: 50,
-        backgroundColor:'white'
+        backgroundColor:'white',
+        
       },
 })
 
