@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Alert, TouchableOpacity,Button,Image, ImageBackground, TouchableOpacityBase, Pressable, Modal } from 'react-native';
 
 import styles from './booking.styles'
@@ -61,6 +61,8 @@ export default function Booking({navigation}: BookingProps) {
   const { user } = useAuth();
   const [modalVisible, setModalVisible] = useState(false);
   const [modalReservasVisible, setModalReservasVisible] = useState(false);
+  const [modalReservasCheck, setModalReservasCheck] = useState(false);
+  const [modalReservasCancell, setModalReservasCancell] = useState(false);
   const [selected, setSelected] = useState('');
   const RootStack = createNativeStackNavigator();
   const [reservas, setReservas] = useState([])
@@ -71,6 +73,7 @@ export default function Booking({navigation}: BookingProps) {
   const [shouldShow, setShouldShow] = useState(true);
   const [hourChoice, setHourChoice] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [bookings, setBookings] = useState([])
   
   const toggleModalVisible = async () => {
     setModalVisible(!modalVisible);
@@ -78,8 +81,99 @@ export default function Booking({navigation}: BookingProps) {
   const toggleModalReservasVisible = async () => {
     setModalReservasVisible(!modalReservasVisible);
   }
+  const toggleModalReservasCheck = async () => {
+    setModalReservasCheck(!modalReservasCheck);
+  }
+  const toggleModalReservasCancell = async () => {
+    setModalReservasCancell(!modalReservasCancell);
+  }
+  const getData = async ()=>{
+
+    let filter ={
+        playerUsername:{
+            eq: user.username
+        }
+    }
+    try {
+        const resp = await API.graphql({
+            query:listReservaPistas,
+            variables: {filter: filter},
+            authMode: GRAPHQL_AUTH_MODE.AWS_IAM
+        })
+        setBookings(resp["data"]["listReservaPistas"]["items"])
+
+    } catch (error) {
+        console.log(error);
+        Alert.alert("Error", "Ha ocurrido un error en el listado de reservas.");
+    }
+    
+  }
+  useEffect(() => {
+      getData();
+    }, []);
+
+  const CheckBookedCourt = (props) =>{
+    console.log(infoReservaGlobal)
+    return(
+      <Modal
+       visible={modalReservasCheck}
+       animationType="slide">
+      <View style={{
+              flex: 1,
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 22}}>
+        <View style={{
+                width: 300,
+                height: 300}}>
+          <Title>PISTA RESERVADA</Title>
+            <Text>ID de Reserva:{infoReservaGlobal["idReserva"]}</Text>
+            <Text>Pista: {infoReservaGlobal["courtNumber"]} </Text>
+            <Text>Usuario: {infoReservaGlobal["playerUsername"]}</Text>
+            <Text>Dia: {infoReservaGlobal["dateString"]}</Text>
+            <Text>Hora: {infoReservaGlobal["hora"]}</Text>
+          <TouchableHighlight
+              onPress={() => {
+                toggleModalReservasCheck()}}
+              style={[styles.atrasButton, {
+              borderColor: 'cyan',
+              borderWidth: 1
+              }]}
+              >
+              <Text style={[styles.textAtras, {
+              color: 'cyan'
+              }]}>TERMINAR</Text>
+
+          </TouchableHighlight>
+        </View>
+      </View>
+    </Modal>
+    )
+  }
   
-  const VolverAtras = (props) =>{
+  const CancellBookedCourt = () =>{
+    return(
+      <Modal transparent={true}
+       visible={this.state.isVisible}
+       onRequestClose={this.closeModal}>
+      <View style={{
+              flex: 1,
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center'}}>
+        <View style={{
+                width: 300,
+                height: 300}}>
+          <Title>PISTA CANCELADA</Title>
+
+        </View>
+      </View>
+    </Modal>
+    )
+  }
+  
+  const VolverAtras = () =>{
     return(
     <View style={{marginBottom:70,margin:5}}>
       <TouchableOpacity
@@ -98,11 +192,12 @@ export default function Booking({navigation}: BookingProps) {
   }
   async function bookHour(day:Object, hour:String) {
     setLoading(true);
-    let bookedHours = reservas
     
     let reservasArray = []
       for (let court = 1; court < 5; court++) {
-        // Construimos una reserva a la hora indicada para cada una de las pistas
+
+        // Construimos una reserva a la hora indicada para cada una de las pistas.
+
         const reservaInfo = {
           courtNumber: court,
           dateString:day["dateString"],
@@ -128,6 +223,7 @@ export default function Booking({navigation}: BookingProps) {
       }
       setLoading(false)
       setInfoReserva(infoReserva)
+      toggleModalReservasCheck()
 
     } catch (error) {
       console.log(error)
@@ -395,7 +491,7 @@ export default function Booking({navigation}: BookingProps) {
     const infoReserva = infoReservaGlobal
     const bookedHours = courtsNotAvailable
 
-    const HourButton = (props) => {
+    const HourButton = () => {
       return(
         <TouchableOpacity style={{marginTop:15} }onPress={()=>{
           setShouldShow(false)
@@ -425,6 +521,7 @@ export default function Booking({navigation}: BookingProps) {
     }
 
     return (
+      <>
       <View style={{flex:1, backgroundColor:'white'}}>
         {shouldShow ? (
           
@@ -483,18 +580,19 @@ export default function Booking({navigation}: BookingProps) {
                               <LinearGradient style={[styles.buttonHour]} colors={['#6495ED', 'cyan']} >
                                 <ButtonComponent title={horas[k]} loading={loading} style={styles.buttonHour} onPress={( ) =>{
                                   bookHour(selectedDay,horas[k])
-                                  console.log(infoReserva)
-                                  let message = "Información de la reserva\n\n  " 
-                                                + "ID de Reserva:" + infoReserva["idReserva"] + "\n" +
-                                                + "Pista:" + infoReserva["courtNumber"] + "\n" +
-                                                + "Usuario:" + infoReserva["playerUsername"] + "\n" +
-                                                + "Dia:" + infoReserva["dateString"] + "\n" +
-                                                + "Hora:" + infoReserva["hora"]
-                                  Alert.alert("PISTA RESERVADA",
-                                              message, 
-                                              [
-                                                { text: "OK", onPress: () => navigation.goBack(BookScreen) }
-                                              ])
+
+                                  // console.log(infoReserva)
+                                  // let message = "Información de la reserva\n\n  " 
+                                  //               + "ID de Reserva:" + infoReserva["idReserva"] + "\n" +
+                                  //               + "Pista:" + infoReserva["courtNumber"] + "\n" +
+                                  //               + "Usuario:" + infoReserva["playerUsername"] + "\n" +
+                                  //               + "Dia:" + infoReserva["dateString"] + "\n" +
+                                  //               + "Hora:" + infoReserva["hora"]
+                                  // Alert.alert("PISTA RESERVADA",
+                                  //             message, 
+                                  //             [
+                                  //               { text: "OK", onPress: () => navigation.goBack(BookScreen) }
+                                  //             ])
                                 }}>
                               </ButtonComponent>
                             </LinearGradient>
@@ -535,6 +633,12 @@ export default function Booking({navigation}: BookingProps) {
           </SafeAreaView>
         )}
       </View>
+      {modalReservasCheck ? 
+        <CheckBookedCourt/>
+        :
+        <></>
+        }
+      </>
     );
   }
     
