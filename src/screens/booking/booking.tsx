@@ -119,10 +119,9 @@ export default function Booking({navigation}: BookingProps) {
        visible={modalReservasCheck}
        animationType="slide">
       <View style={{
-              flex: 1,
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
+              position: 'absolute',
+              left: '50%',
+              top: '50%',
               marginTop: 22}}>
         <View style={{
                 width: 300,

@@ -23,18 +23,8 @@ const styles = StyleSheet.create({
     dia:{
         fontStyle: "italic",
         position: 'absolute', 
-        top: 0, 
-        left: 0, 
-        right: 0,
-        bottom: 0, 
-        justifyContent: 'center', 
-        alignItems: 'center'
-    },
-    hora:{
-        fontStyle: "italic",
-        position: 'absolute', 
-        top: 20, 
-        left: 0, 
+        top: 2, 
+        left: 10, 
         right: 0,
         bottom: 0, 
         justifyContent: 'center', 
@@ -43,23 +33,34 @@ const styles = StyleSheet.create({
     entrenador:{
         fontStyle: "italic",
         position: 'absolute', 
-        top: 40, 
-        left: 0, 
+        top: 20, 
+        left: 10, 
         right: 0,
         bottom: 0, 
         justifyContent: 'center', 
         alignItems: 'center'
     },
+    TextStyle:{
+        fontSize : 15,
+         textAlign: 'left'
+      },
     golpes:{
         fontStyle: "italic",
-        position: 'absolute', 
-        top: 100, 
-        left: 0, 
-        right: 0,
-        bottom: 0, 
         justifyContent: 'center', 
         alignItems: 'center'
-    }
+    },
+    atrasButton: {
+        width: '100%',
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 20,
+        // marginBottom:10,
+    },
+    textAtras: {
+        fontSize: 18,
+        fontWeight: 'bold'
+    },
 })
 
 export default styles
