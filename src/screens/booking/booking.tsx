@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Alert, TouchableOpacity,Button,Image, ImageBackground, TouchableOpacityBase, Pressable, Modal } from 'react-native';
+import { View, Text, Alert, TouchableOpacity,Button,Image, ImageBackground, TouchableOpacityBase, Pressable, Modal, FlatList } from 'react-native';
 
 import styles from './booking.styles'
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -72,8 +72,10 @@ export default function Booking({navigation}: BookingProps) {
   const [infoReservaGlobal, setInfoReserva] = useState({})
   const [shouldShow, setShouldShow] = useState(true);
   const [hourChoice, setHourChoice] = useState(false);
+  const [reservaPistas, setReservaPistas] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [bookings, setBookings] = useState([])
+  const [bookings, setBookings] = useState([]);
+  const [selectedReservas, setSelectedReservas] = React.useState(new Map());
   
   const toggleModalVisible = async () => {
     setModalVisible(!modalVisible);
@@ -112,44 +114,6 @@ export default function Booking({navigation}: BookingProps) {
       getData();
     }, []);
 
-  const CheckBookedCourt = (props) =>{
-    console.log(infoReservaGlobal)
-    return(
-      <Modal
-       visible={modalReservasCheck}
-       animationType="slide">
-      <View style={{
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-              marginTop: 22}}>
-        <View style={{
-                width: 300,
-                height: 300}}>
-          <Title>PISTA RESERVADA</Title>
-            <Text>ID de Reserva:{infoReservaGlobal["idReserva"]}</Text>
-            <Text>Pista: {infoReservaGlobal["courtNumber"]} </Text>
-            <Text>Usuario: {infoReservaGlobal["playerUsername"]}</Text>
-            <Text>Dia: {infoReservaGlobal["dateString"]}</Text>
-            <Text>Hora: {infoReservaGlobal["hora"]}</Text>
-          <TouchableHighlight
-              onPress={() => {
-                toggleModalReservasCheck()}}
-              style={[styles.atrasButton, {
-              borderColor: 'cyan',
-              borderWidth: 1
-              }]}
-              >
-              <Text style={[styles.textAtras, {
-              color: 'cyan'
-              }]}>TERMINAR</Text>
-
-          </TouchableHighlight>
-        </View>
-      </View>
-    </Modal>
-    )
-  }
   
   const CancellBookedCourt = () =>{
     return(
@@ -352,6 +316,59 @@ export default function Booking({navigation}: BookingProps) {
         }
       }
     }
+    const onSelect = React.useCallback(
+        
+      id => {
+        const newSelected = new Map(selectedReservas);
+        newSelected.set(id, !selectedReservas.get(id));
+        setSelectedReservas(newSelected);
+        
+      },
+      [selected],
+    );
+    const getData = async ()=>{
+
+      let filter ={
+          playerUsername:{
+              eq: user.username
+          }
+      }
+      try {
+          const resp = await API.graphql({
+              query:listReservaPistas,
+              variables: {filter: filter},
+              authMode: GRAPHQL_AUTH_MODE.AWS_IAM
+          })
+          setReservaPistas(resp["data"]["listReservaPistas"]["items"])
+
+      } catch (error) {
+          console.log(error);
+          Alert.alert("Error", "Ha ocurrido un error en el listado de entrenamientos.");
+      }
+      
+  }
+  function Item({ id, dateString,playerUsername,courtNumber,hora, onSelect }) {
+      
+     
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          onSelect(id,dateString,playerUsername);
+          ;}}
+        style={
+          styles.buttonBooking}
+      >
+        <Title>Reserva de {user.username}</Title>
+        
+        <Text style={
+                styles.dia}>Fecha: {dateString}</Text>
+        <Text style={
+                styles.courtNumber}>Pista reservada: {courtNumber}</Text>
+        <Text style={
+                styles.hora}>Hora reservada: {hora}</Text>
+      </TouchableOpacity>
+    );
+  }
 
     return (
       <View style={{ flex: 1, justifyContent: 'center' }}>
@@ -422,37 +439,55 @@ export default function Booking({navigation}: BookingProps) {
           <Modal
             style={{margin:0,flex:1}}
             animationType="slide"
-            transparent={true}
             visible={modalReservasVisible}
             onRequestClose={() => {
               toggleModalVisible();
             }}
           >
           <Divider/>
-            <ScrollView style={styles.containerList}>
-            <Divider/>
               <View style={{alignItems:'center'}}>
-                <Title style={{color:'#6495ED',fontWeight:'bold', }}>Tus Reservas</Title>
+                <Title style={{color:'#6495ED',fontWeight:'bold'}}>Tus Reservas</Title>
               </View>
             <Divider/>
-              <TouchableHighlight
-                  style={[styles.atrasButton, {
-                    borderColor: 'cyan',
-                    borderWidth: 1,
-                    marginTop:20,
-                }]}
-                  onPress={() => {toggleModalReservasVisible();
-                                 }}
+            {reservaPistas &&
+              <ScrollView>
+                <SafeAreaView>
+                  <FlatList 
+                  data={reservaPistas}
+                  renderItem={({ item }) => (
+                      <Item
+                        id={item.id}
+                        dateString={item["dateString"]}
+                        playerUsername={item["playerUsername"]}
+                        hora={item["hora"]}
+                        courtNumber={item["courtNumber"]}
+                        onSelect={onSelect}
+                      />
+                      
+                  )}
                 >
-                  <Text style={[styles.textAtras, {
+                  </FlatList>
+                  <View >
+                    <TouchableOpacity
+                                    onPress={() => {toggleModalReservasVisible()}}
+                                    style={[styles.atrasButton, {
+                                        borderColor: 'cyan',
+                                        borderWidth: 1,
+                                        marginTop:50
+                                    }]}
+                                >
+                                    <Text style={[styles.textAtras, {
                                         color: 'cyan',
                                         marginLeft:20,
                                         marginRight:20
-                                    }]}>Atrás</Text>
-                </TouchableHighlight>
-            </ScrollView>
-            <Divider/>
-            <Divider/>
+                                    }]}>Volver a elegir el día</Text>
+                    </TouchableOpacity>
+                  </View>
+                </SafeAreaView>
+              </ScrollView>
+               
+            }
+            
                   
           </Modal>
           <View style={{flexDirection:'column',flex:1}}>
@@ -469,7 +504,7 @@ export default function Booking({navigation}: BookingProps) {
             <View style={[styles.buttonSection,{flex:1}]}>
               <TouchableOpacity 
                   style={[styles.button]}
-                  onPress={() => toggleModalReservasVisible()}>
+                  onPress={() => {getData();toggleModalReservasVisible()}}>
                     <Image source={require("../../../assets/booking.png")} style={styles.image}/>
                       <View style={styles.text_position}>
                         <Text style={styles.text_footer}>Tus reservas</Text>
@@ -483,6 +518,7 @@ export default function Booking({navigation}: BookingProps) {
   }
   
   function HoraScreen({ navigation }) {
+
 
     const selectedDay = dayToBook
     const horasYmedia = jsonHorasYmedia.slots
@@ -516,6 +552,59 @@ export default function Booking({navigation}: BookingProps) {
             <Text style={styles.textButtonStyle}>1 hora y media</Text>
           </LinearGradient>
         </TouchableOpacity>
+      )
+    }
+    const CheckBookedCourt = (props) =>{
+      console.log(infoReservaGlobal)
+      return(
+        <Modal
+         visible={modalReservasCheck}
+         animationType="slide">
+        <View style={{
+                flex: 1,
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: 22}}>
+          <View style={{
+                  width: 300,
+                  height: 300,
+                  borderWidth:1,
+                  borderColor:'cyan',
+                  borderRadius:20,
+                  flex:2}}>
+            <Title style={{marginLeft:10}}>PISTA RESERVADA</Title>
+              <View style={{margin:10}}>
+                <Divider></Divider>
+                <Text>ID de Reserva:{infoReservaGlobal["idReserva"]}</Text>
+                <Text>Pista: {infoReservaGlobal["courtNumber"]} </Text>
+                <Text>Usuario: {infoReservaGlobal["playerUsername"]}</Text>
+                <Text>Dia: {infoReservaGlobal["dateString"]}</Text>
+                <Text>Hora: {infoReservaGlobal["hora"]}</Text>
+                <Divider></Divider>
+                
+              </View>
+              </View>
+          <View style={{flex:1,margin:10, alignSelf:'stretch'}}>
+            <TouchableHighlight
+                onPress={() => {
+                  toggleModalReservasCheck();
+                  toggleModalReservasVisible();
+                  }}
+                style={[styles.atrasButton, {
+                borderColor: 'cyan',
+                borderWidth: 1
+                }]}
+                >
+                <Text style={[styles.textAtras, {
+                color: 'cyan'
+                }]}>TERMINAR</Text>
+  
+            </TouchableHighlight>
+            </View>
+          
+        </View>
+      </Modal>
       )
     }
 
@@ -579,19 +668,6 @@ export default function Booking({navigation}: BookingProps) {
                               <LinearGradient style={[styles.buttonHour]} colors={['#6495ED', 'cyan']} >
                                 <ButtonComponent title={horas[k]} loading={loading} style={styles.buttonHour} onPress={( ) =>{
                                   bookHour(selectedDay,horas[k])
-
-                                  // console.log(infoReserva)
-                                  // let message = "Información de la reserva\n\n  " 
-                                  //               + "ID de Reserva:" + infoReserva["idReserva"] + "\n" +
-                                  //               + "Pista:" + infoReserva["courtNumber"] + "\n" +
-                                  //               + "Usuario:" + infoReserva["playerUsername"] + "\n" +
-                                  //               + "Dia:" + infoReserva["dateString"] + "\n" +
-                                  //               + "Hora:" + infoReserva["hora"]
-                                  // Alert.alert("PISTA RESERVADA",
-                                  //             message, 
-                                  //             [
-                                  //               { text: "OK", onPress: () => navigation.goBack(BookScreen) }
-                                  //             ])
                                 }}>
                               </ButtonComponent>
                             </LinearGradient>
@@ -614,14 +690,20 @@ export default function Booking({navigation}: BookingProps) {
                   <View style={{marginTop:10}}>
                 {Object.keys(horasYmedia).map( function(k) {
                   return (  <View key={k} style={{margin:5}}>
-                              <LinearGradient style={[styles.buttonHour]} colors={['#6495ED', 'cyan']} >
-                                <ButtonComponent title={horasYmedia[k]} style={styles.buttonHour} onPress={( ) =>{
-                                  bookHour(selectedDay,horasYmedia[k])
-                                  let infoReserva = infoReservaGlobal
-                                }}>
-
-                              </ButtonComponent>
-                              </LinearGradient>
+                    {!(bookedHours.some(e => e.hora === horasYmedia[k])) ?
+                    <LinearGradient style={[styles.buttonHour]} colors={['#6495ED', 'cyan']} >
+                      <ButtonComponent title={horasYmedia[k]} loading={loading} style={styles.buttonHour} onPress={( ) =>{
+                        bookHour(selectedDay,horasYmedia[k])
+                      }}>
+                    </ButtonComponent>
+                  </LinearGradient>
+                    :
+                    <LinearGradient style={[styles.buttonHour]} colors={['grey','grey']} >
+                      <ButtonComponent title={horasYmedia[k]} disabled={true} loading={loading} style={styles.buttonHourDisabled} onPress={( ) =>{
+                        }}>
+                      </ButtonComponent>
+                    </LinearGradient>
+                }
                             </View>)
                 })}
                   <VolverAtras/>
@@ -653,4 +735,3 @@ export default function Booking({navigation}: BookingProps) {
     </RootStack.Navigator>
   )
 }
-

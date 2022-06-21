@@ -45,6 +45,11 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       marginBottom:20,
   },
+    imageBooking: {
+      backgroundColor:'cyan',
+      resizeMode: 'contain',
+      justifyContent: 'center',
+  },
       buttonSection:{
         // width: '100%',
         // height: '100%',
@@ -89,6 +94,54 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         // marginBottom:10,
       },
+      buttonBooking:{
+        flex:1,
+        alignSelf: 'stretch',
+        backgroundColor: 'white',
+        borderRadius: 25,
+        padding: 50,
+        marginBottom: 1,
+        marginTop: 20,
+        marginLeft:10,
+        marginRight:10,
+        shadowColor: 'cyan',
+        shadowOffset: { width: 5, height: 5 },
+        shadowRadius: 10,
+        shadowOpacity: 0.35,
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection:"column"
+    },
+    dia:{
+      fontStyle: "italic",
+      position: 'absolute', 
+      top: 2, 
+      left: 10, 
+      right: 0,
+      bottom: 0, 
+      justifyContent: 'center', 
+      alignItems: 'center'
+  },
+  courtNumber:{
+      fontStyle: "italic",
+      position: 'absolute', 
+      top: 20, 
+      left: 10, 
+      right: 0,
+      bottom: 0, 
+      justifyContent: 'center', 
+      alignItems: 'center'
+  },
+  hora:{
+      fontStyle: "italic",
+      position: 'absolute', 
+      top: 40, 
+      left: 10, 
+      right: 0,
+      bottom: 0, 
+      justifyContent: 'center', 
+      alignItems: 'center'
+  },
       textStyle: {
         color: "white",
         fontWeight: "bold",
